@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saloon_app/screens/IntroScreen.dart';
 import 'package:saloon_app/screens/LoadingScreen.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LoadingScreen(),
-        '/second': (context) => LoadingScreen(),
+        '/intro': (context) => IntroScreen(),
       },
     );
   }
