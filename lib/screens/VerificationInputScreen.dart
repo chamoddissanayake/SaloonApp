@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:saloon_app/screens/MainScreen.dart';
 
 class VerificationInputScreen extends StatefulWidget {
   static const routeName = '/pin_verification';
@@ -201,23 +202,28 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
                   height: 50,
                   child: FlatButton(
                     onPressed: () {
-                      formKey.currentState.validate();
-                      // conditions for validating
-                      if (currentText.length != 6 || currentText != "towtow") {
-                        errorController.add(ErrorAnimationType
-                            .shake); // Triggering error shake animation
-                        setState(() {
-                          hasError = true;
-                        });
-                      } else {
-                        setState(() {
-                          hasError = false;
-                          scaffoldKey.currentState.showSnackBar(SnackBar(
-                            content: Text("Aye!!"),
-                            duration: Duration(seconds: 2),
-                          ));
-                        });
-                      }
+                     //goto Main
+
+                      Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+
+                      //uncomment
+                      // formKey.currentState.validate();
+                      // // conditions for validating
+                      // if (currentText.length != 6 || currentText != "towtow") {
+                      //   errorController.add(ErrorAnimationType
+                      //       .shake); // Triggering error shake animation
+                      //   setState(() {
+                      //     hasError = true;
+                      //   });
+                      // } else {
+                      //   setState(() {
+                      //     hasError = false;
+                      //     scaffoldKey.currentState.showSnackBar(SnackBar(
+                      //       content: Text("Aye!!"),
+                      //       duration: Duration(seconds: 2),
+                      //     ));
+                      //   });
+                      // }
                     },
                     child: Center(
                         child: Text(

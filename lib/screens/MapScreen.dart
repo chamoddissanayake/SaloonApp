@@ -13,10 +13,10 @@ import '../utils/MapUtils.dart';
 
 //********* Global Variables */
 
-const LatLng _center = const LatLng(36.737232, 3.086472);
+const LatLng _center = const LatLng(6.934103, 79.867532);
 LatLng newPosition;
 CameraPosition newCameraPosition =
-CameraPosition(target: LatLng(36.6993, 3.1755), zoom: 10);
+CameraPosition(target: LatLng(6.934103, 79.867532), zoom: 15);
 
 Set<Marker> markers = {};
 int _index = 0;
