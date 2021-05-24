@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:saloon_app/screens/PhoneNumberInputScreen.dart';
 
 const users = const {
   'aaa@gmail.com': 'aaa',
@@ -9,7 +10,7 @@ const users = const {
 
 
 class LoginSignupScreen extends StatefulWidget {
-  static const routeName = '/login_signup';
+  static const routeName = '/login_sign_up';
   @override
   _LoginSignupScreenState createState() => _LoginSignupScreenState();
 }
@@ -68,7 +69,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             onSubmitAnimationCompleted: () {
               // Navigator.of(context).pushReplacementNamed(AppIntro.routeName);
               // Navigator.of(context).pushReplacementNamed(PinCodeVerificationScreen.routeName);
-              // Navigator.of(context).pushReplacementNamed(PhoneNumberInputScreen.routeName);
+              Navigator.of(context).pushReplacementNamed(PhoneNumberInputScreen.routeName);
 
             },
             onRecoverPassword: _recoverPassword,

@@ -26,6 +26,8 @@ dependencies:
   intro_views_flutter: '^3.1.0'
   flutter_login: ^1.1.0
   font_awesome_flutter: ^9.0.0
+  intl_phone_field: ^2.0.0
+  nice_button: ^0.1.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -55,6 +57,7 @@ flutter:
     - assets/images/intro/child/
     - assets/images/intro/hygiene/
     - assets/images/intro/staff/
+    - assets/images/phone_verification/
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
