@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saloon_app/screens/IntroScreen.dart';
+import 'package:saloon_app/screens/MapScreen.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -11,7 +12,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 2000), () {
-      Navigator.of(context).pushReplacementNamed(IntroScreen.routeName);
+      // Navigator.of(context).pushReplacementNamed(IntroScreen.routeName);
+      Navigator.of(context).pushReplacementNamed(MapScreen.routeName);
     });
     super.initState();
   }
