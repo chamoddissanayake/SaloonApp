@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saloon_app/screens/BookingScreen.dart';
 import 'package:saloon_app/screens/IntroScreen.dart';
 import 'package:saloon_app/screens/LoadingScreen.dart';
 import 'package:saloon_app/screens/LoginSignUpScreen.dart';
@@ -6,6 +7,11 @@ import 'package:saloon_app/screens/PhoneNumberInputScreen.dart';
 import 'package:saloon_app/screens/VerificationInputScreen.dart';
 import 'package:saloon_app/screens/MapScreen.dart';
 import 'package:saloon_app/screens/MainScreen.dart';
+
+
+import 'package:saloon_app/screens/HomeScreen.dart';
+import 'package:saloon_app/screens/FavouritesScreen.dart';
+import 'package:saloon_app/screens/OffersScreen.dart';
 import 'package:saloon_app/tools/tools.dart';
 
 import 'models/markerModel.dart';
@@ -38,6 +44,10 @@ class MyApp extends StatelessWidget {
         '/map': (context) => MapScreen(),
         '/pin_verification': (context) => VerificationInputScreen(),
         '/main': (context) => MainScreen(),
+        '/home': (context) => HomeScreen(),
+        '/booking': (context) => BookingScreen(),
+        '/favourites': (context) => FavouritesScreen(),
+        '/offers': (context) => OffersScreen(),
       },
     );
   }
