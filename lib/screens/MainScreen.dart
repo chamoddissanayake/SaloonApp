@@ -15,6 +15,9 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
+  bool gender = true;
+  // false = female  , true = male
+
   List<Widget> _buildScreens() {
     return [
       // MainScreen(),
@@ -29,28 +32,36 @@ class _MainScreenState extends State<MainScreen> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.home),
+        icon: new Image.asset("assets/images/bottom_bar/house.png" ),
         title: ("Home"),
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
+        textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.add_circled_solid),
+        iconSize: 30,
+        // icon: Icon(CupertinoIcons.add_circled_solid),
+        icon: gender? new Image.asset("assets/images/bottom_bar/girl_haircut.png"): new Image.asset("assets/images/bottom_bar/boy_haircut.png"),
         title: ("Booking"),
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
+        textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.alarm),
+        iconSize: 30,
+        icon:new Image.asset("assets/images/bottom_bar/favourites.png"),
         title: ("Favourites"),
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
+        textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.settings),
+        iconSize: 30,
+        icon: new Image.asset("assets/images/bottom_bar/offer.png"),
         title: ("Offers"),
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
+        textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)
       ),
     ];
   }
@@ -70,6 +81,7 @@ class _MainScreenState extends State<MainScreen> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
+      navBarHeight: 70,
       backgroundColor: Colors.white, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
@@ -88,7 +100,7 @@ class _MainScreenState extends State<MainScreen> {
       screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
         animateTabTransition: true,
         curve: Curves.ease,
-        duration: Duration(milliseconds: 200),
+        duration: Duration(milliseconds: 500),
       ),
       navBarStyle: NavBarStyle.style1, // Choose the nav bar style with this property.
     );
