@@ -3,6 +3,8 @@
    <application
         android:label="saloon_app"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDgID5BLQ78GOQ9AMYPwvfk6CRffTCyGCI"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
