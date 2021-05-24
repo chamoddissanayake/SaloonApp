@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:nice_button/NiceButton.dart';
-
+import 'package:saloon_app/screens/VerificationInputScreen.dart';
 class PhoneNumberInputScreen extends StatefulWidget {
   static const routeName = '/phone_number_input';
 
@@ -61,6 +61,7 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                     //     NavigationHandlerScreen.routeName,
                     //     arguments: ScreenArguments(2)
                     // );
+                    Navigator.of(context).pushReplacementNamed(VerificationInputScreen.routeName);
                   },
                 ),
               ],

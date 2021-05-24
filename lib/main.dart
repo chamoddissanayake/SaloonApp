@@ -3,7 +3,7 @@ import 'package:saloon_app/screens/IntroScreen.dart';
 import 'package:saloon_app/screens/LoadingScreen.dart';
 import 'package:saloon_app/screens/LoginSignUpScreen.dart';
 import 'package:saloon_app/screens/PhoneNumberInputScreen.dart';
-
+import 'package:saloon_app/screens/VerificationInputScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => LoadingScreen(),
         '/intro': (context) => IntroScreen(),
         '/login_sign_up': (context) => LoginSignupScreen(),
-        '/phone_number_input': (context) => PhoneNumberInputScreen()
-
+        '/phone_number_input': (context) => PhoneNumberInputScreen(),
+        '/pin_verification': (context) => VerificationInputScreen(),
       },
     );
   }
