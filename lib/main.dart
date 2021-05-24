@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         '/intro': (context) => IntroScreen(),
         '/login_sign_up': (context) => LoginSignupScreen(),
         '/phone_number_input': (context) => PhoneNumberInputScreen(),
-        '/pin_verification': (context) => VerificationInputScreen(),
+        '/pin_verification': (context) => VerificationInputScreen()
       },
     );
   }
