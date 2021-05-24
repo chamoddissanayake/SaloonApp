@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:saloon_app/screens/LoginSignUpScreen.dart';
 
 class IntroScreen extends StatefulWidget {
   static const routeName = '/intro';
@@ -13,8 +14,9 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   void initState() {
-
     super.initState();
+
+
   }
 
   @override
@@ -98,7 +100,7 @@ class _IntroScreenState extends State<IntroScreen> {
       body: Text(
         'We have highly qualified staff',
       ),
-      title: Text('Covid-19'),
+      title: Text('Qualified staff'),
       mainImage: Image.asset(
         'assets/images/intro/staff/all.png',
         height: 285.0,
@@ -118,13 +120,18 @@ class _IntroScreenState extends State<IntroScreen> {
         pages,
         showNextButton: true,
         showBackButton: true,
+        showSkipButton: true,
         onTapDoneButton: () {
-          // Navigator.pushReplacementNamed(
-          //     context,
-          //     NavigationHandlerScreen.routeName,
-          //     arguments: ScreenArguments(2)
-          // );
-        },
+          Navigator.pushReplacementNamed(
+              context,
+              LoginSignupScreen.routeName
+          );
+        },onTapSkipButton: (){
+          Navigator.pushReplacementNamed(
+              context,
+              LoginSignupScreen.routeName
+          );
+      },
         pageButtonTextStyles: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
