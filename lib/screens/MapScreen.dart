@@ -9,6 +9,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/widgets.dart';
 import 'package:saloon_app/models/markerModel.dart';
 import '../tools/tools.dart';
+import '../utils/MapUtils.dart';
 
 //********* Global Variables */
 
@@ -149,6 +150,8 @@ class _MapScreenState extends State<MapScreen> {
                               print(latitude) ;
                               print(longitude) ;
                               print("*****");
+
+                              MapUtils.openMap(double.parse(latitude),double.parse(longitude));
                             },
                             child: PageView.builder(
                               itemCount: Tools.markersList.length,
@@ -275,26 +278,39 @@ class _MapScreenState extends State<MapScreen> {
 
     Tools.markersList.add(MarkersModel(
         1,
-        "La Grande Poste",
-        "The Algiers central post office is an office building for postal services located at Alger Centre municipality in Algiers, Algeria",
-        "36.752887",
-        "3.042048",
-        "https://www.dzbreaking.com/wp-content/uploads/2018/03/2000.png"));
+        "Gampaha Branch",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "7.093183",
+        "79.993691",
+        "https://drive.google.com/uc?export=view&id=1vgOozPyLhaDDmhR-LJniMmgN9w9xjCmr"));
     Tools.markersList.add(MarkersModel(
         2,
-        "Mosquee Ketchaoua",
-        "The Ketchaoua Mosque is a mosque in Algiers, the capital of Algeria. It was built during the Ottoman rule in the 17th century and is located at the foot of the Casbah, which is a UNESCO World Heritage Site",
-        "36.7850",
-        "3.0608",
-        "https://ttnotes.com/images/makam-echahid-algiers.jpg"));
+        "Kandy Branch",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "7.293288",
+        "80.634956",
+        "https://drive.google.com/uc?export=view&id=1TFVjuy_tdHR31p6Wg1XI7ibD8VCOam56"));
     Tools.markersList.add(MarkersModel(
         3,
-        "The shrine of the martyr",
-        "The Maqam Echahid is a concrete monument commemorating the Algerian war for independence. The monument was opened in 1982 on the 20th anniversary of Algeria's independence",
-        "36.7456",
-        "3.0698",
-        "https://www.airfrance.co.uk/GB/common/common/img/tbaf/news/ALG/la-mosquee-ketchaoua-l-histoire-avec-un-grand-h/ALG-la-mosquee-ketchaoua-l-histoire-avec-un-grand-h-2_1-1024x512.jpg"));
-
+        "Colombo Branch",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "6.933454",
+        "79.865896",
+        "https://drive.google.com/uc?export=view&id=1E0_8-tl3xFAQg-rvUhuR75DQLn2ZQejc"));
+    Tools.markersList.add(MarkersModel(
+        4,
+        "Galle Branch",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "6.032733",
+        "80.215808",
+        "https://drive.google.com/uc?export=view&id=1Tyt3fw1vK7OSA6QXMf2iykcEg2tmQIR0"));
+    Tools.markersList.add(MarkersModel(
+        5,
+        "Matara Branch",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        "5.942960",
+        "80.551020",
+        "https://drive.google.com/uc?export=view&id=1Vk4RBYY_yB5I85g7MNsUTBmsVMoQ2pzY"));
   }
 
   void setFirstValue() {
