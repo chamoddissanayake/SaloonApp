@@ -33,7 +33,7 @@ class AppBarWidget extends StatelessWidget {
               },
               child: Container(
                 margin: new EdgeInsets.symmetric(horizontal: 15.0),
-                child: Icon(CupertinoIcons.search),
+                child: new Image.asset("assets/images/top_bar/search.png", width: 30, height: 30,),
                 // color: Colors.yellow,
               ))
         ],

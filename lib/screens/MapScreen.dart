@@ -282,35 +282,35 @@ class _MapScreenState extends State<MapScreen> {
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         "7.093183",
         "79.993691",
-        "https://drive.google.com/uc?export=view&id=1vgOozPyLhaDDmhR-LJniMmgN9w9xjCmr"));
+        "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fmap%2Fgampaha.png?alt=media&token=e44a584c-b351-42cb-bfaa-ecadbdff6d97"));
     Tools.markersList.add(MarkersModel(
         2,
         "Kandy Branch",
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         "7.293288",
         "80.634956",
-        "https://drive.google.com/uc?export=view&id=1TFVjuy_tdHR31p6Wg1XI7ibD8VCOam56"));
+        "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fmap%2Fkandy.jpg?alt=media&token=5cec7eb6-bd5d-4f23-b624-ccb38c7c73ca"));
     Tools.markersList.add(MarkersModel(
         3,
         "Colombo Branch",
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         "6.933454",
         "79.865896",
-        "https://drive.google.com/uc?export=view&id=1E0_8-tl3xFAQg-rvUhuR75DQLn2ZQejc"));
+        "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fmap%2Fcolombo.jpg?alt=media&token=3eec65ed-32fc-4904-9043-f00708998076"));
     Tools.markersList.add(MarkersModel(
         4,
         "Galle Branch",
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         "6.032733",
         "80.215808",
-        "https://drive.google.com/uc?export=view&id=1Tyt3fw1vK7OSA6QXMf2iykcEg2tmQIR0"));
+        "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fmap%2Fgalle.jpg?alt=media&token=f82db99d-6d7a-44d5-8950-df492fac5958"));
     Tools.markersList.add(MarkersModel(
         5,
         "Matara Branch",
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         "5.942960",
         "80.551020",
-        "https://drive.google.com/uc?export=view&id=1Vk4RBYY_yB5I85g7MNsUTBmsVMoQ2pzY"));
+        "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fmap%2Fmatara.jpg?alt=media&token=ca733c7e-df31-4a50-b709-9b5d51ad12d5"));
   }
 
   void setFirstValue() {

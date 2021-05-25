@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saloon_app/widgets/AppBarWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
+import 'package:saloon_app/widgets/LocationsFloatingActionWidget.dart';
 
 class FavouritesScreen extends StatefulWidget {
   static const routeName = '/favourites';
@@ -33,6 +34,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
           Text("Favourites"),
         ],
       ),
+      floatingActionButton: LocationsFloatingActionWidget(),
     );
   }
 }

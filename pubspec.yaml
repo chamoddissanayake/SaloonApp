@@ -67,6 +67,7 @@ flutter:
     - assets/images/pin_verification/
     - assets/images/map/
     - assets/images/bottom_bar/
+    - assets/images/top_bar/
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

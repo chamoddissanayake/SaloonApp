@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:saloon_app/widgets/AppBarWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
+import 'package:saloon_app/widgets/LocationsFloatingActionWidget.dart';
+
 
 class BookingScreen extends StatefulWidget {
   static const routeName = '/booking';
@@ -36,18 +38,10 @@ class _BookingScreenState extends State<BookingScreen> {
           Text("Booking"),
           Text("Booking"),
           Text("Booking"),
-          Text("Booking"),
-          Text("Booking"),
-          Text("Booking"),
-          Text("Booking"),
-          Text("Booking"),
-          Text("Booking"),
-          Text("Booking"),
-          Text("Booking"),
-          Text("Booking"),
-          Text("Booking"),
+
         ],
       ),
+      floatingActionButton: LocationsFloatingActionWidget(),
     );
   }
 }
