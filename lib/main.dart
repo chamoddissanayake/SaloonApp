@@ -4,6 +4,7 @@ import 'package:saloon_app/screens/IntroScreen.dart';
 import 'package:saloon_app/screens/LoadingScreen.dart';
 import 'package:saloon_app/screens/LoginSignUpScreen.dart';
 import 'package:saloon_app/screens/PhoneNumberInputScreen.dart';
+import 'package:saloon_app/screens/TrendingStylesScreen.dart';
 import 'package:saloon_app/screens/VerificationInputScreen.dart';
 import 'package:saloon_app/screens/MapScreen.dart';
 import 'package:saloon_app/screens/MainScreen.dart';
@@ -48,6 +49,8 @@ class MyApp extends StatelessWidget {
         '/booking': (context) => BookingScreen(),
         '/favourites': (context) => FavouritesScreen(),
         '/offers': (context) => OffersScreen(),
+        '/trending_styles': (context) => TrendingStylesScreen(),
+
       },
     );
   }
