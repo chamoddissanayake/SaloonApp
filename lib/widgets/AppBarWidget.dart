@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saloon_app/screens/SearchScreen.dart';
 
 class AppBarWidget extends StatelessWidget {
   const AppBarWidget({
@@ -25,6 +26,10 @@ class AppBarWidget extends StatelessWidget {
           GestureDetector(
               onTap: () {
                 print("Search pressed");
+                // Navigator.of(context).pushReplacementNamed(SearchScreen.routeName);
+                Navigator.push(context, new MaterialPageRoute(
+                    builder: (context) => new SearchScreen())
+                );
               },
               child: Container(
                 margin: new EdgeInsets.symmetric(horizontal: 15.0),

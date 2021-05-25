@@ -13,6 +13,7 @@ import 'package:saloon_app/screens/MainScreen.dart';
 import 'package:saloon_app/screens/HomeScreen.dart';
 import 'package:saloon_app/screens/FavouritesScreen.dart';
 import 'package:saloon_app/screens/OffersScreen.dart';
+import 'package:saloon_app/screens/SearchScreen.dart';
 import 'package:saloon_app/tools/tools.dart';
 
 import 'models/markerModel.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         '/favourites': (context) => FavouritesScreen(),
         '/offers': (context) => OffersScreen(),
         '/trending_styles': (context) => TrendingStylesScreen(),
+        '/search': (context) => SearchScreen(),
 
       },
     );
