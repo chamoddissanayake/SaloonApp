@@ -11,6 +11,7 @@ import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/models/Categories.dart';
 import 'package:saloon_app/service/StylesCategoriesService.dart';
 import 'package:saloon_app/commons/TrendingStyles.dart';
+import 'package:saloon_app/commons/Categories.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    customTitleSeeAllWidget("Trending Styles", fontSize:  18.0, fontWeight: FontWeight.bold),
+                    customTitleSeeAllWidget("Trending Styles", fontSize:  20.0, fontWeight: FontWeight.bold),
                     customTitleSeeAllWidget("See All >>", textColor: Colors.grey)
                   ],
                 ),
@@ -73,27 +74,27 @@ class _HomeScreenState extends State<HomeScreen> {
                       return trendingStyles(mTrendingStyles[index], index);
                     }),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(16.0),
-              //   child: Row(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: <Widget>[
-              //       customTitleSeeAllWidget(t7_popular_hotels, fontFamily: fontMedium),
-              //       text(t7_see_all, textColor: t7textColorSecondary)
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: MediaQuery.of(context).size.width * 0.5,
-              //   child: ListView.builder(
-              //       scrollDirection: Axis.horizontal,
-              //       itemCount: mListings1.length,
-              //       shrinkWrap: true,
-              //       itemBuilder: (context, index) {
-              //         return hotels(mListings1[index], index);
-              //       }),
-              // ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    customTitleSeeAllWidget("Categories",  fontSize:  20.0, fontWeight: FontWeight.bold),
+                    customTitleSeeAllWidget("See All >>", textColor: Colors.grey)
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.5,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: mCategories.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return categories(mCategories[index], index);
+                    }),
+              ),
 
 
 

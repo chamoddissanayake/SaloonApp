@@ -12,9 +12,10 @@ class AppBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return AppBar(
-      //backgroundColor: Colors.blue,
+        shadowColor: Colors.black26,
+        backgroundColor: Colors.white,
       //automaticallyImplyLeading: true
-        elevation: 0.0,
+        elevation: 10.0,
         // for elevation
         titleSpacing: 0.0,
         // if you want remove title spacing with back button
