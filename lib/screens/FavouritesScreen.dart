@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:saloon_app/widgets/AppBarWidget.dart';
+import 'package:saloon_app/widgets/MainDrawer.dart';
 
 class FavouritesScreen extends StatefulWidget {
   static const routeName = '/favourites';
@@ -10,6 +12,13 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50.0),
+        child:AppBarWidget() ,
+      ),
+      drawer: Drawer(
+        child: SingleChildScrollView(child: MainDrawer()),
+      ),
       body: Column(
         children: [
           Text("Favourites"),
