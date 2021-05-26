@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:saloon_app/screens/AllTrendingStyles.dart';
 import 'package:saloon_app/screens/BookingScreen.dart';
 import 'package:saloon_app/screens/IntroScreen.dart';
@@ -24,8 +25,11 @@ import 'models/markerModel.dart';
 
 void main() {
 
-
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(new MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
