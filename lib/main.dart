@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saloon_app/screens/AllTrendingStyles.dart';
 import 'package:saloon_app/screens/BookingScreen.dart';
 import 'package:saloon_app/screens/IntroScreen.dart';
 import 'package:saloon_app/screens/LoadingScreen.dart';
@@ -14,6 +15,7 @@ import 'package:saloon_app/screens/HomeScreen.dart';
 import 'package:saloon_app/screens/FavouritesScreen.dart';
 import 'package:saloon_app/screens/OffersScreen.dart';
 import 'package:saloon_app/screens/SearchScreen.dart';
+import 'package:saloon_app/screens/AllCategories.dart';
 import 'package:saloon_app/tools/tools.dart';
 
 import 'models/markerModel.dart';
@@ -52,6 +54,9 @@ class MyApp extends StatelessWidget {
         '/offers': (context) => OffersScreen(),
         '/trending_styles': (context) => TrendingStylesScreen(),
         '/search': (context) => SearchScreen(),
+        '/all_trending_styles': (context) => AllTrendingStyles(),
+        '/all_categories': (context) => AllCategories(),
+
 
       },
     );

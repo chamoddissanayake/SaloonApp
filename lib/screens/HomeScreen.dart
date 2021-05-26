@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saloon_app/screens/AllCategories.dart';
+import 'package:saloon_app/screens/AllTrendingStyles.dart';
 import 'package:saloon_app/widgets/AppBarWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
 import 'package:saloon_app/widgets/CarouselWidget.dart';
@@ -56,7 +58,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     customTitleSeeAllWidget("Trending Styles", fontSize:  20.0, fontWeight: FontWeight.bold),
-                    customTitleSeeAllWidget("See All >>", textColor: Colors.grey)
+                    GestureDetector(child: customTitleSeeAllWidget("See All >>", textColor: Colors.grey), onTap: (){
+                      Navigator.push(context, new MaterialPageRoute(
+                          builder: (context) => new AllTrendingStyles())
+                      );
+                    },)
                   ],
                 ),
               ),
@@ -81,7 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     customTitleSeeAllWidget("Categories",  fontSize:  20.0, fontWeight: FontWeight.bold),
-                    customTitleSeeAllWidget("See All >>", textColor: Colors.grey)
+                    GestureDetector(child: customTitleSeeAllWidget("See All >>", textColor: Colors.grey), onTap: (){
+                      Navigator.push(context, new MaterialPageRoute(
+                          builder: (context) => new AllCategories())
+                      );
+                    },)
                   ],
                 ),
               ),
