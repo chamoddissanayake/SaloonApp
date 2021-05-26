@@ -7,7 +7,7 @@ import 'package:saloon_app/widgets/CustomTitleSeeAllWidget.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
 import 'package:saloon_app/utils/PriceUtils.dart';
-import 'package:saloon_app/widgets/showSortBy.dart';
+import 'package:saloon_app/widgets/ShowSortBy.dart';
 
 class AllTrendingStyles extends StatefulWidget {
   static const routeName = '/all_trending_styles';
@@ -50,9 +50,29 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                   customTextWidget("All Trending Styles",
                       fontSize: 20.0, fontWeight: FontWeight.bold),
                   GestureDetector(
-                    child: Container(child: Text("Sort By"), color: Colors.yellow,),
+                    child: Container(
+
+
+                      decoration: BoxDecoration(
+                        // borderRadius: BorderRadius.only(
+                        //     topLeft: Radius.circular(15),
+                        //     bottomLeft: Radius.circular(15)),
+                        borderRadius: BorderRadius.circular(5.0),
+                        color: Color.fromARGB(100, 200, 200, 200)
+                      ),
+
+                      child: customTextWidget("Sort By", fontWeight: FontWeight.bold),
+                      // color: Colors.yellow,
+                      padding: EdgeInsets.all(10),
+
+
+
+
+
+                    ),
                     onTap: () {
                       print("aaa");
+                      sortPopupPressed(context);
                       // showSortByDialog(context);
                     },
                   ),
@@ -60,7 +80,7 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
               ),
             ),
             SizedBox(
-              height: 24.0,
+              height: 10.0,
             ),
             Container(
               margin: EdgeInsets.only(left: 16.0, right: 16.0),
