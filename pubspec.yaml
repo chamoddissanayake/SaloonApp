@@ -71,6 +71,7 @@ flutter:
     - assets/images/map/
     - assets/images/bottom_bar/
     - assets/images/top_bar/
+    - assets/images/item_view/
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

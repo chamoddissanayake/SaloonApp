@@ -26,9 +26,10 @@ class CustomBookButtonState extends State<CustomBookButton> {
           child: customTextWidget(widget.textContent,
               textColor: widget.bgColor == Colors.white ? Colors.black : Colors.white,
               isCentered: true,
+              fontWeight: FontWeight.bold,
               textAllCaps: true),
           decoration: BoxDecoration(
-              color: Colors.green.shade300,
+              color: Colors.blue.shade300,
               borderRadius: BorderRadius.circular(25),
               // bgColor: widget.bgColor,
               // radius: 6

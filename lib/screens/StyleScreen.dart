@@ -10,6 +10,7 @@ import 'package:saloon_app/widgets/CustomBackIcon.dart';
 import 'package:saloon_app/commons/Locations.dart';
 import 'package:saloon_app/models/Location.dart';
 import 'package:saloon_app/service/LocationService.dart';
+import 'package:saloon_app/widgets/BookingConfirmationDialog.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 
 class StyleScreen extends StatefulWidget {
@@ -138,223 +139,216 @@ class _StyleScreenState extends State<StyleScreen> {
                   top: MediaQuery.of(context).size.width / 1.35),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.centerRight,
-                      width: MediaQuery.of(context).size.width,
-                      child: GestureDetector(
-                        child: new Image.asset(
-                          "assets/images/bottom_bar/favourites.png",
-                          width: 45,
-                          height: 45,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.centerRight,
+                        width: MediaQuery.of(context).size.width,
+                        child: GestureDetector(
+                          child: new Image.asset(
+                            "assets/images/bottom_bar/favourites.png",
+                            width: 45,
+                            height: 45,
+                          ),
+                          onTap: () {
+                            print('Heart pressed');
+                          },
                         ),
-                        onTap: () {
-                          print('Heart pressed');
-                        },
                       ),
-                    ),
-                    Divider(),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Text(
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,",
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Divider(),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Price:  ',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
-                            Text('\$10.00',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
-                              child: Text('\$10.00',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.red,
-                                      decoration: TextDecoration.lineThrough)),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text('Time:  ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
-                            Text('20 mins.',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                      Divider(),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
                         child: Text(
-                          "Select Branch",
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
+                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,",
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.width * 0.27,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: mLocationList.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              // color: Colors.yellow,
-                              // height: 50,
-                                child: locations(mLocationList[index], index));
-                          }),
-                    ),
-                    Divider(),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        child: Text(
-                          "Select Date and Time",
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-
-
-                    Container(
-                      child: DateTimePicker(
-                        type: DateTimePickerType.dateTimeSeparate,
-                        dateMask: 'd MMM, yyyy',
-                        initialValue: DateTime.now().toString(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                        icon: Icon(Icons.event),
-                        dateLabelText: 'Date',
-                        timeLabelText: "Hour",
-                        selectableDayPredicate: (date) {
-                          // Disable weekend days to select from the calendar
-                          if (date.weekday == 6 || date.weekday == 7) {
-                            return false;
-                          }
-
-                          return true;
-                        },
-                        onChanged: (val) => print(val),
-                        validator: (val) {
-                          print(val);
-                          return null;
-                        },
-                        onSaved: (val) => print(val),
-                      ),
-                    ),
-                    Divider(),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(0.0),
-                    //   child: Row(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: <Widget>[
-                    //       customTitleSeeAllWidget("See All Customer Photos", fontSize:  15.0, fontWeight: FontWeight.bold),
-                    //       GestureDetector(child: customTitleSeeAllWidget("See All >>", textColor: Colors.grey), onTap: (){
-                    //         // Navigator.push(context, new MaterialPageRoute(
-                    //         //     builder: (context) => new AllTrendingStyles())
-                    //         // );
-                    //       },)
-                    //     ],
-                    //   ),
-                    // ),
-
-                    // SizedBox(
-                    //   height: MediaQuery.of(context).size.width * 0.27,
-                    //   child: ListView.builder(
-                    //       scrollDirection: Axis.horizontal,
-                    //       itemCount: mLocationList.length,
-                    //       shrinkWrap: true,
-                    //       itemBuilder: (context, index) {
-                    //         return Container(
-                    //           // color: Colors.yellow,
-                    //           // height: 50,
-                    //             child: locations(mLocationList[index], index));
-                    //       }),
-                    // ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      Divider(),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-
-
-
-
-                          // FlatButton(
-                          //   onPressed: () => {},
-                          //   color: Colors.orange,
-                          //   padding: EdgeInsets.all(10.0),
-                          //   child: Column( // Replace with a Row for horizontal icon + text
-                          //     children: <Widget>[
-                          //       Icon(Icons.add),
-                          //       Text("Add")
-                          //     ],
-                          //   ),
-                          // ),
-                          // FlatButton(
-                          //   onPressed: () => {},
-                          //   color: Colors.orange,
-                          //   padding: EdgeInsets.all(10.0),
-                          //   child: Column( // Replace with a Row for horizontal icon + text
-                          //     children: <Widget>[
-                          //       Icon(Icons.add),
-                          //       Text("Add")
-                          //     ],
-                          //   ),
-                          // ),
-                          // Text("aaa"),
-                          // Text("bbb")
+                          Row(
+                            children: [
+                              Text(
+                                'Price:  ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              Text('\$10.00',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 20)),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
+                                child: Text('\$10.00',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: Colors.red,
+                                        decoration: TextDecoration.lineThrough)),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text('Time:  ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 20)),
+                              Text('20 mins.',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 20)),
+                            ],
+                          ),
                         ],
                       ),
-                    ),
-
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: CustomBookButton(
-                        bgColor: Colors.green,
-                        textContent: "Book Now",
-                        onPressed: () {},
+                      Divider(),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: Text(
+                            "Select Branch",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Divider(),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Divider(),
-                  ],
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.27,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: mLocationList.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                // color: Colors.yellow,
+                                // height: 50,
+                                  child: locations(mLocationList[index], index));
+                            }),
+                      ),
+                      Divider(),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: Text(
+                            "Select Date and Time",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+
+
+                      Container(
+                        child: DateTimePicker(
+                          type: DateTimePickerType.dateTimeSeparate,
+                          dateMask: 'd MMM, yyyy',
+                          initialValue: DateTime.now().toString(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                          icon: Icon(Icons.event),
+                          dateLabelText: 'Date',
+                          timeLabelText: "Hour",
+                          selectableDayPredicate: (date) {
+                            // Disable weekend days to select from the calendar
+                            if (date.weekday == 6 || date.weekday == 7) {
+                              return false;
+                            }
+
+                            return true;
+                          },
+                          onChanged: (val) => print(val),
+                          validator: (val) {
+                            print(val);
+                            return null;
+                          },
+                          onSaved: (val) => print(val),
+                        ),
+                      ),
+                      Divider(),
+
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: Text(
+                            "See Customer Photos and ratings",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              children: [
+                                IconButton(
+                                  icon:new Image.asset("assets/images/item_view/camera.png", width: 50, height: 50,),
+                                  tooltip: 'View Customer Photo',
+                                  onPressed: () {},
+                                ),
+                                Text('Customer Photos'),
+                              ],
+                            ),
+
+                            Column(
+                              children: [
+                                IconButton(
+                                  icon: new Image.asset("assets/images/item_view/rating.png",width: 50, height: 50,),
+                                  tooltip: 'View Ratings',
+                                  onPressed: () {},
+                                ),
+                                Text('Ratings'),
+                              ],
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      Divider(),
+                      SizedBox(height: 10),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: CustomBookButton(
+                          bgColor: Colors.blue,
+                          textContent: "Book Now",
+                          onPressed: () {
+                            Future.delayed(const Duration(milliseconds: 1000), () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => BookingConfirmationDialog(),
+                              );
+                            });
+
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Divider(),
+
+
+
+
+
+
+
+                    ],
+                  ),
                 ),
               ),
             ),
