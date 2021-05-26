@@ -8,6 +8,7 @@ import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
 import 'package:saloon_app/utils/PriceUtils.dart';
 import 'package:saloon_app/widgets/ShowSortBy.dart';
+import 'package:saloon_app/screens/StyleScreen.dart';
 
 class AllTrendingStyles extends StatefulWidget {
   static const routeName = '/all_trending_styles';
@@ -52,11 +53,7 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                   GestureDetector(
                     child: Container(
 
-
                       decoration: BoxDecoration(
-                        // borderRadius: BorderRadius.only(
-                        //     topLeft: Radius.circular(15),
-                        //     bottomLeft: Radius.circular(15)),
                         borderRadius: BorderRadius.circular(5.0),
                         color: Color.fromARGB(100, 200, 200, 200)
                       ),
@@ -64,10 +61,6 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                       child: customTextWidget("Sort By", fontWeight: FontWeight.bold),
                       // color: Colors.yellow,
                       padding: EdgeInsets.all(10),
-
-
-
-
 
                     ),
                     onTap: () {
@@ -93,14 +86,22 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        child: CachedNetworkImage(
-                          imageUrl: mTrendingStylesList[index].image,
-                          fit: BoxFit.cover,
-                          height: width * 0.5,
-                          width: width,
+                      GestureDetector(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          child: CachedNetworkImage(
+                            imageUrl: mTrendingStylesList[index].image,
+                            fit: BoxFit.cover,
+                            height: width * 0.5,
+                            width: width,
+                          ),
                         ),
+                        onTap: (){
+                          //Goto Style screen
+                          Navigator.push(context, new MaterialPageRoute(
+                              builder: (context) => new StyleScreen())
+                          );
+                        },
                       ),
                       Center(
                           child: customTextWidget(
