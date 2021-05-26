@@ -19,6 +19,8 @@ import 'package:saloon_app/screens/SearchScreen.dart';
 import 'package:saloon_app/screens/AllCategories.dart';
 
 import 'package:saloon_app/screens/StyleScreen.dart';
+import 'package:saloon_app/screens/PaymentScreen.dart';
+
 import 'package:saloon_app/tools/tools.dart';
 
 import 'models/markerModel.dart';
@@ -63,6 +65,8 @@ class MyApp extends StatelessWidget {
         '/all_trending_styles': (context) => AllTrendingStyles(),
         '/all_categories': (context) => AllCategories(),
         '/style': (context) => StyleScreen(),
+        '/payment': (context) => PaymentScreen(),
+
 
 
       },

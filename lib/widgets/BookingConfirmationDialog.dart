@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
+import 'package:saloon_app/widgets/PaymentDialog.dart';
 
 class BookingConfirmationDialog extends StatelessWidget {
   @override
@@ -43,7 +44,7 @@ bookingConfirmationDialogContent(BuildContext context) {
                 alignment: Alignment.centerRight,
                 child: Icon(Icons.close, color: Colors.black)),
           ),
-          customTextWidget("Booking Comfirmation",
+          customTextWidget("Booking Confirmation",
               textColor: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 24.0),
@@ -115,29 +116,50 @@ bookingConfirmationDialogContent(BuildContext context) {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Container(
-                margin: EdgeInsets.all(16),
-                padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                decoration: new BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(15),
+              GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  margin: EdgeInsets.all(16),
+                  padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                  decoration: new BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  alignment: Alignment.center,
+                  child: customTextWidget("Cancel",
+                      textColor: Colors.white, fontSize: 20.0),
                 ),
-                alignment: Alignment.center,
-                child: customTextWidget("Cancel",
-                    textColor: Colors.white, fontSize: 20.0),
               ),
-              Container(
-                margin: EdgeInsets.all(16),
-                padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                decoration: new BoxDecoration(
-                  color: Colors.green,
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(15),
+              GestureDetector(
+                onTap: (){
+                  // Navigator.pop(context);
+                  // Navigator.push(context, new MaterialPageRoute(
+                  //     builder: (context) => new PaymentScreen())
+                  // );
+                  // TODO Go To Payment
+                  Navigator.pop(context);
+                  Future.delayed(const Duration(milliseconds: 1), () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => PaymentDialog(),
+                    );
+                  });
+                },
+                child: Container(
+                  margin: EdgeInsets.all(16),
+                  padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                  decoration: new BoxDecoration(
+                    color: Colors.green,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  alignment: Alignment.center,
+                  child: customTextWidget("Confirm",
+                      textColor: Colors.white, fontSize: 20.0),
                 ),
-                alignment: Alignment.center,
-                child: customTextWidget("Confirm",
-                    textColor: Colors.white, fontSize: 20.0),
               )
             ],
           ),
