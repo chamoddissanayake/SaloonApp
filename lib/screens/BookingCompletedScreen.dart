@@ -11,7 +11,7 @@ class BookingCompletedScreen extends StatefulWidget {
 class _BookingCompletedScreenState extends State<BookingCompletedScreen> {
 
   List<BookingStatusCardModel> mBookingCompletedList;
-
+  int completeStatusIndex = 1;
   @override
   void initState() {
     super.initState();
@@ -30,7 +30,7 @@ class _BookingCompletedScreenState extends State<BookingCompletedScreen> {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 5),
-                  child: StatusCardItem(mBookingCompletedList[index], index),
+                  child: StatusCardItem(mBookingCompletedList[index], index, completeStatusIndex),
                 );
               },
             ),

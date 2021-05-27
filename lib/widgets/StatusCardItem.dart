@@ -7,10 +7,12 @@ import 'package:saloon_app/widgets/SimpleWidgets.dart';
 class StatusCardItem extends StatelessWidget {
   BookingStatusCardModel model;
   int pos;
+  int completeStatusIndex;
 
-  StatusCardItem(BookingStatusCardModel model, int pos) {
+  StatusCardItem(BookingStatusCardModel model, int pos, int completeStatusIndex) {
     this.model = model;
     this.pos = pos;
+    this.completeStatusIndex = completeStatusIndex;
   }
 
   @override
@@ -19,7 +21,7 @@ class StatusCardItem extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: Container(
-          decoration: boxDecoration(radius: 10, showShadow: true),
+          decoration: boxDecoration(radius: 10, showShadow: true, completeStatusIndex: completeStatusIndex),
           child: Stack(
             children: <Widget>[
               Container(

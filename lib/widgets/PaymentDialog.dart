@@ -135,7 +135,7 @@ PaymentDialogContent(BuildContext context) {
                         // Navigator.push(context, new MaterialPageRoute(
                         //     builder: (context) => new PaymentScreen())
                         // );
-                        // TODO Go To payment complete
+
                         //     showSuccessMgs(context);
                         Future.delayed(const Duration(milliseconds: 1), () {
                           showDialog(
