@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saloon_app/models/BookingStatusCard.dart';
 import 'package:saloon_app/service/BookingService.dart';
 import 'package:saloon_app/widgets/StatusCardItem.dart';
+import 'package:saloon_app/widgets/BookingStatusCanceledDialog.dart';
 
 class BookingCanceledScreen extends StatefulWidget {
   @override
@@ -31,7 +32,15 @@ class _BookingCanceledScreenState extends State<BookingCanceledScreen> {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 5),
-                  child: StatusCardItem(mBookingCanceledList[index], index, completeStatusIndex),
+                  child: GestureDetector(onTap: (){
+                    Future.delayed(const Duration(milliseconds: 1), () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => BookingStatusCanceledDialog(),
+                      );
+                    });
+
+                  }, child: StatusCardItem(mBookingCanceledList[index], index, completeStatusIndex)),
                 );
               },
             ),
