@@ -21,7 +21,7 @@ class BookingScreen extends StatefulWidget {
 class _BookingScreenState extends State<BookingScreen> {
 
   var statusBtnList =[];
-  var currentSelectedStatus = 2;
+  var currentSelectedStatus = 0;
 
   @override
   void initState() {
@@ -64,21 +64,18 @@ class _BookingScreenState extends State<BookingScreen> {
                           this.currentSelectedStatus = index;
                         });
                       },
-                      child: bookingStatusButtonWidget(statusBtnList[index].name, btnFontWeight: FontWeight.bold, btnColor:statusBtnList[index].color));
+                      child: bookingStatusButtonWidget(statusBtnList[index].name, btnFontWeight: FontWeight.bold, btnColor:statusBtnList[index].color, currentSelectedStatus:currentSelectedStatus, index:index));
                 }),
           ),
           SizedBox(
             height: 10,
           ),
-          Expanded(
-              child: new ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  if (currentSelectedStatus == 0) BookingUpcomingScreen(),
-                  if (currentSelectedStatus == 1) BookingCompletedScreen(),
-                  if (currentSelectedStatus == 2) BookingCanceledScreen(),
-                ],
-              )
+          Column(
+            children: [
+              if (currentSelectedStatus == 0) BookingUpcomingScreen(),
+              if (currentSelectedStatus == 1) BookingCompletedScreen(),
+              if (currentSelectedStatus == 2) BookingCanceledScreen(),
+            ],
           ),
 
 

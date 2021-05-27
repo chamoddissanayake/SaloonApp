@@ -12,8 +12,12 @@ class _BookingUpcomingScreenState extends State<BookingUpcomingScreen> {
       child: Column(
         children: [
           Text("Upcoming"),
-
-
+          Text("Upcoming"),
+          Text("Upcoming"),
+          Text("Upcoming"),
+          Text("Upcoming"),
+          Text("Upcoming"),
+          Text("Upcoming"),
         ],
       ),
     );
