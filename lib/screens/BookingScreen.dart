@@ -34,6 +34,7 @@ class _BookingScreenState extends State<BookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.0),
         child: AppBarWidget(),
@@ -41,45 +42,47 @@ class _BookingScreenState extends State<BookingScreen> {
       drawer: Drawer(
         child: SingleChildScrollView(child: MainDrawer()),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Container(
-                child: customTextWidget("My Bookings",
-                    fontSize: 24.0, fontWeight: FontWeight.bold)),
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: Container(
+                  child: customTextWidget("My Bookings",
+                      fontSize: 24.0, fontWeight: FontWeight.bold)),
+            ),
 
-          SizedBox(
-            height: 40.0,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: statusBtnList.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  print(statusBtnList[index]);
-                  return GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          this.currentSelectedStatus = index;
-                        });
-                      },
-                      child: bookingStatusButtonWidget(statusBtnList[index].name, btnFontWeight: FontWeight.bold, btnColor:statusBtnList[index].color, currentSelectedStatus:currentSelectedStatus, index:index));
-                }),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Column(
-            children: [
-              if (currentSelectedStatus == 0) BookingUpcomingScreen(),
-              if (currentSelectedStatus == 1) BookingCompletedScreen(),
-              if (currentSelectedStatus == 2) BookingCanceledScreen(),
-            ],
-          ),
+            SizedBox(
+              height: 40.0,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: statusBtnList.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    print(statusBtnList[index]);
+                    return GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            this.currentSelectedStatus = index;
+                          });
+                        },
+                        child: bookingStatusButtonWidget(statusBtnList[index].name, btnFontWeight: FontWeight.bold, btnColor:statusBtnList[index].color, currentSelectedStatus:currentSelectedStatus, index:index));
+                  }),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Column(
+              children: [
+                if (currentSelectedStatus == 0) BookingUpcomingScreen(),
+                if (currentSelectedStatus == 1) BookingCompletedScreen(),
+                if (currentSelectedStatus == 2) BookingCanceledScreen(),
+              ],
+            ),
 
 
-        ],
+          ],
+        ),
       ),
       floatingActionButton: LocationsFloatingActionWidget(),
     );

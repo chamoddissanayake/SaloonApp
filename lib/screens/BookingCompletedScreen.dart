@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saloon_app/models/BookingStatusCard.dart';
 import 'package:saloon_app/service/BookingService.dart';
 import 'package:saloon_app/widgets/StatusCardItem.dart';
+import 'package:saloon_app/widgets/BookingStatusCompletedDialog.dart';
 
 class BookingCompletedScreen extends StatefulWidget {
   @override
@@ -30,7 +31,16 @@ class _BookingCompletedScreenState extends State<BookingCompletedScreen> {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 5),
-                  child: StatusCardItem(mBookingCompletedList[index], index, completeStatusIndex),
+                  child: GestureDetector(
+                    onTap: (){
+                      Future.delayed(const Duration(milliseconds: 1), () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => BookingStatusCompletedDialog(),
+                        );
+                      });
+                    },
+                      child: StatusCardItem(mBookingCompletedList[index], index, completeStatusIndex)),
                 );
               },
             ),
