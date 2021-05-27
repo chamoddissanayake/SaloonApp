@@ -125,11 +125,9 @@ bookingStatusCompletedDialogContent(BuildContext context) {
               ),
             ),
             SizedBox(height: 24),
-            Container(
 
-            ),
 
-            SizedBox(height: 24),
+
             RatingBar.builder(
                 initialRating: 3,
                 itemCount: 5,

@@ -1,12 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:saloon_app/commons/Locations.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/PaymentDialog.dart';
-import 'package:saloon_app/widgets/BookingStatusUpdateDialog.dart';
+import 'package:saloon_app/commons/Locations.dart';
+import 'package:saloon_app/models/Location.dart';
+import 'package:saloon_app/service/LocationService.dart';
 
-class BookingStatusUpcomingDialog extends StatelessWidget {
+class BookingStatusUpdateDialog extends StatefulWidget {
+  @override
+  _BookingStatusUpdateDialogState createState() => _BookingStatusUpdateDialogState();
+}
+
+class _BookingStatusUpdateDialogState extends State<BookingStatusUpdateDialog> {
+
+  List<Location> mLocationList;
+
+  @override
+  void initState() {
+    super.initState();
+    mLocationList = getAllLocations();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -15,12 +34,15 @@ class BookingStatusUpcomingDialog extends StatelessWidget {
       ),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
-      child: bookingStatusUpcomingDialogContent(context),
+      child: bookingStatusUpdateDialogContent(context,mLocationList),
     );
   }
 }
 
-bookingStatusUpcomingDialogContent(BuildContext context) {
+bookingStatusUpdateDialogContent(BuildContext context, List mLocationList) {
+
+
+
   return SingleChildScrollView(
     child: Container(
         decoration: new BoxDecoration(
@@ -48,7 +70,7 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
                   alignment: Alignment.centerRight,
                   child: Icon(Icons.close, color: Colors.black)),
             ),
-            customTextWidget("Upcoming Bookings",
+            customTextWidget("Booking Update",
                 textColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 24.0),
@@ -56,7 +78,7 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
             ClipRRect(
               child: CachedNetworkImage(
                 imageUrl:
-                "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54",
+                    "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54",
                 height: 120,
                 width: 120,
               ),
@@ -72,41 +94,41 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.fromLTRB(70, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
               child: Column(
                 children: [
                   Row(
                     children: [
                       SizedBox(
-                          width: 80.0,
-                          child: Text("Date",
+                          width: 150.0,
+                          child: Text("Selected Date",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18))),
                       SizedBox(
                           child:
-                          Text("02/20/2020", style: TextStyle(fontSize: 18))),
+                              Text("02/20/2020", style: TextStyle(fontSize: 18))),
                     ],
                   ),
                   SizedBox(height: 5),
                   Row(
                     children: [
                       SizedBox(
-                        width: 80.0,
-                        child: Text("Time",
+                        width: 150.0,
+                        child: Text("Selected Time",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                       ),
                       SizedBox(
                           child:
-                          Text("10:00 AM", style: TextStyle(fontSize: 18))),
+                              Text("10:00 AM", style: TextStyle(fontSize: 18))),
                     ],
                   ),
                   SizedBox(height: 5),
                   Row(
                     children: [
                       SizedBox(
-                        width: 80.0,
-                        child: Text("Branch",
+                        width: 150.0,
+                        child: Text("Selected Branch",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                       ),
@@ -116,55 +138,72 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+
+            SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.width * 0.27,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: mLocationList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        // color: Colors.yellow,
+                        // height: 50,
+                          child: locations(mLocationList[index], index));
+                    }),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+              child: Container(
+                child: DateTimePicker(
+                  type: DateTimePickerType.dateTimeSeparate,
+                  dateMask: 'd MMM, yyyy',
+                  initialValue: DateTime.now().toString(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                  icon: Icon(Icons.event),
+                  dateLabelText: 'Date',
+                  timeLabelText: "Hour",
+                  selectableDayPredicate: (date) {
+                    // Disable weekend days to select from the calendar
+                    if (date.weekday == 6 || date.weekday == 7) {
+                      return false;
+                    }
+
+                    return true;
+                  },
+                  onChanged: (val) => print(val),
+                  validator: (val) {
+                    print(val);
+                    return null;
+                  },
+                  onSaved: (val) => print(val),
+                ),
+              ),
+            ),
 
             Column(
-              // mainAxisAlignment: MainAxisAlignment.start,
               children: [
+
                 GestureDetector(
                   onTap: () {
+
                     Navigator.pop(context);
                     CoolAlert.show(
-                      backgroundColor: Color(0xFFFFD4D4),
+                      backgroundColor: Color(0xFFFFDEC1),
                       context: context,
                       type: CoolAlertType.success,
-                      text: "Your Booking was cancelled successfully.",
+                      text: "Your Booking updated successfully",
                     );
 
                   },
                   child: Container(
-                    margin: EdgeInsets.fromLTRB(16, 5, 16, 5),
-                    padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                    decoration: new BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    alignment: Alignment.center,
-                    child: customTextWidget("Cancel Booking",
-                        textColor: Colors.white, fontSize: 16.0,fontWeight: FontWeight.bold),
-                  ),
-                ),
-
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                    // CoolAlert.show(
-                    //   backgroundColor: Color(0xFFD7FFD4),
-                    //   context: context,
-                    //   type: CoolAlertType.success,
-                    //   text: "Your Booking was cancelled successfully.",
-                    // );
-                    Future.delayed(const Duration(milliseconds: 1), () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => BookingStatusUpdateDialog(),
-                      );
-                    });
-
-                  },
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(16, 5, 16, 5),
+                    margin: EdgeInsets.all(16),
                     padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
                     decoration: new BoxDecoration(
                       color: Colors.orangeAccent,
@@ -172,34 +211,8 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     alignment: Alignment.center,
-                    child: customTextWidget("Update Booking",
-                        textColor: Colors.white, fontSize: 16.0,fontWeight: FontWeight.bold),
-                  ),
-                ),
-
-                GestureDetector(
-                  onTap: () {
-
-                    Navigator.pop(context);
-                    CoolAlert.show(
-                      backgroundColor: Color(0xFFD7FFD4),
-                      context: context,
-                      type: CoolAlertType.success,
-                      text: "Your hair cutting  was done",
-                    );
-
-                  },
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(16, 5, 16, 16),
-                    padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                    decoration: new BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    alignment: Alignment.center,
-                    child: customTextWidget("Mark as Done",
-                        textColor: Colors.white, fontSize: 16.0,fontWeight: FontWeight.bold),
+                    child: customTextWidget("Update",
+                        textColor: Colors.white, fontSize: 20.0,fontWeight: FontWeight.bold),
                   ),
                 )
               ],
@@ -208,3 +221,6 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
         )),
   );
 }
+
+
+
