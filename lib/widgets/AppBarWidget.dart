@@ -57,7 +57,7 @@ class AppBarWidget extends StatelessWidget {
                     padding:
                     const EdgeInsets.fromLTRB(12.0, 16.0, 16.0, 16.0),
                     // child: UtilCommonWidget.addImage(Constant.iconBack, 19.0, 10.0))
-                    child: Icon(CupertinoIcons.bars)),
+                    child: Icon(CupertinoIcons.bars, color: Colors.black54,)),
               ),
             )
         )

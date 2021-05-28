@@ -24,12 +24,16 @@ import 'package:saloon_app/screens/PaymentScreen.dart';
 import 'package:saloon_app/tools/tools.dart';
 
 import 'models/markerModel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
 
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
+      .then((_) async {
+
+    await Firebase.initializeApp();
     runApp(new MyApp());
   });
 }

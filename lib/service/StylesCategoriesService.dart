@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/models/Categories.dart';
 
 List<TrendingStyles> getTrendingStyles() {
   List<TrendingStyles> trendingStylesData = List<TrendingStyles>();
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _mainCollection = _firestore.collection('styles');
 
   TrendingStyles model = TrendingStyles();
   model.name = "Fade Haircut";
@@ -170,4 +174,3 @@ List<Categories> getAllCategories() {
   categoriesData.add(model8);
   return categoriesData;
 }
-

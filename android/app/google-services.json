@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "305983313005",
+    "project_id": "saloonapp-ca3df",
+    "storage_bucket": "saloonapp-ca3df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305983313005:android:5757d956522a34b91adb64",
+        "android_client_info": {
+          "package_name": "com.sliit.saloon_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305983313005-e79kt9mlilimfeg8bo56shurrv50umof.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sliit.saloon_app",
+            "certificate_hash": "a5713c359f44aa2cb6db3bbd8722abd8bc9467e6"
+          }
+        },
+        {
+          "client_id": "305983313005-69dcmgjih3ha40ul9mp8l7tm99rcgpgp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlzBVfWVu34_Jm9yHvoIp2oFOEE8sJyrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305983313005-69dcmgjih3ha40ul9mp8l7tm99rcgpgp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

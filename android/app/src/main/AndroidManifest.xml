@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sliit.saloon_app">
    <application
+        android:name="androidx.multidex.MultiDexApplication"
         android:label="saloon_app"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
@@ -39,5 +40,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
     </application>
 </manifest>
