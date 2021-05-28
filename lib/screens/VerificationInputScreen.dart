@@ -236,15 +236,15 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
                   ),
                 ),
                 decoration: BoxDecoration(
-                    color: Colors.green.shade300,
+                    color: Colors.blue.shade300,
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.green.shade200,
+                          color: Colors.blue.shade200,
                           offset: Offset(1, -2),
                           blurRadius: 5),
                       BoxShadow(
-                          color: Colors.green.shade200,
+                          color: Colors.blue.shade200,
                           offset: Offset(-1, 2),
                           blurRadius: 5)
                     ]),

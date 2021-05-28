@@ -13,9 +13,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 2000), () {
-      Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+      // Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
       // TODO: Need to uncomment above line for go to home directly
-      // Navigator.of(context).pushReplacementNamed(IntroScreen.routeName);
+      Navigator.of(context).pushReplacementNamed(IntroScreen.routeName);
     });
     super.initState();
   }

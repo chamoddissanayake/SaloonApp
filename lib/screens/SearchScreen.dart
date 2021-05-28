@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:saloon_app/models/TrendingStyles.dart';
+import 'package:saloon_app/service/SearchService.dart';
+import 'package:saloon_app/widgets/SearchResultCard.dart';
 
 class SearchScreen extends StatefulWidget {
   static const routeName = '/search';
+
+
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+
+  List<TrendingStyles> mTrendingStylesSearchResultsList;
+
+  @override
+  void initState() {
+    super.initState();
+    mTrendingStylesSearchResultsList = getSearchResults();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,8 +84,8 @@ class _SearchScreenState extends State<SearchScreen> {
             elevation: 4.0,
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: Colors.accents.map((color) {
-                return Container(height: 112, color: color);
+              children: mTrendingStylesSearchResultsList.map((searchResultItem) {
+                return searchResultCardWidget(searchResultItem.image, searchResultItem.name, searchResultItem.price);
               }).toList(),
             ),
           ),

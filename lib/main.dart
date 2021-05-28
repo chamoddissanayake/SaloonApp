@@ -43,8 +43,10 @@ class MyApp extends StatelessWidget {
       title: 'Saloon App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // primarySwatch: Colors.lightGreen,
-        primarySwatch:Colors.lightBlue
+        primarySwatch: Colors.blue,
+
+        // primaryColor:Color.fromRGBO(250, 250, 250, 1),
+        // primarySwatch: Colors.yellow,
 
       ),
       initialRoute: '/',
