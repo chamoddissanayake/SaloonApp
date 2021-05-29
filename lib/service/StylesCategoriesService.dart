@@ -2,36 +2,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/models/Categories.dart';
 
-List<TrendingStyles> getTrendingStyles() {
+Future<List<TrendingStyles>> getTrendingStyles() async {
   List<TrendingStyles> trendingStylesData = List<TrendingStyles>();
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final CollectionReference _mainCollection = _firestore.collection('styles');
+  final CollectionReference _styleCollection = _firestore.collection('styles');
 
-  TrendingStyles model = TrendingStyles();
-  model.name = "Fade Haircut";
-  model.price = "5.00";
-  model.image = "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54";
+  // Get docs from collection reference
+  QuerySnapshot querySnapshot = await _styleCollection.get();
 
-  TrendingStyles model2 = TrendingStyles();
-  model2.name = "Undercut";
-  model2.price = "7.50";
-  model2.image = "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Ftp-easy-hairstyles-for-medium-hair-guide-1.jpg?alt=media&token=7d6bbb48-3a2d-4e51-b444-1752ed94d708";
+  // Get data from docs and convert map to List
+  // final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+  final allData = querySnapshot.docs.map((doc) => {
+    doc.data()
+  }).toList();
+  allData.forEach((element) {
+    TrendingStyles s = TrendingStyles();
+    element.forEach((el) {
+      Map<String, Object> tmp = el as Map<String, Object>;
+      s.name = tmp.remove("name");
+      s.price = tmp.remove("price");
+      s.image = tmp.remove("image");
+    });
+    // s.name = "ff";//element["name"];
+    // s.price = "5.00";
+    // s.image = "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54";
 
-  TrendingStyles model3 = TrendingStyles();
-  model3.name = "Buzz cut";
-  model3.price = "4.30";
-  model3.image = "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2F1-layered-bob-hairstyle.jpg?alt=media&token=90e82799-b4a9-4dc6-b49e-104109a4e298";
+    trendingStylesData.add(s);
+  });
 
-  TrendingStyles model4 = TrendingStyles();
-  model4.name = "Beehive";
-  model4.price = "4.40";
-  model4.image = "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2F14-medium-layered-women-haircut.jpg?alt=media&token=11894829-e3fe-4bd5-a04a-3b291eb6a818";
-
-  trendingStylesData.add(model);
-  trendingStylesData.add(model2);
-  trendingStylesData.add(model3);
-  trendingStylesData.add(model4);
+  print(trendingStylesData);
   return trendingStylesData;
 }
 
