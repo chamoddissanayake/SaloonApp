@@ -88,8 +88,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemCount: snapshot.data.length,
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
-                                  return trendingStyles(
-                                      snapshot.data[index], index);
+                                  return GestureDetector(
+                                    onTap: (){
+                                      print("-------");
+                                      snapshot.data[index];
+                                      print("-------");
+                                  },
+                                    child: trendingStyles(
+                                        snapshot.data[index], index),
+                                  );
                                 }))
                       ];
                     } else if (snapshot.hasError) {
