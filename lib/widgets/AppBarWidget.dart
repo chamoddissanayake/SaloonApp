@@ -7,14 +7,12 @@ class AppBarWidget extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-
     return AppBar(
         shadowColor: Colors.black26,
         backgroundColor: Colors.white,
-      //automaticallyImplyLeading: true
+        //automaticallyImplyLeading: true
         elevation: 10.0,
         // for elevation
         titleSpacing: 0.0,
@@ -28,19 +26,24 @@ class AppBarWidget extends StatelessWidget {
               onTap: () {
                 print("Search pressed");
                 // Navigator.of(context).pushReplacementNamed(SearchScreen.routeName);
-                Navigator.push(context, new MaterialPageRoute(
-                    builder: (context) => new SearchScreen())
-                );
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new SearchScreen()));
               },
               child: Container(
                 margin: new EdgeInsets.symmetric(horizontal: 15.0),
-                child: new Image.asset("assets/images/top_bar/search.png", width: 30, height: 30,),
+                child: new Image.asset(
+                  "assets/images/top_bar/search.png",
+                  width: 30,
+                  height: 30,
+                ),
                 // color: Colors.yellow,
               ))
         ],
         //Action icon search as search icon, notification icon
         leading: new Material(
-          //Custom leading icon, such as back icon or other icon
+            //Custom leading icon, such as back icon or other icon
             color: Colors.transparent,
             child: new InkWell(
               onTap: () {
@@ -48,21 +51,27 @@ class AppBarWidget extends StatelessWidget {
               },
               // splashColor: Colors.amber,
               child: GestureDetector(
-                onTap: (){
-                  print("pressed");
-                  // Scaffold.of(context).openDrawer();
-                },
-                child: new Container(
+                  onTap: () {
+                    print("pressed");
+                    Scaffold.of(context).openDrawer();
+                  },
+                  // child: new Container(
                   // color: Colors.red,
-                    padding:
-                    const EdgeInsets.fromLTRB(12.0, 16.0, 16.0, 16.0),
-                    // child: UtilCommonWidget.addImage(Constant.iconBack, 19.0, 10.0))
-                    child: Icon(CupertinoIcons.bars, color: Colors.black54,)),
-              ),
-            )
-        )
-    );
-
-
+                  //   padding:
+                  //   const EdgeInsets.fromLTRB(12.0, 16.0, 16.0, 16.0),
+                  // child: UtilCommonWidget.addImage(Constant.iconBack, 19.0, 10.0))
+                  // child: Icon(
+                  //   CupertinoIcons.bars,
+                  //   color: Colors.green,
+                  // )
+                  // // ),
+                child: Container(
+                  color: Colors.white,
+                  width: 80.0,
+                  height: 40.0,
+                  child: Icon(CupertinoIcons.bars, color: Colors.black,),
+                ),
+                  ),
+            )));
   }
 }
