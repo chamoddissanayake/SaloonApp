@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nice_button/NiceButton.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
+import 'package:saloon_app/service/StylesCategoriesService.dart';
 import 'package:saloon_app/widgets/AppBarWidget.dart';
 import 'package:saloon_app/widgets/CustomTitleSeeAllWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
@@ -38,8 +39,10 @@ class _StyleScreenState extends State<StyleScreen> {
   @override
   void initState() {
     super.initState();
+
     // mLocationList = getAllLocations();
     currentStyleId = widget.styleId;
+    getATrendingStyle(currentStyleId);
   }
 
   @override
