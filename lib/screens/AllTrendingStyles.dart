@@ -7,7 +7,7 @@ import 'package:saloon_app/widgets/CustomTitleSeeAllWidget.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
 import 'package:saloon_app/utils/PriceUtils.dart';
-import 'package:saloon_app/widgets/ShowSortBy.dart';
+import 'package:saloon_app/widgets/ShowSortingDialog.dart';
 import 'package:saloon_app/screens/StyleScreen.dart';
 
 class AllTrendingStyles extends StatefulWidget {
@@ -64,8 +64,18 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
 
                     ),
                     onTap: () {
-                      sortPopupPressed(context);
+                      // sortPopupPressed(context);
+                      // sortingPopupPressed(context);
                       // showSortByDialog(context);
+                      Future.delayed(const Duration(milliseconds: 1), () {
+                        showDialog(
+                          context: context,
+                          // builder: (BuildContext context) => BookingConfirmationDialog(),
+                          builder: (BuildContext context) => ShowSortingDialog(),
+                        );
+                      });
+
+
                     },
                   ),
                 ],
@@ -76,65 +86,6 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
             ),
             Container(
               margin: EdgeInsets.only(left: 16.0, right: 16.0),
-
-
-              // child: GridView.builder(
-              //   scrollDirection: Axis.vertical,
-              //   itemCount: mTrendingStylesList.length,
-              //   shrinkWrap: true,
-              //   physics: NeverScrollableScrollPhysics(),
-              //   itemBuilder: (context, index) {
-              //     return Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: <Widget>[
-              //         GestureDetector(
-              //           child: ClipRRect(
-              //             borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              //             child: CachedNetworkImage(
-              //               imageUrl: mTrendingStylesList[index].image,
-              //               fit: BoxFit.cover,
-              //               height: width * 0.5,
-              //               width: width,
-              //             ),
-              //           ),
-              //           onTap: (){
-              //             //Goto Style screen
-              //             Navigator.push(context, new MaterialPageRoute(
-              //                 builder: (context) => new StyleScreen())
-              //             );
-              //           },
-              //         ),
-              //         Center(
-              //             child: customTextWidget(
-              //                 mTrendingStylesList[index].name,
-              //                 fontSize: 18.0,
-              //                 fontWeight: FontWeight.bold)),
-              //         Row(
-              //           mainAxisAlignment: MainAxisAlignment.center,
-              //           children: <Widget>[
-              //             customTextWidget(
-              //               "\$" + mTrendingStylesList[index].price,
-              //             ),
-              //             SizedBox(
-              //               width: 4.0,
-              //             ),
-              //             customTextWidget(
-              //                 PriceUtils.getFullPrice(
-              //                     mTrendingStylesList[index].price),
-              //                 textColor: Colors.red,
-              //                 lineThrough: true)
-              //           ],
-              //         )
-              //       ],
-              //     );
-              //   },
-              //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //     crossAxisCount: 2,
-              //     crossAxisSpacing: 10,
-              //     mainAxisSpacing: 10,
-              //     childAspectRatio: 0.7,
-              //   ),
-              // ),
 
               child: FutureBuilder<List<TrendingStyles>>(
                   future: getAllTrendingStyles(),
