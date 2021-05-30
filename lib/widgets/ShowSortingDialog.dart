@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/PaymentDialog.dart';
 import 'package:saloon_app/enum/SortByItem.dart';
 import 'package:saloon_app/service/StylesCategoriesService.dart';
+import 'package:saloon_app/utils/globals.dart';
 
 
 class ShowSortingDialog extends StatefulWidget {
@@ -14,7 +16,13 @@ class ShowSortingDialog extends StatefulWidget {
 }
 
 class _ShowSortingDialogState extends State<ShowSortingDialog> {
-  SortByItem radioItem = SortByItem.best_match;
+  // SortByItem radioItem = SortByItem.best_match;
+  SortByItem radioItem = (gblSelectedType=="best_match")? SortByItem.best_match :
+                          (gblSelectedType=="name")? SortByItem.name:
+                          (gblSelectedType=="price_ascending")? SortByItem.price_ascending:
+                          (gblSelectedType=="price_descending")? SortByItem.price_descending:
+                          SortByItem.best_match;
+
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +154,8 @@ class _ShowSortingDialogState extends State<ShowSortingDialog> {
 
 
                       // TODO: refresh data of all trending styles screen from here
-                      getSortedTrendingResults(selectedType);
+                      gblSortedData = getSortedTrendingResults(selectedType);
+                      gblSelectedType = selectedType;
                       Navigator.pop(context);
                     },
                     child: Container(

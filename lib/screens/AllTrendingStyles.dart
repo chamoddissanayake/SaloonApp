@@ -9,6 +9,7 @@ import 'package:saloon_app/widgets/MainDrawer.dart';
 import 'package:saloon_app/utils/PriceUtils.dart';
 import 'package:saloon_app/widgets/ShowSortingDialog.dart';
 import 'package:saloon_app/screens/StyleScreen.dart';
+import 'package:saloon_app/utils/globals.dart';
 
 class AllTrendingStyles extends StatefulWidget {
   static const routeName = '/all_trending_styles';
@@ -75,7 +76,7 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                         );
                       });
 
-
+                      setState(() {  });
                     },
                   ),
                 ],
@@ -88,7 +89,7 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
               margin: EdgeInsets.only(left: 16.0, right: 16.0),
 
               child: FutureBuilder<List<TrendingStyles>>(
-                  future: getAllTrendingStyles(),
+                  future: gblSortedData != null? gblSortedData : getAllTrendingStyles(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<TrendingStyles>> snapshot) {
                     List<Widget> children;
