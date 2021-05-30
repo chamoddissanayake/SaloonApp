@@ -106,7 +106,7 @@ Future<List<TrendingStyles>> getSortedTrendingResults(String selectedType) async
     return allData;
   }else if(selectedType == "price_descending"){
     allData.sort((a, b) => a.price.compareTo(b.price));
-    var reversedList = new List.from(allData.reversed);
+    List<TrendingStyles> reversedList = new List.from(allData.reversed);
     return reversedList;
   }else{
     return allData;

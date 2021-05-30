@@ -10,6 +10,7 @@ import 'package:saloon_app/utils/PriceUtils.dart';
 import 'package:saloon_app/widgets/ShowSortingDialog.dart';
 import 'package:saloon_app/screens/StyleScreen.dart';
 import 'package:saloon_app/utils/globals.dart';
+import 'package:saloon_app/utils/UtilFunctions.dart';
 
 class AllTrendingStyles extends StatefulWidget {
   static const routeName = '/all_trending_styles';
@@ -52,17 +53,36 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                   customTextWidget("All Trending Styles",
                       fontSize: 20.0, fontWeight: FontWeight.bold),
                   GestureDetector(
-                    child: Container(
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: Color.fromARGB(100, 200, 200, 200)),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            child: Row(
+                              children: [
+                                Container(
 
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        color: Color.fromARGB(100, 200, 200, 200)
-                      ),
 
-                      child: customTextWidget("Sort By", fontWeight: FontWeight.bold),
-                      // color: Colors.yellow,
-                      padding: EdgeInsets.all(10),
+                                  child: customTextWidget("Sort By",
+                                      fontWeight: FontWeight.bold),
+                                  // color: Colors.yellow,
+                                  padding: EdgeInsets.all(10),
+                                ),
+                                Image.asset(
+                                  "assets/images/button_icons/downarrow.png",
+                                  width: 15,
+                                  height: 15,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
 
+                        Text(UtilFunctions.getReadableSortByValue()),
+                      ],
                     ),
                     onTap: () {
                       // sortPopupPressed(context);
@@ -72,11 +92,12 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                         showDialog(
                           context: context,
                           // builder: (BuildContext context) => BookingConfirmationDialog(),
-                          builder: (BuildContext context) => ShowSortingDialog(),
+                          builder: (BuildContext context) =>
+                              ShowSortingDialog(),
                         );
                       });
 
-                      setState(() {  });
+                      setState(() {});
                     },
                   ),
                 ],
@@ -87,78 +108,76 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
             ),
             Container(
               margin: EdgeInsets.only(left: 16.0, right: 16.0),
-
               child: FutureBuilder<List<TrendingStyles>>(
-                  future: gblSortedData != null? gblSortedData : getAllTrendingStyles(),
+                  future: gblSortedData != null
+                      ? gblSortedData
+                      : getAllTrendingStyles(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<TrendingStyles>> snapshot) {
                     List<Widget> children;
                     if (snapshot.hasData) {
                       children = <Widget>[
-
-                    GridView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: snapshot.data.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            GestureDetector(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: CachedNetworkImage(
-                                  imageUrl: snapshot.data[index].image,
-                                  fit: BoxFit.cover,
-                                  height: width * 0.5,
-                                  width: width,
-                                ),
-                              ),
-                              onTap: (){
-                                //Goto Style screen
-                                Navigator.push(context, new MaterialPageRoute(
-                                    builder: (context) => new StyleScreen())
-                                );
-                              },
-                            ),
-                            Center(
-                                child: customTextWidget(
-                                    snapshot.data[index].name,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                        GridView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: snapshot.data.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                customTextWidget(
-                                  "\$" + snapshot.data[index].price,
+                                GestureDetector(
+                                  child: ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                    child: CachedNetworkImage(
+                                      imageUrl: snapshot.data[index].image,
+                                      fit: BoxFit.cover,
+                                      height: width * 0.5,
+                                      width: width,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    //Goto Style screen
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (context) =>
+                                                new StyleScreen()));
+                                  },
                                 ),
-                                SizedBox(
-                                  width: 4.0,
-                                ),
-                                customTextWidget(
-                                    PriceUtils.getFullPrice(
-                                        snapshot.data[index].price),
-                                    textColor: Colors.red,
-                                    lineThrough: true)
+                                Center(
+                                    child: customTextWidget(
+                                        snapshot.data[index].name,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold)),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    customTextWidget(
+                                      "\$" + snapshot.data[index].price,
+                                    ),
+                                    SizedBox(
+                                      width: 4.0,
+                                    ),
+                                    customTextWidget(
+                                        PriceUtils.getFullPrice(
+                                            snapshot.data[index].price),
+                                        textColor: Colors.red,
+                                        lineThrough: true)
+                                  ],
+                                )
                               ],
-                            )
-                          ],
-                        );
-                      },
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: 0.7,
-                      ),
-                    ),
-
-
-
-
-
-
+                            );
+                          },
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 0.7,
+                          ),
+                        ),
                       ];
                     } else if (snapshot.hasError) {
                       children = <Widget>[
@@ -193,10 +212,6 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                       ),
                     );
                   }),
-
-
-
-
             ),
           ],
         ),
