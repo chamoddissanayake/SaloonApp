@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/widgets.dart';
 import 'package:saloon_app/models/markerModel.dart';
+import 'package:saloon_app/service/LocationService.dart';
 import '../tools/tools.dart';
 import '../utils/MapUtils.dart';
 
@@ -275,6 +276,8 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void getData() {
+
+
 
     Tools.markersList.add(MarkersModel(
         1,

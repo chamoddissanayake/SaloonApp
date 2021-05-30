@@ -34,12 +34,12 @@ class _BookingStatusUpdateDialogState extends State<BookingStatusUpdateDialog> {
       ),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
-      child: bookingStatusUpdateDialogContent(context,mLocationList),
+      child: bookingStatusUpdateDialogContent(context),
     );
   }
 }
 
-bookingStatusUpdateDialogContent(BuildContext context, List mLocationList) {
+bookingStatusUpdateDialogContent(BuildContext context) {
 
 
 
@@ -142,19 +142,62 @@ bookingStatusUpdateDialogContent(BuildContext context, List mLocationList) {
             SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.width * 0.27,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: mLocationList.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        // color: Colors.yellow,
-                        // height: 50,
-                          child: locations(mLocationList[index], index));
-                    }),
-              ),
+              child:  FutureBuilder<List<Location>>(
+                  future: getAllLocations(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Location>> snapshot) {
+                    List<Widget> children;
+                    if (snapshot.hasData) {
+                      children = <Widget>[
+                        SizedBox(
+                          height:
+                          MediaQuery.of(context).size.width * 0.27,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: snapshot.data.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  // color: Colors.yellow,
+                                  // height: 50,
+                                    child: locations(
+                                        snapshot.data[index], index));
+                              }),
+                        ),
+                      ];
+                    } else if (snapshot.hasError) {
+                      children = <Widget>[
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 60,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text('Error: ${snapshot.error}'),
+                        )
+                      ];
+                    } else {
+                      children = const <Widget>[
+                        SizedBox(
+                          child: CircularProgressIndicator(),
+                          width: 60,
+                          height: 60,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text('Awaiting result...'),
+                        )
+                      ];
+                    }
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: children,
+                      ),
+                    );
+                  }),
             ),
 
             Padding(
