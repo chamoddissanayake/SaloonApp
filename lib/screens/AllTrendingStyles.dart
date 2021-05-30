@@ -18,12 +18,12 @@ class AllTrendingStyles extends StatefulWidget {
 }
 
 class _AllTrendingStylesState extends State<AllTrendingStyles> {
-  List<TrendingStyles> mTrendingStylesList;
+  // List<TrendingStyles> mTrendingStylesList;
 
   @override
   void initState() {
     super.initState();
-    mTrendingStylesList = getAllTrendingStyles();
+    // mTrendingStylesList = getAllTrendingStyles();
   }
 
   @override
@@ -77,63 +77,175 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
             ),
             Container(
               margin: EdgeInsets.only(left: 16.0, right: 16.0),
-              child: GridView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: mTrendingStylesList.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      GestureDetector(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          child: CachedNetworkImage(
-                            imageUrl: mTrendingStylesList[index].image,
-                            fit: BoxFit.cover,
-                            height: width * 0.5,
-                            width: width,
-                          ),
-                        ),
-                        onTap: (){
-                          //Goto Style screen
-                          Navigator.push(context, new MaterialPageRoute(
-                              builder: (context) => new StyleScreen())
-                          );
-                        },
+
+
+              // child: GridView.builder(
+              //   scrollDirection: Axis.vertical,
+              //   itemCount: mTrendingStylesList.length,
+              //   shrinkWrap: true,
+              //   physics: NeverScrollableScrollPhysics(),
+              //   itemBuilder: (context, index) {
+              //     return Column(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: <Widget>[
+              //         GestureDetector(
+              //           child: ClipRRect(
+              //             borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              //             child: CachedNetworkImage(
+              //               imageUrl: mTrendingStylesList[index].image,
+              //               fit: BoxFit.cover,
+              //               height: width * 0.5,
+              //               width: width,
+              //             ),
+              //           ),
+              //           onTap: (){
+              //             //Goto Style screen
+              //             Navigator.push(context, new MaterialPageRoute(
+              //                 builder: (context) => new StyleScreen())
+              //             );
+              //           },
+              //         ),
+              //         Center(
+              //             child: customTextWidget(
+              //                 mTrendingStylesList[index].name,
+              //                 fontSize: 18.0,
+              //                 fontWeight: FontWeight.bold)),
+              //         Row(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: <Widget>[
+              //             customTextWidget(
+              //               "\$" + mTrendingStylesList[index].price,
+              //             ),
+              //             SizedBox(
+              //               width: 4.0,
+              //             ),
+              //             customTextWidget(
+              //                 PriceUtils.getFullPrice(
+              //                     mTrendingStylesList[index].price),
+              //                 textColor: Colors.red,
+              //                 lineThrough: true)
+              //           ],
+              //         )
+              //       ],
+              //     );
+              //   },
+              //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //     crossAxisCount: 2,
+              //     crossAxisSpacing: 10,
+              //     mainAxisSpacing: 10,
+              //     childAspectRatio: 0.7,
+              //   ),
+              // ),
+
+              child: FutureBuilder<List<TrendingStyles>>(
+                  future: getAllTrendingStyles(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<TrendingStyles>> snapshot) {
+                    List<Widget> children;
+                    if (snapshot.hasData) {
+                      children = <Widget>[
+
+                    GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: snapshot.data.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            GestureDetector(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                child: CachedNetworkImage(
+                                  imageUrl: snapshot.data[index].image,
+                                  fit: BoxFit.cover,
+                                  height: width * 0.5,
+                                  width: width,
+                                ),
+                              ),
+                              onTap: (){
+                                //Goto Style screen
+                                Navigator.push(context, new MaterialPageRoute(
+                                    builder: (context) => new StyleScreen())
+                                );
+                              },
+                            ),
+                            Center(
+                                child: customTextWidget(
+                                    snapshot.data[index].name,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                customTextWidget(
+                                  "\$" + snapshot.data[index].price,
+                                ),
+                                SizedBox(
+                                  width: 4.0,
+                                ),
+                                customTextWidget(
+                                    PriceUtils.getFullPrice(
+                                        snapshot.data[index].price),
+                                    textColor: Colors.red,
+                                    lineThrough: true)
+                              ],
+                            )
+                          ],
+                        );
+                      },
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 0.7,
                       ),
-                      Center(
-                          child: customTextWidget(
-                              mTrendingStylesList[index].name,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold)),
-                      Row(
+                    ),
+
+
+
+
+
+
+                      ];
+                    } else if (snapshot.hasError) {
+                      children = <Widget>[
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 60,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text('Error: ${snapshot.error}'),
+                        )
+                      ];
+                    } else {
+                      children = const <Widget>[
+                        SizedBox(
+                          child: CircularProgressIndicator(),
+                          width: 60,
+                          height: 60,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text('Awaiting result...'),
+                        )
+                      ];
+                    }
+                    return Center(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          customTextWidget(
-                            "\$" + mTrendingStylesList[index].price,
-                          ),
-                          SizedBox(
-                            width: 4.0,
-                          ),
-                          customTextWidget(
-                              PriceUtils.getFullPrice(
-                                  mTrendingStylesList[index].price),
-                              textColor: Colors.red,
-                              lineThrough: true)
-                        ],
-                      )
-                    ],
-                  );
-                },
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.7,
-                ),
-              ),
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: children,
+                      ),
+                    );
+                  }),
+
+
+
+
             ),
           ],
         ),

@@ -23,14 +23,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Categories> mCategories;
+  // List<Categories> mCategories;
 
   HomeScreenState() {}
 
   @override
   void initState() {
     super.initState();
-    mCategories = getCategories();
+    // mCategories = getCategories();
   }
 
   @override
@@ -153,16 +153,76 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.5,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: mCategories.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return categories(mCategories[index], index);
-                    }),
-              ),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.width * 0.5,
+              //   child: ListView.builder(
+              //       scrollDirection: Axis.horizontal,
+              //       itemCount: mCategories.length,
+              //       shrinkWrap: true,
+              //       itemBuilder: (context, index) {
+              //         return categories(mCategories[index], index);
+              //       }),
+              // ),
+              FutureBuilder<List<Categories>>(
+                  future: getCategories(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Categories>> snapshot) {
+                    List<Widget> children;
+                    if (snapshot.hasData) {
+                      children = <Widget>[
+                        SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.5,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot.data.length,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: (){
+                                      print("-------");
+                                      snapshot.data[index];
+                                      print("-------");
+                                    },
+                                    child: categories(
+                                        snapshot.data[index], index),
+                                  );
+                                }))
+                      ];
+                    } else if (snapshot.hasError) {
+                      children = <Widget>[
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 60,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text('Error: ${snapshot.error}'),
+                        )
+                      ];
+                    } else {
+                      children = const <Widget>[
+                        SizedBox(
+                          child: CircularProgressIndicator(),
+                          width: 60,
+                          height: 60,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text('Awaiting result...'),
+                        )
+                      ];
+                    }
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: children,
+                      ),
+                    );
+                  }),
+
+
             ],
           ),
         ),
