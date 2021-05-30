@@ -20,7 +20,7 @@ class StyleScreen extends StatefulWidget {
   final String styleId;
 
   // In the constructor, require a Todo.
-  StyleScreen({Key key,  this.styleId}) : super(key: key);
+  StyleScreen({Key key, this.styleId}) : super(key: key);
 
   String get t {
     return styleId;
@@ -31,17 +31,15 @@ class StyleScreen extends StatefulWidget {
 }
 
 class _StyleScreenState extends State<StyleScreen> {
-  String currentStyleId ;
-  List<Location> mLocationList;
+  String currentStyleId;
 
+  List<Location> mLocationList;
 
   @override
   void initState() {
     super.initState();
-    mLocationList = getAllLocations();
+    // mLocationList = getAllLocations();
     currentStyleId = widget.styleId;
-
-
   }
 
   @override
@@ -75,16 +73,6 @@ class _StyleScreenState extends State<StyleScreen> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
-                  // child: Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: <Widget>[
-                  //     // starText("4", t7white),
-                  //     // starText("24+", t7white),
-                  //     Text("1111"),
-                  //     Text("111"),
-                  //   ],
-                  // ),
                   child: Column(
                     children: [
                       Text(
@@ -196,7 +184,8 @@ class _StyleScreenState extends State<StyleScreen> {
                               ),
                               Text('\$10.00',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20)),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
                                 child: Text('\$10.00',
@@ -204,7 +193,8 @@ class _StyleScreenState extends State<StyleScreen> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15,
                                         color: Colors.red,
-                                        decoration: TextDecoration.lineThrough)),
+                                        decoration:
+                                            TextDecoration.lineThrough)),
                               ),
                             ],
                           ),
@@ -212,10 +202,12 @@ class _StyleScreenState extends State<StyleScreen> {
                             children: [
                               Text('Time:  ',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20)),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
                               Text('20 mins.',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20)),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
                             ],
                           ),
                         ],
@@ -233,19 +225,62 @@ class _StyleScreenState extends State<StyleScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.27,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: mLocationList.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                // color: Colors.yellow,
-                                // height: 50,
-                                  child: locations(mLocationList[index], index));
-                            }),
-                      ),
+                      FutureBuilder<List<Location>>(
+                          future: getAllLocations(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<Location>> snapshot) {
+                            List<Widget> children;
+                            if (snapshot.hasData) {
+                              children = <Widget>[
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.27,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: snapshot.data.length,
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                            // color: Colors.yellow,
+                                            // height: 50,
+                                            child: locations(
+                                                snapshot.data[index], index));
+                                      }),
+                                ),
+                              ];
+                            } else if (snapshot.hasError) {
+                              children = <Widget>[
+                                const Icon(
+                                  Icons.error_outline,
+                                  color: Colors.red,
+                                  size: 60,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16),
+                                  child: Text('Error: ${snapshot.error}'),
+                                )
+                              ];
+                            } else {
+                              children = const <Widget>[
+                                SizedBox(
+                                  child: CircularProgressIndicator(),
+                                  width: 60,
+                                  height: 60,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 16),
+                                  child: Text('Awaiting result...'),
+                                )
+                              ];
+                            }
+                            return Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: children,
+                              ),
+                            );
+                          }),
                       Divider(),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -259,8 +294,6 @@ class _StyleScreenState extends State<StyleScreen> {
                           ),
                         ),
                       ),
-
-
                       Container(
                         child: DateTimePicker(
                           type: DateTimePickerType.dateTimeSeparate,
@@ -288,7 +321,6 @@ class _StyleScreenState extends State<StyleScreen> {
                         ),
                       ),
                       Divider(),
-
                       Container(
                         alignment: Alignment.centerLeft,
                         width: MediaQuery.of(context).size.width,
@@ -301,35 +333,39 @@ class _StyleScreenState extends State<StyleScreen> {
                           ),
                         ),
                       ),
-
                       Container(
                         width: MediaQuery.of(context).size.width,
-
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Column(
                               children: [
                                 IconButton(
-                                  icon:new Image.asset("assets/images/item_view/camera.png", width: 50, height: 50,),
+                                  icon: new Image.asset(
+                                    "assets/images/item_view/camera.png",
+                                    width: 50,
+                                    height: 50,
+                                  ),
                                   tooltip: 'View Customer Photo',
                                   onPressed: () {},
                                 ),
                                 Text('Customer Photos'),
                               ],
                             ),
-
                             Column(
                               children: [
                                 IconButton(
-                                  icon: new Image.asset("assets/images/item_view/rating.png",width: 50, height: 50,),
+                                  icon: new Image.asset(
+                                    "assets/images/item_view/rating.png",
+                                    width: 50,
+                                    height: 50,
+                                  ),
                                   tooltip: 'View Ratings',
                                   onPressed: () {},
                                 ),
                                 Text('Ratings'),
                               ],
                             ),
-
                           ],
                         ),
                       ),
@@ -344,10 +380,10 @@ class _StyleScreenState extends State<StyleScreen> {
                             Future.delayed(const Duration(milliseconds: 1), () {
                               showDialog(
                                 context: context,
-                                builder: (BuildContext context) => BookingConfirmationDialog(),
+                                builder: (BuildContext context) =>
+                                    BookingConfirmationDialog(),
                               );
                             });
-
                           },
                         ),
                       ),
@@ -355,13 +391,6 @@ class _StyleScreenState extends State<StyleScreen> {
                         height: 16,
                       ),
                       Divider(),
-
-
-
-
-
-
-
                     ],
                   ),
                 ),

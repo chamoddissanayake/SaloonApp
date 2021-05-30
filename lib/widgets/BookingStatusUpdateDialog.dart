@@ -22,7 +22,7 @@ class _BookingStatusUpdateDialogState extends State<BookingStatusUpdateDialog> {
   @override
   void initState() {
     super.initState();
-    mLocationList = getAllLocations();
+    // mLocationList = getAllLocations();
   }
 
 
