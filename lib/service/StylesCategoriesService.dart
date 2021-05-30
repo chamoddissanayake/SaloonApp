@@ -14,28 +14,24 @@ Future<List<TrendingStyles>> getTrendingStyles() async {
   // Get data from docs and convert map to List
   // final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
 
-  final allData = querySnapshot.docs.map((doc) => {
+  final allData = querySnapshot.docs.map((doc)  {
+  TrendingStyles s1 = TrendingStyles();
 
-    doc.data()
+
+  s1.sty_id=doc.id;
+      Map<String, Object> tmp = doc.data() as Map<String, Object>;
+  s1.name = tmp.remove("name");
+  s1.price = tmp.remove("price");
+  s1.image = tmp.remove("image");
+  // trendingStylesData.add(s1);
+  print(s1);
+  return s1;
   }).toList();
-  allData.forEach((element) {
-    TrendingStyles s = TrendingStyles();
-    element.forEach((el) {
-      Map<String, Object> tmp = el as Map<String, Object>;
-      // s.sty_id="";
-      s.name = tmp.remove("name");
-      s.price = tmp.remove("price");
-      s.image = tmp.remove("image");
-    });
-    // s.name = "ff";//element["name"];
-    // s.price = "5.00";
-    // s.image = "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54";
-
-    trendingStylesData.add(s);
-  });
 
   print(trendingStylesData);
-  return trendingStylesData;
+
+
+  return allData;
 }
 
 

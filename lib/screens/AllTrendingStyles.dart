@@ -64,7 +64,6 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
 
                     ),
                     onTap: () {
-                      print("aaa");
                       sortPopupPressed(context);
                       // showSortByDialog(context);
                     },
