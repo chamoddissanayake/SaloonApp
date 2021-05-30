@@ -3,7 +3,6 @@ import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/models/Categories.dart';
 
 Future<List<TrendingStyles>> getTrendingStyles() async {
-  List<TrendingStyles> trendingStylesData = List<TrendingStyles>();
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference _styleCollection = _firestore.collection('styles');
@@ -11,102 +10,65 @@ Future<List<TrendingStyles>> getTrendingStyles() async {
   // Get docs from collection reference
   QuerySnapshot querySnapshot = await _styleCollection.get();
 
-  // Get data from docs and convert map to List
-  // final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-
   final allData = querySnapshot.docs.map((doc)  {
   TrendingStyles s1 = TrendingStyles();
 
-
   s1.sty_id=doc.id;
       Map<String, Object> tmp = doc.data() as Map<String, Object>;
-  s1.name = tmp.remove("name");
-  s1.price = tmp.remove("price");
-  s1.image = tmp.remove("image");
-  // trendingStylesData.add(s1);
-  print(s1);
+    s1.name = tmp.remove("name");
+    s1.price = tmp.remove("price");
+    s1.image = tmp.remove("image");
+    s1.description = tmp.remove("description");
+    s1.category_id = tmp.remove("category_id");
+
   return s1;
   }).toList();
-
-  print(trendingStylesData);
-
-
   return allData;
 }
 
 
 
 Future<List<Categories>> getCategories() async {
-  List<Categories> categoriesData = List<Categories>();
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final CollectionReference _styleCollection = _firestore.collection('categories');
+  final CollectionReference _categoriesCollection = _firestore.collection('categories');
 
   // Get docs from collection reference
-  QuerySnapshot querySnapshot = await _styleCollection.get();
+  QuerySnapshot querySnapshot = await _categoriesCollection.get();
 
-  // Get data from docs and convert map to List
-  // final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-
-  final allData = querySnapshot.docs.map((doc) => {
-
-    doc.data()
-  }).toList();
-  allData.forEach((element) {
+  final allData = querySnapshot.docs.map((doc)  {
     Categories c = Categories();
-    element.forEach((el) {
-      Map<String, Object> tmp = el as Map<String, Object>;
-      // s.sty_id="";
-      c.name = tmp.remove("name");
-      c.image = tmp.remove("image");
-      c.cat_id = "";
-    });
-    // s.name = "ff";//element["name"];
-    // s.price = "5.00";
-    // s.image = "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54";
 
-    categoriesData.add(c);
-  });
+    c.cat_id=doc.id;
+    Map<String, Object> tmp = doc.data() as Map<String, Object>;
+    c.name = tmp.remove("name");
+    c.image = tmp.remove("image");
 
-  print(categoriesData);
-  return categoriesData;
+    return c;
+  }).toList();
+  return allData;
 }
 
 
 Future<List<Categories>> getAllCategories() async {
-  List<Categories> categoriesData = List<Categories>();
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final CollectionReference _styleCollection = _firestore.collection('categories');
+  final CollectionReference _categoriesCollection = _firestore.collection('categories');
 
   // Get docs from collection reference
-  QuerySnapshot querySnapshot = await _styleCollection.get();
+  QuerySnapshot querySnapshot = await _categoriesCollection.get();
 
-  // Get data from docs and convert map to List
-  // final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-
-  final allData = querySnapshot.docs.map((doc) => {
-
-    doc.data()
-  }).toList();
-  allData.forEach((element) {
+  final allData = querySnapshot.docs.map((doc)  {
     Categories c = Categories();
-    element.forEach((el) {
-      Map<String, Object> tmp = el as Map<String, Object>;
-      // s.sty_id="";
-      c.name = tmp.remove("name");
-      c.image = tmp.remove("image");
-      c.cat_id = "";
-    });
-    // s.name = "ff";//element["name"];
-    // s.price = "5.00";
-    // s.image = "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54";
 
-    categoriesData.add(c);
-  });
+    c.cat_id=doc.id;
+    Map<String, Object> tmp = doc.data() as Map<String, Object>;
+    c.name = tmp.remove("name");
+    c.image = tmp.remove("image");
 
-  print(categoriesData);
-  return categoriesData;
+    return c;
+  }).toList();
+  return allData;
 }
 
 
@@ -145,39 +107,26 @@ Future<List<Categories>> getAllCategories() async {
 
 
 Future<List<TrendingStyles>> getAllTrendingStyles() async {
-  List<TrendingStyles> trendingStylesData = List<TrendingStyles>();
-
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference _styleCollection = _firestore.collection('styles');
 
   // Get docs from collection reference
   QuerySnapshot querySnapshot = await _styleCollection.get();
 
-  // Get data from docs and convert map to List
-  // final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+  final allData = querySnapshot.docs.map((doc)  {
+    TrendingStyles s1 = TrendingStyles();
 
-  final allData = querySnapshot.docs.map((doc) => {
+    s1.sty_id=doc.id;
+    Map<String, Object> tmp = doc.data() as Map<String, Object>;
+    s1.name = tmp.remove("name");
+    s1.price = tmp.remove("price");
+    s1.image = tmp.remove("image");
+    s1.description = tmp.remove("description");
+    s1.category_id = tmp.remove("category_id");
 
-    doc.data()
+    return s1;
   }).toList();
-  allData.forEach((element) {
-    TrendingStyles s = TrendingStyles();
-    element.forEach((el) {
-      Map<String, Object> tmp = el as Map<String, Object>;
-      // s.sty_id="";
-      s.name = tmp.remove("name");
-      s.price = tmp.remove("price");
-      s.image = tmp.remove("image");
-    });
-    // s.name = "ff";//element["name"];
-    // s.price = "5.00";
-    // s.image = "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54";
-
-    trendingStylesData.add(s);
-  });
-
-  print(trendingStylesData);
-  return trendingStylesData;
+  return allData;
 }
 
 
