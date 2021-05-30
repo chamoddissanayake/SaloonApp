@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/service/SearchService.dart';
+import 'package:saloon_app/service/StylesCategoriesService.dart';
 import 'package:saloon_app/widgets/SearchResultCard.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-
+  String inputText = "";
   List<TrendingStyles> mTrendingStylesSearchResultsList;
 
   @override
@@ -25,6 +26,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       // This is handled by the search bar itself.
       resizeToAvoidBottomInset: false,
@@ -59,6 +62,11 @@ class _SearchScreenState extends State<SearchScreen> {
       width: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 500),
       onQueryChanged: (query) {
+        this.inputText = query;
+        setState(() {
+
+        });
+        // inputText = query
         // Call your model, bloc, controller here.
       },
       // Specify a custom transition to be used for
@@ -82,12 +90,68 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Material(
             color: Colors.white,
             elevation: 4.0,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: mTrendingStylesSearchResultsList.map((searchResultItem) {
-                return searchResultCardWidget(searchResultItem.image, searchResultItem.name, searchResultItem.price);
-              }).toList(),
-            ),
+            // child: Column(
+            //   mainAxisSize: MainAxisSize.min,
+            //   children: mTrendingStylesSearchResultsList.map((searchResultItem) {
+            //     return searchResultCardWidget(searchResultItem.image, searchResultItem.name, searchResultItem.price);
+            //   }).toList(),
+            // ),
+
+
+
+
+            child: FutureBuilder<List<TrendingStyles>>(
+                future: getATrendingStyleForSearch(this.inputText),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<TrendingStyles>> snapshot) {
+                  List<Widget> children;
+                  if (snapshot.hasData) {
+                    children = <Widget>[
+                  Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: snapshot.data.map((searchResultItem) {
+                        return searchResultCardWidget(searchResultItem.image, searchResultItem.name, searchResultItem.price);
+                      }).toList(),
+                    ),
+
+                  ];
+                  } else if (snapshot.hasError) {
+                    children = <Widget>[
+                      const Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 60,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Text('Error: ${snapshot.error}'),
+                      )
+                    ];
+                  } else {
+                    children = const <Widget>[
+                      SizedBox(
+                        child: CircularProgressIndicator(),
+                        width: 60,
+                        height: 60,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 16),
+                        child: Text('Awaiting result...'),
+                      )
+                    ];
+                  }
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: children,
+                    ),
+                  );
+                }),
+
+
+
+
           ),
         );
       },
