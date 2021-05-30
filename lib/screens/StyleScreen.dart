@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nice_button/NiceButton.dart';
+import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/widgets/AppBarWidget.dart';
 import 'package:saloon_app/widgets/CustomTitleSeeAllWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
@@ -16,17 +17,31 @@ import 'package:date_time_picker/date_time_picker.dart';
 class StyleScreen extends StatefulWidget {
   static const routeName = '/style';
 
+  final String styleId;
+
+  // In the constructor, require a Todo.
+  StyleScreen({Key key,  this.styleId}) : super(key: key);
+
+  String get t {
+    return styleId;
+  }
+
   @override
   _StyleScreenState createState() => _StyleScreenState();
 }
 
 class _StyleScreenState extends State<StyleScreen> {
+  String currentStyleId ;
   List<Location> mLocationList;
+
 
   @override
   void initState() {
     super.initState();
     mLocationList = getAllLocations();
+    currentStyleId = widget.styleId;
+
+
   }
 
   @override

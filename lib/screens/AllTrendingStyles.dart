@@ -64,8 +64,6 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                             child: Row(
                               children: [
                                 Container(
-
-
                                   child: customTextWidget("Sort By",
                                       fontWeight: FontWeight.bold),
                                   // color: Colors.yellow,
@@ -80,14 +78,10 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                             ),
                           ),
                         ),
-
                         Text(UtilFunctions.getReadableSortByValue()),
                       ],
                     ),
                     onTap: () {
-                      // sortPopupPressed(context);
-                      // sortingPopupPressed(context);
-                      // showSortByDialog(context);
                       Future.delayed(const Duration(milliseconds: 1), () {
                         showDialog(
                           context: context,
@@ -138,12 +132,20 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                                     ),
                                   ),
                                   onTap: () {
-                                    //Goto Style screen
+                                    TrendingStyles ts =snapshot.data[index];
+                                    // Goto Style screen
+                                    // Navigator.push(
+                                    //     context,
+                                    //     new MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             new StyleScreen(ts.sty_id)));
                                     Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                            builder: (context) =>
-                                                new StyleScreen()));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => StyleScreen(styleId: ts.sty_id),
+                                      ),
+                                    );
+
                                   },
                                 ),
                                 Center(
