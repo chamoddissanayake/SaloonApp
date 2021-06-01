@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saloon_app/screens/MapScreen.dart';
+import 'package:saloon_app/screens/ProfileScreen.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key key}) : super(key: key);
@@ -15,10 +17,18 @@ class MainDrawer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: 50.0,
-                backgroundImage: NetworkImage(
-                  "https://images.unsplash.com/photo-1594616838951-c155f8d978a0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, new MaterialPageRoute(
+                      builder: (context) => new ProfileScreen()
+                  )
+                  );
+                },
+                child: CircleAvatar(
+                  radius: 50.0,
+                  backgroundImage: NetworkImage(
+                    "https://images.unsplash.com/photo-1594616838951-c155f8d978a0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+                  ),
                 ),
               ),
               SizedBox(
