@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:saloon_app/models/User.dart';
 import 'package:saloon_app/screens/PhoneNumberInputScreen.dart';
+import 'package:saloon_app/service/UserService.dart';
 
 const users = const {
   'aaa@gmail.com': 'aaa',
@@ -19,17 +21,35 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   Duration get loginTime => Duration(milliseconds: 2250);
 
-  Future<String> _authUser(LoginData data) {
+  Future<String> _authUser(LoginData data) async {
     print('Name: ${data.name}, Password: ${data.password}');
-    return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(data.name)) {
-        return 'Username not exists';
-      }
-      if (users[data.name] != data.password) {
+    User inputUserObj = new User();
+    inputUserObj.email = data.name;
+    inputUserObj.password = data.password;
+
+    User returnedUser = await validateUser(inputUserObj);
+
+
+    if(returnedUser.email != inputUserObj.email){
+      return 'Username not exists';
+    }else{
+      if(returnedUser.password == inputUserObj.password){
+        return null;
+        //Save state
+      }else{
         return 'Password does not match';
       }
-      return null;
-    });
+    }
+
+    // return Future.delayed(loginTime).then((_) {
+    //   if (!users.containsKey(data.name)) {
+    //     return 'Username not exists';
+    //   }
+    //   if (users[data.name] != data.password) {
+    //     return 'Password does not match';
+    //   }
+    //   return null;
+    // });
   }
 
   Future<String> _recoverPassword(String name) {
