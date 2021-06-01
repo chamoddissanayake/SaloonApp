@@ -80,6 +80,7 @@ flutter:
     - assets/images/item_view/
     - assets/images/booking_done/
     - assets/images/button_icons/
+    - assets/images/carousel/
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
