@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:saloon_app/models/User.dart';
 import 'package:saloon_app/screens/MainScreen.dart';
 
 class VerificationInputScreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class VerificationInputScreen extends StatefulWidget {
 
 class _VerificationInputScreenState extends State<VerificationInputScreen> {
   var onTapRecognizer;
+  User signUpUserObj;
 
   TextEditingController textEditingController = TextEditingController();
   // ..text = "123456";
@@ -47,6 +49,9 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    this.signUpUserObj = ModalRoute.of(context).settings.arguments as User;
+
     return Scaffold(
       // backgroundColor: Colors.blue.shade50,
       backgroundColor: Colors.white,
@@ -58,6 +63,10 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
           width: MediaQuery.of(context).size.width,
           child: ListView(
             children: <Widget>[
+              // Text(this.signUpUserObj.toString()),
+              Text(this.signUpUserObj.email),
+              Text(this.signUpUserObj.password),
+              Text(this.signUpUserObj.phone),
               SizedBox(height: 30),
               Container(
                 height: MediaQuery.of(context).size.height / 3,
@@ -85,7 +94,7 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
                       text: "Enter the code sent to ",
                       children: [
                         TextSpan(
-                            text: widget.phoneNumber,
+                            text: this.signUpUserObj.phone,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,

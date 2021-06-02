@@ -5,4 +5,5 @@ class User {
   var last_name = "";
   var gender = 0;
   var photo = "";
+  var phone = "";
 }
