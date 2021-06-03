@@ -6,6 +6,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:saloon_app/models/User.dart';
 import 'package:saloon_app/screens/MainScreen.dart';
 import 'package:saloon_app/service/UserService.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class VerificationInputScreen extends StatefulWidget {
   static const routeName = '/pin_verification';
@@ -48,7 +49,10 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
     super.dispose();
   }
 
-  void pinCodeEnteredDone(){
+  final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
+
+
+  void pinCodeEnteredDone()async {
 
     print(this.signUpUserObj);
     print("---");
@@ -59,6 +63,7 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
     print(this.signUpUserObj);
 
     addUser(this.signUpUserObj);
+    _btnController.success();
     Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
 
 
@@ -226,54 +231,64 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
                 child: ButtonTheme(
                   height: 50,
-                  child: FlatButton(
-                    onPressed: () {
-                     //goto Main
+                  child: RoundedLoadingButton(
+                    child: Text('Done', style: TextStyle(color: Colors.white)),
+                    controller: _btnController,
+                    onPressed: pinCodeEnteredDone,
+                  )
+                  // child: FlatButton(
+                  //   onPressed: () {
+                  //    //goto Main
+                  //
+                  //
+                  //     pinCodeEnteredDone();
+                  //     //uncomment
+                  //     // formKey.currentState.validate();
+                  //     // // conditions for validating
+                  //     // if (currentText.length != 6 || currentText != "towtow") {
+                  //     //   errorController.add(ErrorAnimationType
+                  //     //       .shake); // Triggering error shake animation
+                  //     //   setState(() {
+                  //     //     hasError = true;
+                  //     //   });
+                  //     // } else {
+                  //     //   setState(() {
+                  //     //     hasError = false;
+                  //     //     scaffoldKey.currentState.showSnackBar(SnackBar(
+                  //     //       content: Text("Aye!!"),
+                  //     //       duration: Duration(seconds: 2),
+                  //     //     ));
+                  //     //   });
+                  //     // }
+                  //   },
+                  //   child: Center(
+                  //       child: Text(
+                  //         "VERIFY".toUpperCase(),
+                  //         style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontSize: 18,
+                  //             fontWeight: FontWeight.bold),
+                  //       )),
+                  // ),
 
 
-                      pinCodeEnteredDone();
-                      //uncomment
-                      // formKey.currentState.validate();
-                      // // conditions for validating
-                      // if (currentText.length != 6 || currentText != "towtow") {
-                      //   errorController.add(ErrorAnimationType
-                      //       .shake); // Triggering error shake animation
-                      //   setState(() {
-                      //     hasError = true;
-                      //   });
-                      // } else {
-                      //   setState(() {
-                      //     hasError = false;
-                      //     scaffoldKey.currentState.showSnackBar(SnackBar(
-                      //       content: Text("Aye!!"),
-                      //       duration: Duration(seconds: 2),
-                      //     ));
-                      //   });
-                      // }
-                    },
-                    child: Center(
-                        child: Text(
-                          "VERIFY".toUpperCase(),
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
+
+
+
                 ),
-                decoration: BoxDecoration(
-                    color: Colors.blue.shade300,
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.blue.shade200,
-                          offset: Offset(1, -2),
-                          blurRadius: 5),
-                      BoxShadow(
-                          color: Colors.blue.shade200,
-                          offset: Offset(-1, 2),
-                          blurRadius: 5)
-                    ]),
+                // decoration: BoxDecoration(
+                //     color: Colors.blue.shade300,
+                //     borderRadius: BorderRadius.circular(25),
+                //     boxShadow: [
+                //       BoxShadow(
+                //           color: Colors.blue.shade200,
+                //           offset: Offset(1, -2),
+                //           blurRadius: 5),
+                //       BoxShadow(
+                //           color: Colors.blue.shade200,
+                //           offset: Offset(-1, 2),
+                //           blurRadius: 5)
+                //     ]),
               ),
               SizedBox(
                 height: 16,
