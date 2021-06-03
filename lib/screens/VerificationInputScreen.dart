@@ -5,6 +5,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:saloon_app/models/User.dart';
 import 'package:saloon_app/screens/MainScreen.dart';
+import 'package:saloon_app/service/UserService.dart';
 
 class VerificationInputScreen extends StatefulWidget {
   static const routeName = '/pin_verification';
@@ -47,6 +48,22 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
     super.dispose();
   }
 
+  void pinCodeEnteredDone(){
+
+    print(this.signUpUserObj);
+    print("---");
+    addNewUserToDB();
+  }
+
+  void addNewUserToDB() async {
+    print(this.signUpUserObj);
+
+    addUser(this.signUpUserObj);
+    Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -64,9 +81,9 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
           child: ListView(
             children: <Widget>[
               // Text(this.signUpUserObj.toString()),
-              Text(this.signUpUserObj.email),
-              Text(this.signUpUserObj.password),
-              Text(this.signUpUserObj.phone),
+              // Text(this.signUpUserObj.email),
+              // Text(this.signUpUserObj.password),
+              // Text(this.signUpUserObj.phone),
               SizedBox(height: 30),
               Container(
                 height: MediaQuery.of(context).size.height / 3,
@@ -213,8 +230,8 @@ class _VerificationInputScreenState extends State<VerificationInputScreen> {
                     onPressed: () {
                      //goto Main
 
-                      Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
 
+                      pinCodeEnteredDone();
                       //uncomment
                       // formKey.currentState.validate();
                       // // conditions for validating

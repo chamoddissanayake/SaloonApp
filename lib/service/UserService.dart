@@ -46,3 +46,28 @@ Future<User> validateUser(User inputUser) async {
   }
 
 }
+
+
+
+Future<bool> addUser(User newUser) async {
+
+      CollectionReference users = FirebaseFirestore.instance.collection('users');
+      return users.add({
+        "email": newUser.email,
+        "first_name":"",
+        "gender": 0,
+        "last_name": "",
+        "password": newUser.password,
+        "phone": newUser.phone,
+        "photo":""
+      })
+          .then((value) {
+            print("User Added");
+          } )
+          .catchError((error) {
+            print("Failed to add user: $error");
+          }
+      );
+
+
+}

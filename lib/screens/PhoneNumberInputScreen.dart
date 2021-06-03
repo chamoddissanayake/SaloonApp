@@ -26,7 +26,7 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Text(signUpUserObj.email),
+          // Text(signUpUserObj.email),
           (MediaQuery.of(context).orientation == Orientation.portrait)
               ? Container(
                   child: Image.asset(
