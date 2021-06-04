@@ -5,7 +5,10 @@ import 'package:saloon_app/models/User.dart';
 import 'package:saloon_app/screens/HomeScreen.dart';
 import 'package:saloon_app/screens/PhoneNumberInputScreen.dart';
 import 'package:saloon_app/service/UserService.dart';
+import 'package:saloon_app/utils/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+
 
 const users = const {
   'aaa@gmail.com': 'aaa',
