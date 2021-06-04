@@ -134,11 +134,6 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                                   onTap: () {
                                     TrendingStyles ts =snapshot.data[index];
                                     // Goto Style screen
-                                    // Navigator.push(
-                                    //     context,
-                                    //     new MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             new StyleScreen(ts.sty_id)));
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

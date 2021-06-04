@@ -7,6 +7,7 @@ import 'package:nice_button/NiceButton.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/service/StylesCategoriesService.dart';
 import 'package:saloon_app/widgets/AppBarWidget.dart';
+import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/CustomTitleSeeAllWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
 import 'package:saloon_app/widgets/CustomBookButton.dart';
@@ -17,6 +18,7 @@ import 'package:saloon_app/service/LocationService.dart';
 import 'package:saloon_app/widgets/BookingConfirmationDialog.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:saloon_app/utils/PriceUtils.dart';
+import 'package:skeletor/skeletor.dart';
 
 class StyleScreen extends StatefulWidget {
   static const routeName = '/style';
@@ -434,7 +436,16 @@ class _StyleScreenState extends State<StyleScreen> {
                 ],
               )
             : Container(
-                child: Text("Data not loaded"),
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    Text(""),
+                    customTextWidget("Loading"),
+                  ],
+                ),
               ),
       ),
     );

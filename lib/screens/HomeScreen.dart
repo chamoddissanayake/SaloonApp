@@ -15,6 +15,8 @@ import 'package:saloon_app/service/StylesCategoriesService.dart';
 import 'package:saloon_app/commons/TrendingStyles.dart';
 import 'package:saloon_app/commons/Categories.dart';
 
+import 'StyleScreen.dart';
+
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
 
@@ -90,10 +92,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: (){
-                                      print("-------");
-                                      snapshot.data[index];
-                                      print("-------");
-                                  },
+
+                                      TrendingStyles ts =snapshot.data[index];
+                                      // Goto Style screen
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => StyleScreen(styleId: ts.sty_id),
+                                        ),
+                                      );
+
+                                    },
                                     child: trendingStyles(
                                         snapshot.data[index], index),
                                   );
