@@ -75,6 +75,79 @@ Future<List<Categories>> getAllCategories() async {
 }
 
 
+Future<Categories> getCategoryById(String categoryId) async {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _categoriesCollection = _firestore.collection('categories');
+
+  // Get docs from collection reference
+  QuerySnapshot querySnapshot = await _categoriesCollection.get();
+
+  List<Categories> allData;
+
+  allData = querySnapshot.docs.map((doc)  {
+    Categories c = Categories();
+
+    if (categoryId == doc.id){
+      Map<String, Object> tmp = doc.data() as Map<String, Object>;
+      c.cat_id = doc.id;
+      c.name = tmp.remove("name");
+      c.image = tmp.remove("image");
+
+      return c;
+    }
+
+  }).toList();
+
+  List<Categories> newList = [];
+
+  for(var i = 0; i < allData.length; i++){
+    if(allData[i]!= null){
+      newList.add(allData[i]);
+    }
+    print("aa");
+  }
+
+return newList[0];
+}
+
+
+
+// List<TrendingStyles> allData;
+//
+// allData = querySnapshot.docs.map((doc)  {
+// TrendingStyles s1 = TrendingStyles();
+//
+// if (styleId==doc.id){
+// Map<String, Object> tmp = doc.data() as Map<String, Object>;
+// s1.name = tmp.remove("name");
+// s1.price = tmp.remove("price");
+// s1.image = tmp.remove("image");
+// s1.description = tmp.remove("description");
+// s1.category_id = tmp.remove("category_id");
+//
+// s1.styling_time = tmp.remove("styling_time");
+// s1.short_description = tmp.remove("short_description");
+//
+// return s1;
+// };
+//
+// }).toList();
+// List<TrendingStyles> newList = [];
+// for(var i = 0; i < allData.length; i++){
+// if(allData[i]!= null){
+// newList.add(allData[i]);
+// }
+// print("aa");
+// }
+//
+// return newList[0];
+
+
+
+
+
+
 Future<List<TrendingStyles>> getSortedTrendingResults(String selectedType) async {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -146,6 +219,42 @@ Future<List<TrendingStyles>> getAllTrendingStyles() async {
   return allData;
 }
 
+
+
+Future<List<TrendingStyles>> getAllTrendingStylesForAGivenCategory(String currentCatId) async {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _styleCollection = _firestore.collection('styles');
+
+  // Get docs from collection reference
+  QuerySnapshot querySnapshot = await _styleCollection.get();
+
+  List<TrendingStyles> allData;
+
+  allData = querySnapshot.docs.map((doc)  {
+    TrendingStyles s1 = TrendingStyles();
+
+    s1.sty_id=doc.id;
+    Map<String, Object> tmp = doc.data() as Map<String, Object>;
+    s1.name = tmp.remove("name");
+    s1.price = tmp.remove("price");
+    s1.image = tmp.remove("image");
+    s1.description = tmp.remove("description");
+    s1.category_id = tmp.remove("category_id");
+    s1.styling_time = tmp.remove("styling_time");
+    s1.short_description = tmp.remove("short_description");
+
+    return s1;
+  }).toList();
+
+  List<TrendingStyles> newSelectedCategoryStylesList = [];
+  for(var i = 0; i < allData.length; i++){
+    if(allData[i].category_id == currentCatId){
+      newSelectedCategoryStylesList.add(allData[i]);
+    }
+  }
+
+  return newSelectedCategoryStylesList;
+}
 
 
 

@@ -21,6 +21,7 @@ import 'package:saloon_app/screens/AllCategories.dart';
 import 'package:saloon_app/screens/StyleScreen.dart';
 import 'package:saloon_app/screens/PaymentScreen.dart';
 import 'package:saloon_app/screens/ProfileScreen.dart';
+import 'package:saloon_app/screens/SingleCategoryScreen.dart';
 
 import 'package:saloon_app/tools/tools.dart';
 
@@ -74,7 +75,7 @@ class MyApp extends StatelessWidget {
         '/style': (context) => StyleScreen(),
         '/payment': (context) => PaymentScreen(),
         '/profile': (context) => ProfileScreen(),
-
+        '/single_category': (context) => SingleCategoryScreen(),
 
 
       },

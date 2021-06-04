@@ -14,6 +14,7 @@ import 'package:saloon_app/models/Categories.dart';
 import 'package:saloon_app/service/StylesCategoriesService.dart';
 import 'package:saloon_app/commons/TrendingStyles.dart';
 import 'package:saloon_app/commons/Categories.dart';
+import 'package:saloon_app/screens/SingleCategoryScreen.dart';
 
 import 'StyleScreen.dart';
 
@@ -191,6 +192,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                       print("-------");
                                       snapshot.data[index];
                                       print("-------");
+
+
+                                      Categories ts =snapshot.data[index];
+                                      // Goto Style screen
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SingleCategoryScreen(catId: ts.cat_id),
+                                        ),
+                                      );
+
+
                                     },
                                     child: categories(
                                         snapshot.data[index], index),
