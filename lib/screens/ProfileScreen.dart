@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:saloon_app/screens/LoadingScreen.dart';
 import 'package:saloon_app/screens/LoginSignUpScreen.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/utils/google/authentication.dart';
+import 'package:saloon_app/screens/LoginSignUpScreen.dart';
 import 'package:saloon_app/widgets/CustomBackIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -228,13 +230,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Future<SharedPreferences> _prefGUser = SharedPreferences.getInstance();
     final SharedPreferences prefGUser = await _prefGUser;
 
-    // prefGUser.getString('uid');
-    // prefGUser.getString('email');
-    // prefGUser.getString('displayName');
-    // prefGUser.getString('photoURL');
 
+    // setState(() {
+    //   _isSigningOut = true;
+    // });
+    await Authentication.signOut(context: context);
+    // setState(() {
+    //   _isSigningOut = false;
+    // });
 
-    Navigator.of(context).pushReplacementNamed(LoginSignupScreen.routeName);
+    // // prefGUser.getString('uid');
+    // // prefGUser.getString('email');
+    // // prefGUser.getString('displayName');
+    // // prefGUser.getString('photoURL');
+    //
+    //
+
+    // Navigator.of(context).pushReplacementNamed(LoadingScreen.routeName);
+    Navigator.of(context).pushReplacement(_routeToSignInScreen());
 
   }
+
+  Route _routeToSignInScreen() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => LoginSignupScreen(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(-1.0, 0.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween =
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
 }
+
+
+

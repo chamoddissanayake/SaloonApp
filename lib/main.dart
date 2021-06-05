@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LoadingScreen(),
+        '/loading': (context) => LoadingScreen(),
         '/intro': (context) => IntroScreen(),
         '/login_sign_up': (context) => LoginSignupScreen(),
         '/phone_number_input': (context) => PhoneNumberInputScreen(),
@@ -76,6 +77,8 @@ class MyApp extends StatelessWidget {
         '/payment': (context) => PaymentScreen(),
         '/profile': (context) => ProfileScreen(),
         '/single_category': (context) => SingleCategoryScreen(),
+
+
 
 
       },

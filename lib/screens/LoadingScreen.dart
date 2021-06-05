@@ -4,6 +4,7 @@ import 'package:saloon_app/screens/MainScreen.dart';
 import 'package:saloon_app/screens/MapScreen.dart';
 
 class LoadingScreen extends StatefulWidget {
+  static const routeName = '/loading';
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
