@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:nice_button/NiceButton.dart';
-import 'package:saloon_app/models/User.dart';
+import 'package:saloon_app/models/CustomUser.dart';
 import 'package:saloon_app/screens/VerificationInputScreen.dart';
 class PhoneNumberInputScreen extends StatefulWidget {
   static const routeName = '/phone_number_input';
@@ -11,13 +11,13 @@ class PhoneNumberInputScreen extends StatefulWidget {
 }
 
 class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
-  User signUpUserObj;
+  CustomUser signUpUserObj;
   String inputPhone ;
 
   @override
   Widget build(BuildContext context) {
 
-    final signUpUserObj = ModalRoute.of(context).settings.arguments as User;
+    final signUpUserObj = ModalRoute.of(context).settings.arguments as CustomUser;
 
     return Scaffold(
         body: Container(

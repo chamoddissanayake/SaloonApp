@@ -1,4 +1,4 @@
-class User {
+class CustomUser {
   var email="";
   var password = "";
   var first_name = "";

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:saloon_app/models/User.dart';
+import 'package:saloon_app/models/CustomUser.dart';
 
-Future<User> validateUser(User inputUser) async {
+Future<CustomUser> validateUser(CustomUser inputUser) async {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference _styleCollection = _firestore.collection('users');
@@ -12,7 +12,7 @@ Future<User> validateUser(User inputUser) async {
   QuerySnapshot querySnapshot = await _styleCollection.get();
 
   final allData = querySnapshot.docs.map((doc)  {
-    User s1 = User();
+    CustomUser s1 = CustomUser();
 
     Map<String, Object> tmp = doc.data() as Map<String, Object>;
     s1.email = tmp.remove("email");
@@ -26,9 +26,9 @@ Future<User> validateUser(User inputUser) async {
   }).toList();
 
   print(allData);
-  List<User> foundUser = List<User>();
+  List<CustomUser> foundUser = List<CustomUser>();
   for(var i = 0; i < allData.length; i++){
-    User  tempUsr = new User();
+    CustomUser  tempUsr = new CustomUser();
 
     if(allData[i].email == inputUser.email ){
       tempUsr.email = allData[i].email;
@@ -40,7 +40,7 @@ Future<User> validateUser(User inputUser) async {
   }
 
   if (foundUser.length == 0){
-    return new User();
+    return new CustomUser();
   }else{
     return foundUser[0];
   }
@@ -49,7 +49,7 @@ Future<User> validateUser(User inputUser) async {
 
 
 
-Future<bool> addUser(User newUser) async {
+Future<bool> addUser(CustomUser newUser) async {
 
       CollectionReference users = FirebaseFirestore.instance.collection('users');
       return users.add({
