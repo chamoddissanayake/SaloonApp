@@ -55,6 +55,7 @@ dependencies:
   # state management
   provider: ^5.0.0
   skeletor: ^0.0.3
+  overlay_container: ^0.0.5+1
 
 dev_dependencies:
   flutter_test:

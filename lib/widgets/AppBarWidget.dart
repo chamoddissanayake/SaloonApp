@@ -55,16 +55,6 @@ class AppBarWidget extends StatelessWidget {
                     print("pressed");
                     Scaffold.of(context).openDrawer();
                   },
-                  // child: new Container(
-                  // color: Colors.red,
-                  //   padding:
-                  //   const EdgeInsets.fromLTRB(12.0, 16.0, 16.0, 16.0),
-                  // child: UtilCommonWidget.addImage(Constant.iconBack, 19.0, 10.0))
-                  // child: Icon(
-                  //   CupertinoIcons.bars,
-                  //   color: Colors.green,
-                  // )
-                  // // ),
                 child: Container(
                   color: Colors.white,
                   width: 80.0,

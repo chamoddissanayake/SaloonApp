@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/service/SearchService.dart';
+import 'package:saloon_app/screens/StyleScreen.dart';
 import 'package:saloon_app/service/StylesCategoriesService.dart';
 import 'package:saloon_app/widgets/SearchResultCard.dart';
 
@@ -110,7 +111,19 @@ class _SearchScreenState extends State<SearchScreen> {
                   Column(
                       mainAxisSize: MainAxisSize.min,
                       children: snapshot.data.map((searchResultItem) {
-                        return searchResultCardWidget(searchResultItem.image, searchResultItem.name, searchResultItem.price);
+                        return GestureDetector(onTap: (){
+                          // TrendingStyles ts =snapshot.data[index];
+                          // TrendingStyles ts = searchResultItem.sty_id;
+
+                          // Goto Style screen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StyleScreen(styleId: searchResultItem.sty_id),
+                            ),
+                          );
+                        }
+                        , child: searchResultCardWidget(searchResultItem.image, searchResultItem.name, searchResultItem.price));
                       }).toList(),
                     ),
 
