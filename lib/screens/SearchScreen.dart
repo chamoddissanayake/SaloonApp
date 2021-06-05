@@ -119,7 +119,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => StyleScreen(styleId: searchResultItem.sty_id),
+                              builder: (context) => StyleScreen(styleId: searchResultItem.sty_id, prevCtx: context),
                             ),
                           );
                         }

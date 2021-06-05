@@ -137,7 +137,7 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => StyleScreen(styleId: ts.sty_id),
+                                        builder: (context) => StyleScreen(styleId: ts.sty_id, prevCtx: context),
                                       ),
                                     );
 

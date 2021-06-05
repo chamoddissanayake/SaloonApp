@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-Widget customBackIcon(var color, var icon, var iconColor) {
+Widget customBackIcon(var color, var icon, var iconColor, BuildContext prevCtx) {
   return GestureDetector(
     onTap: (){
-      print("dsfds");
+      Navigator.pop(prevCtx);
     },
     child: Container(
         width: 38,

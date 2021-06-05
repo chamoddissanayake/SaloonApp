@@ -1,7 +1,7 @@
 // import 'dart:html';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nice_button/NiceButton.dart';
 import 'package:overlay_container/overlay_container.dart';
@@ -25,12 +25,16 @@ class StyleScreen extends StatefulWidget {
   static const routeName = '/style';
 
   final String styleId;
+  final BuildContext prevCtx ;
 
   // In the constructor, require a Todo.
-  StyleScreen({Key key, this.styleId}) : super(key: key);
+  StyleScreen({Key key, this.styleId, this.prevCtx}) : super(key: key);
 
   String get t {
     return styleId;
+  }
+  BuildContext get p {
+    return prevCtx;
   }
 
   @override
@@ -42,6 +46,7 @@ class _StyleScreenState extends State<StyleScreen> {
 
   List<Location> mLocationList;
   TrendingStyles currentStyleObj;
+  BuildContext prevCtx;
 
   @override
   void initState() {
@@ -49,6 +54,7 @@ class _StyleScreenState extends State<StyleScreen> {
 
     // mLocationList = getAllLocations();
     currentStyleId = widget.styleId;
+    prevCtx = widget.prevCtx;
     loadCurrentStyleData();
     print(currentStyleObj);
   }
@@ -83,41 +89,34 @@ class _StyleScreenState extends State<StyleScreen> {
                   Column(
                     children: <Widget>[
 
-                      GestureDetector(
-                        onTap: (){
-                          print("aaa");
-                          Navigator.pop(context);
-
-                        },
-                        child: OverlayContainer(
-                          materialColor: Colors.red,
-                          show: true,
-                          // Let's position this overlay to the right of the button.
-                          position: OverlayContainerPosition(
-                            // Left position.
-                            20,
-                            // Bottom position.
-                            -30,
+                      OverlayContainer(
+                        materialColor: Colors.red,
+                        show: true,
+                        // Let's position this overlay to the right of the button.
+                        position: OverlayContainerPosition(
+                          // Left position.
+                          20,
+                          // Bottom position.
+                          -30,
+                        ),
+                        // The content inside the overlay.
+                        child: Container(
+                          height: 45,
+                          padding: const EdgeInsets.all(1),
+                          margin: const EdgeInsets.only(top: 5),
+                          decoration: BoxDecoration(
+                            // color: Colors.grey,
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Colors.grey[300],
+                                blurRadius: 3,
+                                spreadRadius: 6,
+                              )
+                            ],
                           ),
-                          // The content inside the overlay.
-                          child: Container(
-                            height: 45,
-                            padding: const EdgeInsets.all(1),
-                            margin: const EdgeInsets.only(top: 5),
-                            decoration: BoxDecoration(
-                              // color: Colors.grey,
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                  color: Colors.grey[300],
-                                  blurRadius: 3,
-                                  spreadRadius: 6,
-                                )
-                              ],
-                            ),
-                            child: customBackIcon(Colors.white,
-                                Icons.keyboard_arrow_left, Colors.grey),
-                          )),
-                      ),
+                          child: customBackIcon(Colors.white,
+                              Icons.keyboard_arrow_left, Colors.grey,  prevCtx),
+                        )),
 
 
                       Container(
@@ -200,280 +199,280 @@ class _StyleScreenState extends State<StyleScreen> {
                           color: Colors.white),
                       margin: EdgeInsets.only(
                           top: MediaQuery.of(context).size.width / 1.35),
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(20.0),
-                  //       child: SingleChildScrollView(
-                  //         child: Column(
-                  //           crossAxisAlignment: CrossAxisAlignment.start,
-                  //           children: <Widget>[
-                  //             Container(
-                  //               alignment: Alignment.centerRight,
-                  //               width: MediaQuery.of(context).size.width,
-                  //               child: GestureDetector(
-                  //                 child: new Image.asset(
-                  //                   "assets/images/bottom_bar/favourites.png",
-                  //                   width: 45,
-                  //                   height: 45,
-                  //                 ),
-                  //                 onTap: () {
-                  //                   print('Heart pressed');
-                  //                 },
-                  //               ),
-                  //             ),
-                  //             Divider(),
-                  //             Container(
-                  //               width: MediaQuery.of(context).size.width,
-                  //               child: Text(
-                  //                 currentStyleObj.description,
-                  //               ),
-                  //             ),
-                  //             SizedBox(
-                  //               height: 10,
-                  //             ),
-                  //             Divider(),
-                  //             Row(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               mainAxisAlignment:
-                  //                   MainAxisAlignment.spaceBetween,
-                  //               children: [
-                  //                 Row(
-                  //                   children: [
-                  //                     Text(
-                  //                       'Price:  ',
-                  //                       style: TextStyle(
-                  //                           fontWeight: FontWeight.bold,
-                  //                           fontSize: 20),
-                  //                     ),
-                  //                     Text("\$ "+currentStyleObj.price,
-                  //                         style: TextStyle(
-                  //                             fontWeight: FontWeight.bold,
-                  //                             fontSize: 20)),
-                  //                     Padding(
-                  //                       padding: const EdgeInsets.fromLTRB(
-                  //                           15, 5, 0, 0),
-                  //                       child: Text("\$ "+PriceUtils.getFullPrice(currentStyleObj.price),
-                  //                           style: TextStyle(
-                  //                               fontWeight: FontWeight.bold,
-                  //                               fontSize: 15,
-                  //                               color: Colors.red,
-                  //                               decoration: TextDecoration
-                  //                                   .lineThrough)),
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //                 Row(
-                  //                   children: [
-                  //                     Text('Time:  ',
-                  //                         style: TextStyle(
-                  //                             fontWeight: FontWeight.bold,
-                  //                             fontSize: 20)),
-                  //                     Text(currentStyleObj.styling_time+ " mins",
-                  //                         style: TextStyle(
-                  //                             fontWeight: FontWeight.bold,
-                  //                             fontSize: 20)),
-                  //                   ],
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //             Divider(),
-                  //             Container(
-                  //               alignment: Alignment.centerLeft,
-                  //               width: MediaQuery.of(context).size.width,
-                  //               child: Padding(
-                  //                 padding:
-                  //                     const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  //                 child: Text(
-                  //                   "Select Branch",
-                  //                   style: TextStyle(
-                  //                       fontSize: 17,
-                  //                       fontWeight: FontWeight.bold),
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //             FutureBuilder<List<Location>>(
-                  //                 future: getAllLocations(),
-                  //                 builder: (BuildContext context,
-                  //                     AsyncSnapshot<List<Location>> snapshot) {
-                  //                   List<Widget> children;
-                  //                   if (snapshot.hasData) {
-                  //                     children = <Widget>[
-                  //                       SizedBox(
-                  //                         height: MediaQuery.of(context)
-                  //                                 .size
-                  //                                 .width *
-                  //                             0.27,
-                  //                         child: ListView.builder(
-                  //                             scrollDirection: Axis.horizontal,
-                  //                             itemCount: snapshot.data.length,
-                  //                             shrinkWrap: true,
-                  //                             itemBuilder: (context, index) {
-                  //                               return Container(
-                  //                                   // color: Colors.yellow,
-                  //                                   // height: 50,
-                  //                                   child: locations(
-                  //                                       snapshot.data[index],
-                  //                                       index));
-                  //                             }),
-                  //                       ),
-                  //                     ];
-                  //                   } else if (snapshot.hasError) {
-                  //                     children = <Widget>[
-                  //                       const Icon(
-                  //                         Icons.error_outline,
-                  //                         color: Colors.red,
-                  //                         size: 60,
-                  //                       ),
-                  //                       Padding(
-                  //                         padding:
-                  //                             const EdgeInsets.only(top: 16),
-                  //                         child:
-                  //                             Text('Error: ${snapshot.error}'),
-                  //                       )
-                  //                     ];
-                  //                   } else {
-                  //                     children = const <Widget>[
-                  //                       SizedBox(
-                  //                         child: CircularProgressIndicator(),
-                  //                         width: 60,
-                  //                         height: 60,
-                  //                       ),
-                  //                       Padding(
-                  //                         padding: EdgeInsets.only(top: 16),
-                  //                         child: Text('Awaiting result...'),
-                  //                       )
-                  //                     ];
-                  //                   }
-                  //                   return Center(
-                  //                     child: Column(
-                  //                       mainAxisAlignment:
-                  //                           MainAxisAlignment.center,
-                  //                       crossAxisAlignment:
-                  //                           CrossAxisAlignment.center,
-                  //                       children: children,
-                  //                     ),
-                  //                   );
-                  //                 }),
-                  //             Divider(),
-                  //             Container(
-                  //               alignment: Alignment.centerLeft,
-                  //               width: MediaQuery.of(context).size.width,
-                  //               child: Padding(
-                  //                 padding:
-                  //                     const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  //                 child: Text(
-                  //                   "Select Date and Time",
-                  //                   style: TextStyle(
-                  //                       fontSize: 17,
-                  //                       fontWeight: FontWeight.bold),
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //             Container(
-                  //               child: DateTimePicker(
-                  //                 type: DateTimePickerType.dateTimeSeparate,
-                  //                 dateMask: 'd MMM, yyyy',
-                  //                 initialValue: DateTime.now().toString(),
-                  //                 firstDate: DateTime(2000),
-                  //                 lastDate: DateTime(2100),
-                  //                 icon: Icon(Icons.event),
-                  //                 dateLabelText: 'Date',
-                  //                 timeLabelText: "Hour",
-                  //                 selectableDayPredicate: (date) {
-                  //                   // Disable weekend days to select from the calendar
-                  //                   if (date.weekday == 6 ||
-                  //                       date.weekday == 7) {
-                  //                     return false;
-                  //                   }
-                  //
-                  //                   return true;
-                  //                 },
-                  //                 onChanged: (val) => print(val),
-                  //                 validator: (val) {
-                  //                   print(val);
-                  //                   return null;
-                  //                 },
-                  //                 onSaved: (val) => print(val),
-                  //               ),
-                  //             ),
-                  //             Divider(),
-                  //             Container(
-                  //               alignment: Alignment.centerLeft,
-                  //               width: MediaQuery.of(context).size.width,
-                  //               child: Padding(
-                  //                 padding:
-                  //                     const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  //                 child: Text(
-                  //                   "See Customer Photos and ratings",
-                  //                   style: TextStyle(
-                  //                       fontSize: 17,
-                  //                       fontWeight: FontWeight.bold),
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //             Container(
-                  //               width: MediaQuery.of(context).size.width,
-                  //               child: Row(
-                  //                 mainAxisAlignment:
-                  //                     MainAxisAlignment.spaceAround,
-                  //                 children: [
-                  //                   Column(
-                  //                     children: [
-                  //                       IconButton(
-                  //                         icon: new Image.asset(
-                  //                           "assets/images/item_view/camera.png",
-                  //                           width: 50,
-                  //                           height: 50,
-                  //                         ),
-                  //                         tooltip: 'View Customer Photo',
-                  //                         onPressed: () {},
-                  //                       ),
-                  //                       Text('Customer Photos'),
-                  //                     ],
-                  //                   ),
-                  //                   Column(
-                  //                     children: [
-                  //                       IconButton(
-                  //                         icon: new Image.asset(
-                  //                           "assets/images/item_view/rating.png",
-                  //                           width: 50,
-                  //                           height: 50,
-                  //                         ),
-                  //                         tooltip: 'View Ratings',
-                  //                         onPressed: () {},
-                  //                       ),
-                  //                       Text('Ratings'),
-                  //                     ],
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //             Divider(),
-                  //             SizedBox(height: 10),
-                  //             Container(
-                  //               width: MediaQuery.of(context).size.width,
-                  //               child: CustomBookButton(
-                  //                 bgColor: Colors.blue,
-                  //                 textContent: "Book Now",
-                  //                 onPressed: () {
-                  //                   Future.delayed(
-                  //                       const Duration(milliseconds: 1), () {
-                  //                     showDialog(
-                  //                       context: context,
-                  //                       builder: (BuildContext context) =>
-                  //                           BookingConfirmationDialog(),
-                  //                     );
-                  //                   });
-                  //                 },
-                  //               ),
-                  //             ),
-                  //             SizedBox(
-                  //               height: 16,
-                  //             ),
-                  //             Divider(),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                alignment: Alignment.centerRight,
+                                width: MediaQuery.of(context).size.width,
+                                child: GestureDetector(
+                                  child: new Image.asset(
+                                    "assets/images/bottom_bar/favourites.png",
+                                    width: 45,
+                                    height: 45,
+                                  ),
+                                  onTap: () {
+                                    print('Heart pressed');
+                                  },
+                                ),
+                              ),
+                              Divider(),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Text(
+                                  currentStyleObj.description,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Price:  ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      Text("\$ "+currentStyleObj.price,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20)),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            15, 5, 0, 0),
+                                        child: Text("\$ "+PriceUtils.getFullPrice(currentStyleObj.price),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                                color: Colors.red,
+                                                decoration: TextDecoration
+                                                    .lineThrough)),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text('Time:  ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20)),
+                                      Text(currentStyleObj.styling_time+ " mins",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Divider(),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  child: Text(
+                                    "Select Branch",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                              FutureBuilder<List<Location>>(
+                                  future: getAllLocations(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<List<Location>> snapshot) {
+                                    List<Widget> children;
+                                    if (snapshot.hasData) {
+                                      children = <Widget>[
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.27,
+                                          child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: snapshot.data.length,
+                                              shrinkWrap: true,
+                                              itemBuilder: (context, index) {
+                                                return Container(
+                                                    // color: Colors.yellow,
+                                                    // height: 50,
+                                                    child: locations(
+                                                        snapshot.data[index],
+                                                        index));
+                                              }),
+                                        ),
+                                      ];
+                                    } else if (snapshot.hasError) {
+                                      children = <Widget>[
+                                        const Icon(
+                                          Icons.error_outline,
+                                          color: Colors.red,
+                                          size: 60,
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 16),
+                                          child:
+                                              Text('Error: ${snapshot.error}'),
+                                        )
+                                      ];
+                                    } else {
+                                      children = const <Widget>[
+                                        SizedBox(
+                                          child: CircularProgressIndicator(),
+                                          width: 60,
+                                          height: 60,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 16),
+                                          child: Text('Awaiting result...'),
+                                        )
+                                      ];
+                                    }
+                                    return Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: children,
+                                      ),
+                                    );
+                                  }),
+                              Divider(),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  child: Text(
+                                    "Select Date and Time",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: DateTimePicker(
+                                  type: DateTimePickerType.dateTimeSeparate,
+                                  dateMask: 'd MMM, yyyy',
+                                  initialValue: DateTime.now().toString(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2100),
+                                  icon: Icon(Icons.event),
+                                  dateLabelText: 'Date',
+                                  timeLabelText: "Hour",
+                                  selectableDayPredicate: (date) {
+                                    // Disable weekend days to select from the calendar
+                                    if (date.weekday == 6 ||
+                                        date.weekday == 7) {
+                                      return false;
+                                    }
+
+                                    return true;
+                                  },
+                                  onChanged: (val) => print(val),
+                                  validator: (val) {
+                                    print(val);
+                                    return null;
+                                  },
+                                  onSaved: (val) => print(val),
+                                ),
+                              ),
+                              Divider(),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  child: Text(
+                                    "See Customer Photos and ratings",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        IconButton(
+                                          icon: new Image.asset(
+                                            "assets/images/item_view/camera.png",
+                                            width: 50,
+                                            height: 50,
+                                          ),
+                                          tooltip: 'View Customer Photo',
+                                          onPressed: () {},
+                                        ),
+                                        Text('Customer Photos'),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        IconButton(
+                                          icon: new Image.asset(
+                                            "assets/images/item_view/rating.png",
+                                            width: 50,
+                                            height: 50,
+                                          ),
+                                          tooltip: 'View Ratings',
+                                          onPressed: () {},
+                                        ),
+                                        Text('Ratings'),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Divider(),
+                              SizedBox(height: 10),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: CustomBookButton(
+                                  bgColor: Colors.blue,
+                                  textContent: "Book Now",
+                                  onPressed: () {
+                                    Future.delayed(
+                                        const Duration(milliseconds: 1), () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            BookingConfirmationDialog(),
+                                      );
+                                    });
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Divider(),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   )
                 ],

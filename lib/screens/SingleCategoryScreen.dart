@@ -159,7 +159,7 @@ class _SingleCategoryScreenState extends State<SingleCategoryScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => StyleScreen(styleId: ts.sty_id),
+                                          builder: (context) => StyleScreen(styleId: ts.sty_id, prevCtx: context),
                                         ),
                                       );
 

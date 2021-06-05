@@ -44,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 customBackIcon(
-                                    Colors.white, Icons.keyboard_arrow_left, Colors.grey)
+                                    Colors.white, Icons.keyboard_arrow_left, Colors.grey, context)
                               ],
                             ),
                             Padding(
