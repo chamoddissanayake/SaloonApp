@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:saloon_app/screens/LoginSignUpScreen.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
+import 'package:saloon_app/utils/google/authentication.dart';
 import 'package:saloon_app/widgets/CustomBackIcon.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
@@ -165,19 +168,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                        child: customTextWidget("Logout",
-                            textColor: Colors.white,
-                            isCentered: true,
-                            fontWeight: FontWeight.bold,
-                            textAllCaps: true),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade300,
-                          borderRadius: BorderRadius.circular(25),
-                          // bgColor: widget.bgColor,
-                          // radius: 6
-                        )),
+                    GestureDetector(onTap: (){
+
+                      logoutPressed();
+
+
+                    },
+                      child: Container(
+                          padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                          child: customTextWidget("Logout",
+                              textColor: Colors.white,
+                              isCentered: true,
+                              fontWeight: FontWeight.bold,
+                              textAllCaps: true),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade300,
+                            borderRadius: BorderRadius.circular(25),
+                            // bgColor: widget.bgColor,
+                            // radius: 6
+                          )),
+                    ),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -209,5 +219,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  void logoutPressed() async{
+
+
+
+    Future<SharedPreferences> _prefGUser = SharedPreferences.getInstance();
+    final SharedPreferences prefGUser = await _prefGUser;
+
+    // prefGUser.getString('uid');
+    // prefGUser.getString('email');
+    // prefGUser.getString('displayName');
+    // prefGUser.getString('photoURL');
+
+
+    Navigator.of(context).pushReplacementNamed(LoginSignupScreen.routeName);
+
   }
 }

@@ -9,6 +9,8 @@ import 'package:saloon_app/utils/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:saloon_app/screens/MainScreen.dart';
+import 'package:saloon_app/utils/google/authentication.dart';
+import 'package:saloon_app/utils/google/google_sign_in_button.dart';
 
 
 const users = const {
@@ -104,58 +106,115 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
     return Scaffold(
         body:  Container(
-          // padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-          child: FlutterLogin(
-            title: '',
-            logo: 'assets/images/logo/logo.png',
-            onLogin: _loginUser,
-            onSignup: _signUpUser,
-            theme: LoginTheme(
+          padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+          // child: FlutterLogin(
+          //   title: '',
+          //   logo: 'assets/images/logo/logo.png',
+          //   onLogin: _loginUser,
+          //   onSignup: _signUpUser,
+          //   theme: LoginTheme(
+          //
+          //     buttonTheme: LoginButtonTheme(
+          //       splashColor: Colors.lightBlue,
+          //       backgroundColor: Colors.lightBlue,
+          //       highlightColor: Colors.lightBlue,
+          //       elevation: 5.0,
+          //       highlightElevation: 6.0,
+          //     ),
+          //
+          //
+          //
+          //   ),
+          //   onSubmitAnimationCompleted: () {
+          //
+          //     // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          //     Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+          //     //
+          //   },
+          //   onRecoverPassword: _recoverPassword,
+          //
+          //   loginProviders: <LoginProvider>[
+          //     LoginProvider(
+          //       icon: FontAwesomeIcons.google,
+          //       callback: () async {
+          //
+          //         final provider =
+          //         Provider.of<GoogleSignInProvider>(context, listen: false);
+          //         provider.login();
+          //
+          //         // Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+          //
+          //         // print('start google sign in');
+          //         // await Future.delayed(loginTime);
+          //         // print('stop google sign in');
+          //         // return null;
+          //       },
+          //
+          //       // LoginProvider(
+          //       //   icon: FontAwesomeIcons.facebookF,
+          //       //   callback: () async {
+          //       //     print('start facebook sign in');
+          //       //     await Future.delayed(loginTime);
+          //       //     print('stop facebook sign in');
+          //       //     return null;
+          //       //   },
+          //       // ),
+          //     ),
+          //
+          //   ],
+          //
+          // ),
 
-              buttonTheme: LoginButtonTheme(
-                splashColor: Colors.lightBlue,
-                backgroundColor: Colors.lightBlue,
-                highlightColor: Colors.lightBlue,
-                elevation: 5.0,
-                highlightElevation: 6.0,
-              ),
-
-
-
-            ),
-            onSubmitAnimationCompleted: () {
-
-              // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-              Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
-              //
+          child: FutureBuilder(
+            future: Authentication.initializeFirebase(context: context),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error initializing Firebase');
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                return GoogleSignInButton();
+              }
+              return CircularProgressIndicator(
+                // valueColor: AlwaysStoppedAnimation<Color>(
+                //   CustomColors.firebaseOrange,
+                // ),
+              );
             },
-            onRecoverPassword: _recoverPassword,
-
-            loginProviders: <LoginProvider>[
-              LoginProvider(
-                icon: FontAwesomeIcons.google,
-                callback: () async {
-                  print('start google sign in');
-                  await Future.delayed(loginTime);
-                  print('stop google sign in');
-                  return null;
-                },
-              ),
-              LoginProvider(
-                icon: FontAwesomeIcons.facebookF,
-                callback: () async {
-                  print('start facebook sign in');
-                  await Future.delayed(loginTime);
-                  print('stop facebook sign in');
-                  return null;
-                },
-              ),
-            ],
-
           ),
+
+          // child: GestureDetector(
+          //   onTap: () {
+          //     this.googleLoginPressed();
+          //   },
+          //   child: Container(
+          //     child: Padding(
+          //       padding: EdgeInsets.all(6),
+          //       child: Wrap(
+          //         crossAxisAlignment: WrapCrossAlignment.center,
+          //         children: [
+          //           Icon(Icons.android), // <-- Use 'Image.asset(...)' here
+          //           SizedBox(width: 12),
+          //           Text('Sign in with Google'),
+          //         ],
+          //       ),
+          //     ),
+          //
+          //     decoration: BoxDecoration(
+          //       color: Colors.lightBlue,
+          //       borderRadius: BorderRadius.circular(20.0),
+          //     ),
+          //
+          //   ),
+          // ),
         )
 
     );
 
+
+
+  }
+
+  void googleLoginPressed() {
+    final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
+    provider.login();
   }
 }

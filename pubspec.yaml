@@ -90,6 +90,7 @@ flutter:
     - assets/images/booking_done/
     - assets/images/button_icons/
     - assets/images/carousel/
+    - assets/images/google/
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
