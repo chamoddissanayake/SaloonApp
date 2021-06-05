@@ -8,6 +8,7 @@ import 'package:saloon_app/service/UserService.dart';
 import 'package:saloon_app/utils/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:saloon_app/screens/MainScreen.dart';
 
 
 const users = const {
@@ -124,7 +125,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             ),
             onSubmitAnimationCompleted: () {
 
-              Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+              // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+              Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+              //
             },
             onRecoverPassword: _recoverPassword,
 
