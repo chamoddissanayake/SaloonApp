@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/models/Categories.dart';
 
@@ -326,7 +327,7 @@ Future<List<TrendingStyles>> getATrendingStyleForSearch(String searchKeyword) as
       return s1;
     }else{
       String tempName = tmp.remove("name");
-      if(tempName.contains(searchKeyword)){
+
         s1.name = tempName;
         s1.price = tmp.remove("price");
         s1.image = tmp.remove("image");
@@ -334,12 +335,9 @@ Future<List<TrendingStyles>> getATrendingStyleForSearch(String searchKeyword) as
         s1.category_id = tmp.remove("category_id");
 
         return s1;
-      }
 
     }
-
-
-  }).toList();
+  }).takeWhile((value) => (value.name.toLowerCase().contains(searchKeyword.toLowerCase()))).toList();
   return allData;
 
 }
