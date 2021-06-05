@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_restart/flutter_restart.dart';
 import 'package:saloon_app/screens/LoadingScreen.dart';
 import 'package:saloon_app/screens/LoginSignUpScreen.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
@@ -246,8 +247,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     //
     //
 
-    // Navigator.of(context).pushReplacementNamed(LoadingScreen.routeName);
-    Navigator.of(context).pushReplacement(_routeToSignInScreen());
+    // Navigator.of(context).pushReplacementNamed(LoginSignupScreen.routeName);
+    // Navigator.of(context).pushReplacement(_routeToSignInScreen());
+    // Navigator.push(context, new MaterialPageRoute(
+    //     builder: (context) => new LoginSignupScreen())
+    // );
+    FlutterRestart.restartApp();
 
   }
 
