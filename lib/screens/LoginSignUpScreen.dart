@@ -137,19 +137,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             loginProviders: <LoginProvider>[
               LoginProvider(
                 icon: FontAwesomeIcons.google,
-                callback: () async {
-
-                  // final provider =
-                  // Provider.of<GoogleSignInProvider>(context, listen: false);
-                  // provider.login();
-                  //
-                  // // Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
-                  //
-
-                  googleLoginBtnPressed();
-
-
-                },
+                callback: () =>  googleLoginBtnPressed(),
 
                 // LoginProvider(
                 //   icon: FontAwesomeIcons.facebookF,
@@ -166,21 +154,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
           ),
 
-          // child: FutureBuilder(
-          //   future: Authentication.initializeFirebase(context: context),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.hasError) {
-          //       return Text('Error initializing Firebase');
-          //     } else if (snapshot.connectionState == ConnectionState.done) {
-          //       return GoogleSignInButton();
-          //     }
-          //     return CircularProgressIndicator(
-          //       // valueColor: AlwaysStoppedAnimation<Color>(
-          //       //   CustomColors.firebaseOrange,
-          //       // ),
-          //     );
-          //   },
-          // ),
 
         )
 
@@ -195,14 +168,14 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     provider.login();
   }
 
-  void googleLoginBtnPressed() async {
+  Future<String> googleLoginBtnPressed() async {
 
     // setState(() {
     //   _isSigningIn = true;
     // });
     // print(context);
     User user =
-        await Authentication.signInWithGoogle(context: context);
+       await  Authentication.signInWithGoogle(context: context);
 
     // setState(() {
     //   _isSigningIn = false;
@@ -216,9 +189,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
           context,
           MainScreen.routeName
       );
-
+      return null;
     }
-
+    return null;
   }
 
   void addUserToSharedPreference(User user) async{
