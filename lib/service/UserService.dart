@@ -126,3 +126,43 @@ Future<bool> addUser(CustomUser newUser) async {
 
 
 }
+
+
+
+
+Future<bool> updateUser(CustomUser user) async {
+
+  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // final CollectionReference _styleCollection = _firestore.collection('users');
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _styleCollection = _firestore.collection('users');
+
+  _styleCollection.doc(user.objId).update({
+    "email": user.email,
+    "first_name": user.first_name,
+    "gender": user.gender,
+    "last_name": user.last_name,
+    "password": user.password,
+    "phone": user.phone,
+    "photo": user.photo
+  }).then((_) {
+    print("update success!");
+    return true;
+  });
+
+}
+
+
+
+Future<bool> deleteUser(CustomUser user) async {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _styleCollection = _firestore.collection('users');
+
+  _styleCollection.doc(user.objId).delete().then((_) {
+    print("delete success!");
+    return true;
+  });
+
+}

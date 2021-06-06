@@ -50,7 +50,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 child: CircleAvatar(
                     radius: 50.0,
                     backgroundImage: this.userType == null
-                        ? NetworkImage(defaultImage)
+                        ? AssetImage("assets/images/user/user.png")
                         : (this.userType == 'G')
                             ? NetworkImage(gu.photoURL)
                             : (this.userType == 'C')
@@ -89,7 +89,12 @@ class _MainDrawerState extends State<MainDrawer> {
 
       Divider(),
       ListTile(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => new ProfileScreen()));
+        },
         leading: Icon(
           Icons.person,
           color: Colors.black,

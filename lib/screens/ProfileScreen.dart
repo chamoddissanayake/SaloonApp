@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_restart/flutter_restart.dart';
 import 'package:saloon_app/models/CustomUser.dart';
@@ -198,12 +199,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             });
                           },
                           child: Container(
-                              color: cu != null? cu.gender==0 ? Colors.black12: Colors.transparent: Colors.transparent,
+                              decoration: BoxDecoration(
+                                color:  cu != null? cu.gender==0 ? Colors.black12: Colors.transparent: Colors.transparent,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+
+                              // color: cu != null? cu.gender==0 ? Colors.black12: Colors.transparent: Colors.transparent,
                               child: Image.asset(
                                 "assets/images/bottom_bar/girl_haircut.png",
                                 height: 45,
                                 width: 45,
-                              )),
+                              )
+
+                          ),
                         ),
                         GestureDetector(
                           onTap: (){
@@ -212,7 +220,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             });
                           },
                           child: Container(
-                            color: cu != null? cu.gender==1 ? Colors.black12: Colors.transparent: Colors.red,
+                            decoration: BoxDecoration(
+                              color: cu != null? cu.gender==1 ? Colors.black12: Colors.transparent: Colors.red,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                             child: Image.asset(
                               "assets/images/bottom_bar/boy_haircut.png",
                               height: 45,
@@ -252,19 +263,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                        child: customTextWidget("Delete My Account",
-                            textColor: Colors.white,
-                            isCentered: true,
-                            fontWeight: FontWeight.bold,
-                            textAllCaps: true),
-                        decoration: BoxDecoration(
-                          color: Colors.red.shade300,
-                          borderRadius: BorderRadius.circular(25),
-                          // bgColor: widget.bgColor,
-                          // radius: 6
-                        )),
+                    GestureDetector(
+                      onTap: (){
+                        deleteBtnPressed();
+                      },
+                      child: Container(
+                          padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                          child: customTextWidget("Delete My Account",
+                              textColor: Colors.white,
+                              isCentered: true,
+                              fontWeight: FontWeight.bold,
+                              textAllCaps: true),
+                          decoration: BoxDecoration(
+                            color: Colors.red.shade300,
+                            borderRadius: BorderRadius.circular(25),
+                            // bgColor: widget.bgColor,
+                            // radius: 6
+                          )),
+                    ),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -388,21 +404,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     }
 
-
-
-    // prefs.setString('c_email', user.email);
-    // prefs.setString('c_password', user.password);
-    // prefs.setString('c_first_name', user.first_name);
-    // prefs.setString('c_last_name', user.last_name);
-    // prefs.setInt('c_gender', user.gender);
-    // prefs.setString('c_photo', user.photo);
-    // prefs.setString('c_phone', user.phone);
-    //
-    // prefs.setBool('is_google_logged_in', false);
-    // prefs.setBool('is_custom_logged_in', true);
-
-
-
     FlutterRestart.restartApp();
 
   }
@@ -444,10 +445,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void updatePressed() {
-    print(this.cu);
+  void updatePressed()async {
+    // print(this.cu);
+    bool update_status = await updateUser(this.cu);
+
+    CoolAlert.show(
+      backgroundColor: Color(0xFFFF9F9F),
+      context: context,
+      type: CoolAlertType.success,
+      text: "Your account deleted successfully.",
+    );
+  }
+
+  void deleteBtnPressed() {
+
+
+    CoolAlert.show(
+      context: context,
+      type: CoolAlertType.confirm,
+      text: 'Do you want to delete your account?',
+      confirmBtnText: 'Yes',
+      cancelBtnText: 'No',
+      confirmBtnColor: Colors.red,
+      onConfirmBtnTap: conformedTapped
+    );
 
   }
+
+  // cancelTapped() {}
+
+  conformedTapped() async{
+    await deleteUser(this.cu);
+    CoolAlert.show(
+      backgroundColor: Color(0xFFFFDEC1),
+      context: context,
+      type: CoolAlertType.success,
+      text: "Your details deleted successfully.",
+    ).then((value) {
+      FlutterRestart.restartApp();
+    } );
+  }
+
 
 
 
