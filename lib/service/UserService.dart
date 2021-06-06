@@ -15,6 +15,7 @@ Future<CustomUser> validateUser(CustomUser inputUser) async {
     CustomUser s1 = CustomUser();
 
     Map<String, Object> tmp = doc.data() as Map<String, Object>;
+    s1.objId = doc.id;
     s1.email = tmp.remove("email");
     s1.password = tmp.remove("password");
     s1.first_name = tmp.remove("first_name");
@@ -59,6 +60,8 @@ Future<CustomUser> getCurrentUser(String inputEmail) async {
     CustomUser s1 = CustomUser();
 
     Map<String, Object> tmp = doc.data() as Map<String, Object>;
+
+    s1.objId = doc.id;
     s1.email = tmp.remove("email");
     s1.password = tmp.remove("password");
     s1.first_name = tmp.remove("first_name");
@@ -77,7 +80,7 @@ Future<CustomUser> getCurrentUser(String inputEmail) async {
     CustomUser  tempUsr = new CustomUser();
 
     if(allData[i].email == inputEmail ){
-
+      tempUsr.objId = allData[i].objId;
       tempUsr.email = allData[i].email;
       tempUsr.first_name = allData[i].first_name;
       tempUsr.last_name= allData[i].last_name;

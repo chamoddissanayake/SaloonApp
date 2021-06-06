@@ -1,4 +1,5 @@
 class CustomUser {
+  var objId = "";
   var email="";
   var password = "";
   var first_name = "";

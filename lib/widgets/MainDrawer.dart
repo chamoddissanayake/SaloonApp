@@ -19,7 +19,7 @@ class _MainDrawerState extends State<MainDrawer> {
   CustomUser cu;
   String userType;
   String defaultImage =
-      "https://images.unsplash.com/photo-1594616838951-c155f8d978a0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80";
+      "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fusers%2Fuser.png?alt=media&token=50751901-d400-4da1-bddf-3d9009a6248f";
 
   @override
   void initState() {

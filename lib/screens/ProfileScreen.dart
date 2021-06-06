@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_restart/flutter_restart.dart';
+import 'package:saloon_app/models/CustomUser.dart';
+import 'package:saloon_app/models/GoogleUser.dart';
 import 'package:saloon_app/screens/LoadingScreen.dart';
 import 'package:saloon_app/screens/LoginSignUpScreen.dart';
+import 'package:saloon_app/service/UserService.dart';
+import 'package:saloon_app/utils/UtilFunctions.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/utils/google/authentication.dart';
 import 'package:saloon_app/screens/LoginSignUpScreen.dart';
@@ -16,8 +20,27 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool genderMale = true;
-  bool genderFemale = false;
+
+
+  GoogleUser gu;
+  CustomUser cu;
+  String userType;
+  String defaultImage =
+      "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fusers%2Fuser.png?alt=media&token=50751901-d400-4da1-bddf-3d9009a6248f";
+
+
+  bool _validate_first_name = false;
+  bool _validate_last_name = false;
+  bool _validate_email = false;
+  bool _validate_phone = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    getcurrentUserData();
+    print(this.gu);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,18 +83,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      "https://images.unsplash.com/photo-1594616838951-c155f8d978a0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-                                    ),
+                                    backgroundImage: this.userType == null ? NetworkImage(defaultImage) : (this.userType == 'G')
+                                ? NetworkImage(gu.photoURL)
+                                : (this.userType == 'C')
+                                ? NetworkImage(cu.photo)
+                                : NetworkImage(defaultImage),
                                     radius: 80.0,
                                   ),
-                                  Container(
+                                  cu != null? Container(
                                     child: Icon(
                                       Icons.edit,
                                       color: Colors.white,
                                       size: 30.0,
                                     ),
-                                  ),
+                                  ):Container(),
                                 ],
                               ),
                             ),
@@ -79,7 +104,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 20.0,
                             ),
                             Text(
-                              "Abc Defg",
+                              this.userType == null ? "": (this.userType == 'G') ? gu.displayName: (this.userType == 'C')? cu.first_name+ " " +cu.last_name
+                                  : Container(),
                               style: TextStyle(
                                   fontSize: 22.0,
                                   color: Colors.white,
@@ -91,16 +117,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 )),
-            Expanded(
+            this.cu !=null ? Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: ListView(
                   children: [
                     TextField(
+                      onChanged: (value) {
+                          value.isEmpty ? _validate_first_name = true : _validate_first_name = false;
+                          this.cu.first_name  = value;
+                      },
                       decoration: InputDecoration(
+                        errorText:  _validate_first_name ? 'First name Can\'t Be Empty' : null,
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         border: OutlineInputBorder(),
-                        labelText: 'First Name',
+                        labelText: cu.first_name,
                         contentPadding: EdgeInsets.all(10.0),
                       ),
                     ),
@@ -108,10 +139,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 10.0,
                     ),
                     TextField(
+                      onChanged: (value) {
+                        value.isEmpty ? _validate_last_name = true : _validate_last_name = false;
+                        this.cu.last_name  = value;
+                      },
                       decoration: InputDecoration(
+                        errorText:  _validate_first_name ? 'Last name Can\'t Be Empty' : null,
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         border: OutlineInputBorder(),
-                        labelText: 'Last Name',
+                        labelText: cu.last_name,
                         contentPadding: EdgeInsets.all(10.0),
                       ),
                     ),
@@ -119,10 +155,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 10.0,
                     ),
                     TextField(
+                      onChanged: (value) {
+                        value.isEmpty ? _validate_email = true : _validate_email = false;
+                        this.cu.email  = value;
+                      },
                       decoration: InputDecoration(
+                        errorText:  _validate_first_name ? 'Email Can\'t Be Empty' : null,
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         border: OutlineInputBorder(),
-                        labelText: 'Email',
+                        labelText: cu.email,
                         contentPadding: EdgeInsets.all(10.0),
                       ),
                     ),
@@ -130,10 +171,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 10.0,
                     ),
                     TextField(
+                      onChanged: (value) {
+                        value.isEmpty ? _validate_phone = true : _validate_phone = false;
+                        this.cu.phone  = value;
+                      },
                       decoration: InputDecoration(
+                        errorText:  _validate_first_name ? 'Phone Can\'t Be Empty' : null,
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         border: OutlineInputBorder(),
-                        labelText: 'Phone',
+                        labelText: cu.phone,
                         contentPadding: EdgeInsets.all(10.0),
                       ),
                     ),
@@ -145,19 +191,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         customTextWidget("Gender", fontSize: 17.0),
-                        Container(
-                            color: genderFemale ? Colors.black12: Colors.transparent,
+                        GestureDetector(
+                          onTap: (){
+                            this.setState(() {
+                              cu.gender = 0;
+                            });
+                          },
+                          child: Container(
+                              color: cu != null? cu.gender==0 ? Colors.black12: Colors.transparent: Colors.transparent,
+                              child: Image.asset(
+                                "assets/images/bottom_bar/girl_haircut.png",
+                                height: 45,
+                                width: 45,
+                              )),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            this.setState(() {
+                              cu.gender = 1;
+                            });
+                          },
+                          child: Container(
+                            color: cu != null? cu.gender==1 ? Colors.black12: Colors.transparent: Colors.red,
                             child: Image.asset(
-                              "assets/images/bottom_bar/girl_haircut.png",
+                              "assets/images/bottom_bar/boy_haircut.png",
                               height: 45,
                               width: 45,
-                            )),
-                        Container(
-                          color: genderMale ? Colors.black12: Colors.transparent,
-                          child: Image.asset(
-                            "assets/images/bottom_bar/boy_haircut.png",
-                            height: 45,
-                            width: 45,
+                            ),
                           ),
                         )
                       ],
@@ -167,25 +227,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Center(
                         child:
-                            customTextWidget("Reset Password", fontSize: 17.0)),
+                        customTextWidget("Reset Password", fontSize: 17.0)),
                     SizedBox(
                       height: 10.0,
                     ),
+
                     GestureDetector(onTap: (){
-
-                      logoutPressed();
-
-
+                      updatePressed();
                     },
                       child: Container(
                           padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                          child: customTextWidget("Logout",
+                          child: customTextWidget("Update",
                               textColor: Colors.white,
                               isCentered: true,
                               fontWeight: FontWeight.bold,
                               textAllCaps: true),
                           decoration: BoxDecoration(
-                            color: Colors.blue.shade300,
+                            color: Colors.orangeAccent,
                             borderRadius: BorderRadius.circular(25),
                             // bgColor: widget.bgColor,
                             // radius: 6
@@ -207,10 +265,76 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // bgColor: widget.bgColor,
                           // radius: 6
                         )),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+
+                    GestureDetector(onTap: (){
+                      logoutPressed();
+                    },
+                      child: Container(
+                          padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                          child: customTextWidget("Logout",
+                              textColor: Colors.white,
+                              isCentered: true,
+                              fontWeight: FontWeight.bold,
+                              textAllCaps: true),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade300,
+                            borderRadius: BorderRadius.circular(25),
+                            // bgColor: widget.bgColor,
+                            // radius: 6
+                          )),
+                    ),
                   ],
                 ),
               ),
-            ),
+            ):Container(),
+
+
+
+
+            this.gu !=null ? Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: ListView(
+                  children: [
+                    SizedBox(
+                      height: 30.0,
+                    ),
+
+
+                    Center(child: customTextWidget(gu.email, fontSize: 17.0, fontWeight: FontWeight.bold)),
+                    // customTextWidget(gu.displayName),
+
+                    SizedBox(
+                      height: 30.0,
+                    ),
+
+                    GestureDetector(onTap: (){
+                      logoutPressed();
+                    },
+                      child: Container(
+                          padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                          child: customTextWidget("Logout",
+                              textColor: Colors.white,
+                              isCentered: true,
+                              fontWeight: FontWeight.bold,
+                              textAllCaps: true),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade300,
+                            borderRadius: BorderRadius.circular(25),
+                            // bgColor: widget.bgColor,
+                            // radius: 6
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+            ):Container(),
+
+
+
             // Container(
             //   child: Text('This element must stay at the bottom'),
             //   height: ,
@@ -301,6 +425,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
+
+  void getcurrentUserData() async{
+    if (await UtilFunctions.isCurrentUserGoogle() == true) {
+      this.userType = 'G';
+      this.gu = await UtilFunctions.getSharedStorageGoogleUser();
+      print(this.gu);
+      this.setState(() {});
+    } else if (await UtilFunctions.isCurrentUserGoogle() == false) {
+      this.userType = 'C';
+      this.cu = await UtilFunctions.getSharedStorageCustomUser();
+      print(this.cu);
+      CustomUser tempCusUser ;
+      tempCusUser = await getCurrentUser(this.cu.email);
+      this.cu = tempCusUser;
+      print(this.cu);
+      this.setState(() {});
+    }
+  }
+
+  void updatePressed() {
+    print(this.cu);
+
+  }
+
+
+
+
 
 }
 
