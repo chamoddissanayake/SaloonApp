@@ -1,11 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saloon_app/models/CustomUser.dart';
+import 'package:saloon_app/models/GoogleUser.dart';
 import 'package:saloon_app/screens/MapScreen.dart';
 import 'package:saloon_app/screens/ProfileScreen.dart';
+import 'package:saloon_app/utils/UtilFunctions.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
   const MainDrawer({Key key}) : super(key: key);
 
+  @override
+  _MainDrawerState createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends State<MainDrawer> {
+  GoogleUser gu;
+  CustomUser cu;
+  String userType;
+  String defaultImage =
+      "https://images.unsplash.com/photo-1594616838951-c155f8d978a0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80";
+
+  @override
+  void initState() {
+    super.initState();
+    getcurrentUserData();
+
+    print(this.gu);
+    print(this.cu);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +40,27 @@ class MainDrawer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: (){
-                  Navigator.push(context, new MaterialPageRoute(
-                      builder: (context) => new ProfileScreen()
-                  )
-                  );
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new ProfileScreen()));
                 },
                 child: CircleAvatar(
-                  radius: 50.0,
-                  backgroundImage: NetworkImage(
-                    "https://images.unsplash.com/photo-1594616838951-c155f8d978a0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-                  ),
-                ),
+                    radius: 50.0,
+                    backgroundImage: this.userType == null
+                        ? NetworkImage(defaultImage)
+                        : (this.userType == 'G')
+                            ? NetworkImage(gu.photoURL)
+                            : (this.userType == 'C')
+                                ? NetworkImage(cu.photo)
+                                : Container()),
               ),
               SizedBox(
-                height: 5.0,
+                height: 15.0,
               ),
               Text(
-                "Abc Defg",
+                this.userType == null? "":(this.userType == 'G')? ""+gu.displayName:(this.userType == 'C')? ""+cu.first_name+" "+cu.last_name:"",
                 style: TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.w800,
@@ -44,13 +69,13 @@ class MainDrawer extends StatelessWidget {
               SizedBox(
                 height: 5.0,
               ),
-              Text(
-                "Premium Member",
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
+              // Text(
+              //   "Premium Member",
+              //   style: TextStyle(
+              //     fontSize: 16.0,
+              //     fontWeight: FontWeight.w400,
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -115,16 +140,20 @@ class MainDrawer extends StatelessWidget {
         ),
         title: Text("Contact Us"),
       ),
-
-
-
-
-
-
-
-
-
-
     ]);
+  }
+
+  void getcurrentUserData() async {
+    if (await UtilFunctions.isCurrentUserGoogle() == true) {
+      this.userType = 'G';
+      this.gu = await UtilFunctions.getSharedStorageGoogleUser();
+      print(this.gu);
+      this.setState(() {});
+    } else if (await UtilFunctions.isCurrentUserGoogle() == false) {
+      this.userType = 'C';
+      this.cu = await UtilFunctions.getSharedStorageCustomUser();
+      print(this.cu);
+      this.setState(() {});
+    }
   }
 }
