@@ -226,32 +226,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void logoutPressed() async{
 
+    Future<SharedPreferences> _prefUser = SharedPreferences.getInstance();
+    final SharedPreferences prefUser = await _prefUser;
+
+    if(prefUser.getBool('is_google_logged_in')){
+      //Google user
+
+      print("-----------------");
+      print(prefUser.getString('g_uid'));
+      print(prefUser.getString('g_email'));
+      print(prefUser.getString('g_displayName'));
+      print(prefUser.getString('g_photoURL'));
+      print("^^^^^^^^^^^^^^^^^^^^");
+
+      prefUser.setString('g_uid', '');
+      prefUser.setString('g_email', '');
+      prefUser.setString('g_displayName', '');
+      prefUser.setString('g_photoURL', '');
+
+      prefUser.setBool('is_google_logged_in', false);
+      prefUser.setBool('is_custom_logged_in', false);
+
+      await Authentication.signOut(context: context);
+
+    }else if(prefUser.getBool('is_custom_logged_in')){
+      // Custom user
+      prefUser.setString('c_email', "");
+      prefUser.setString('c_password', "");
+      prefUser.setString('c_first_name', "");
+      prefUser.setString('c_last_name', "");
+      prefUser.setInt('c_gender', 0);
+      prefUser.setString('c_photo', "");
+      prefUser.setString('c_phone', "");
+
+      prefUser.setBool('is_google_logged_in', false);
+      prefUser.setBool('is_custom_logged_in', false);
+
+    }
 
 
-    Future<SharedPreferences> _prefGUser = SharedPreferences.getInstance();
-    final SharedPreferences prefGUser = await _prefGUser;
 
-
-    // setState(() {
-    //   _isSigningOut = true;
-    // });
-    await Authentication.signOut(context: context);
-    // setState(() {
-    //   _isSigningOut = false;
-    // });
-
-    // // prefGUser.getString('uid');
-    // // prefGUser.getString('email');
-    // // prefGUser.getString('displayName');
-    // // prefGUser.getString('photoURL');
+    // prefs.setString('c_email', user.email);
+    // prefs.setString('c_password', user.password);
+    // prefs.setString('c_first_name', user.first_name);
+    // prefs.setString('c_last_name', user.last_name);
+    // prefs.setInt('c_gender', user.gender);
+    // prefs.setString('c_photo', user.photo);
+    // prefs.setString('c_phone', user.phone);
     //
-    //
+    // prefs.setBool('is_google_logged_in', false);
+    // prefs.setBool('is_custom_logged_in', true);
 
-    // Navigator.of(context).pushReplacementNamed(LoginSignupScreen.routeName);
-    // Navigator.of(context).pushReplacement(_routeToSignInScreen());
-    // Navigator.push(context, new MaterialPageRoute(
-    //     builder: (context) => new LoginSignupScreen())
-    // );
+
+
     FlutterRestart.restartApp();
 
   }

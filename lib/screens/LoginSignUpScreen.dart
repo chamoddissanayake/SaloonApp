@@ -38,17 +38,17 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
     CustomUser returnedUser = await validateUser(inputUserObj);
 
-    addUserToSharedPreference(CustomUser user) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('loggedInUserEmail', user.email);
-    //  Delete at the logout
-    }
+    // addUserToSharedPreference(CustomUser user) async {
+    //   SharedPreferences prefs = await SharedPreferences.getInstance();
+    //   prefs.setString('loggedInUserEmail', user.email);
+    // //  Delete at the logout
+    // }
 
     if(returnedUser.email != inputUserObj.email){
       return 'Username not exists';
     }else{
       if(returnedUser.password == inputUserObj.password){
-        addUserToSharedPreference(returnedUser);
+        addUserToSharedPreferenceCustom(returnedUser);
         return null;
         //Save state
 
@@ -107,7 +107,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
     return Scaffold(
         body:  Container(
-          padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: FlutterLogin(
             title: '',
             logo: 'assets/images/logo/logo.png',
@@ -183,7 +183,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
     if (user != null) {
 
-      addUserToSharedPreference(user);
+      addUserToSharedPreferenceGoogle(user);
 
       Navigator.pushReplacementNamed(
           context,
@@ -194,14 +194,35 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     return null;
   }
 
-  void addUserToSharedPreference(User user) async{
+  void addUserToSharedPreferenceGoogle(User user) async{
 
-    SharedPreferences prefGUser = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefGUser.setString('uid', user.uid);
-    prefGUser.setString('email', user.email);
-    prefGUser.setString('displayName', user.displayName);
-    prefGUser.setString('photoURL', user.photoURL);
+    prefs.setString('g_uid', user.uid);
+    prefs.setString('g_email', user.email);
+    prefs.setString('g_displayName', user.displayName);
+    prefs.setString('g_photoURL', user.photoURL);
+
+    prefs.setBool('is_google_logged_in', true);
+    prefs.setBool('is_custom_logged_in', false);
+
+
+  }
+
+  void addUserToSharedPreferenceCustom(CustomUser user) async{
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('c_email', user.email);
+    prefs.setString('c_password', user.password);
+    prefs.setString('c_first_name', user.first_name);
+    prefs.setString('c_last_name', user.last_name);
+    prefs.setInt('c_gender', user.gender);
+    prefs.setString('c_photo', user.photo);
+    prefs.setString('c_phone', user.phone);
+
+    prefs.setBool('is_google_logged_in', false);
+    prefs.setBool('is_custom_logged_in', true);
 
 
   }

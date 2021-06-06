@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:saloon_app/screens/LoginSignUpScreen.dart';
+import 'package:saloon_app/screens/MainScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroScreen extends StatefulWidget {
   static const routeName = '/intro';
@@ -122,15 +124,11 @@ class _IntroScreenState extends State<IntroScreen> {
         showBackButton: true,
         showSkipButton: true,
         onTapDoneButton: () {
-          Navigator.pushReplacementNamed(
-              context,
-              LoginSignupScreen.routeName
-          );
+          navigationLogicFunc();
+
         },onTapSkipButton: (){
-          Navigator.pushReplacementNamed(
-              context,
-              LoginSignupScreen.routeName
-          );
+        navigationLogicFunc();
+
       },
         pageButtonTextStyles: TextStyle(
           color: Colors.white,
@@ -140,4 +138,49 @@ class _IntroScreenState extends State<IntroScreen> {
     ),);
 
   }
+
+  void navigationLogicFunc() async {
+
+
+    Future<SharedPreferences> _prefUser = SharedPreferences.getInstance();
+    final SharedPreferences prefUser = await _prefUser;
+
+    if (prefUser.getBool('is_google_logged_in') == null &&
+        prefUser.getBool('is_custom_logged_in') == null) {
+      Navigator.pushReplacementNamed(
+          context,
+          LoginSignupScreen.routeName
+      );
+    } else if (prefUser.getBool('is_google_logged_in') == null &&
+        prefUser.getBool('is_custom_logged_in') != null) {
+      //check
+      if (prefUser.getBool('is_custom_logged_in')) {
+        Navigator.pushReplacementNamed(
+            context,
+            MainScreen.routeName
+        );
+      }
+    } else if (prefUser.getBool('is_google_logged_in') != null &&
+        prefUser.getBool('is_custom_logged_in') == null) {
+      //check
+      if (prefUser.getBool('is_google_logged_in')) {
+        Navigator.pushReplacementNamed(
+            context,
+            LoginSignupScreen.routeName
+        );
+      }
+    }else if (prefUser.getBool('is_google_logged_in') != null &&
+        prefUser.getBool('is_custom_logged_in') != null) {
+      //check
+      // if (prefUser.getBool('is_google_logged_in')) {
+      Navigator.pushReplacementNamed(
+          context,
+          LoginSignupScreen.routeName
+      );
+      // }
+    }
+
+  }
+
+
 }
