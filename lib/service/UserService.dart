@@ -48,6 +48,58 @@ Future<CustomUser> validateUser(CustomUser inputUser) async {
 }
 
 
+Future<CustomUser> getCurrentUser(String inputEmail) async {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _styleCollection = _firestore.collection('users');
+
+  QuerySnapshot querySnapshot = await _styleCollection.get();
+
+  final allData = querySnapshot.docs.map((doc)  {
+    CustomUser s1 = CustomUser();
+
+    Map<String, Object> tmp = doc.data() as Map<String, Object>;
+    s1.email = tmp.remove("email");
+    s1.password = tmp.remove("password");
+    s1.first_name = tmp.remove("first_name");
+    s1.last_name = tmp.remove("last_name");
+    s1.gender = tmp.remove("gender");
+    s1.photo = tmp.remove("photo");
+    s1.phone = tmp.remove("phone");
+
+    return s1;
+  }).toList();
+
+  print(allData);
+
+  List<CustomUser> foundUser = List<CustomUser>();
+  for(var i = 0; i < allData.length; i++){
+    CustomUser  tempUsr = new CustomUser();
+
+    if(allData[i].email == inputEmail ){
+
+      tempUsr.email = allData[i].email;
+      tempUsr.first_name = allData[i].first_name;
+      tempUsr.last_name= allData[i].last_name;
+      tempUsr.gender= allData[i].gender;
+      tempUsr.password= allData[i].password;
+      tempUsr.phone= allData[i].phone;
+      tempUsr.photo= allData[i].photo;
+
+      foundUser.add(tempUsr
+      );
+    }
+  }
+
+  if (foundUser.length == 0){
+    return new CustomUser();
+  }else{
+    return foundUser[0];
+  }
+
+}
+
+
 
 Future<bool> addUser(CustomUser newUser) async {
 

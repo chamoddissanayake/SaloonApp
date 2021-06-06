@@ -4,6 +4,7 @@ import 'package:saloon_app/models/CustomUser.dart';
 import 'package:saloon_app/models/GoogleUser.dart';
 import 'package:saloon_app/screens/MapScreen.dart';
 import 'package:saloon_app/screens/ProfileScreen.dart';
+import 'package:saloon_app/service/UserService.dart';
 import 'package:saloon_app/utils/UtilFunctions.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -152,6 +153,10 @@ class _MainDrawerState extends State<MainDrawer> {
     } else if (await UtilFunctions.isCurrentUserGoogle() == false) {
       this.userType = 'C';
       this.cu = await UtilFunctions.getSharedStorageCustomUser();
+      print(this.cu);
+      CustomUser tempCusUser ;
+      tempCusUser = await getCurrentUser(this.cu.email);
+      this.cu = tempCusUser;
       print(this.cu);
       this.setState(() {});
     }
