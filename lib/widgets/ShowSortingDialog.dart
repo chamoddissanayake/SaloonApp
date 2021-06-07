@@ -4,7 +4,6 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
-import 'package:saloon_app/widgets/PaymentDialog.dart';
 import 'package:saloon_app/enum/SortByItem.dart';
 import 'package:saloon_app/service/StylesCategoriesService.dart';
 import 'package:saloon_app/utils/globals.dart';

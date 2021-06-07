@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:saloon_app/commons/Locations.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
-import 'package:saloon_app/widgets/PaymentDialog.dart';
 import 'package:saloon_app/commons/Locations.dart';
 import 'package:saloon_app/models/Location.dart';
 import 'package:saloon_app/service/LocationService.dart';

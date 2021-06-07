@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:saloon_app/screens/PaymentScreen.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
-import 'package:saloon_app/widgets/PaymentDialog.dart';
 
 class BookingConfirmationDialog extends StatelessWidget {
   @override
@@ -141,12 +141,20 @@ bookingConfirmationDialogContent(BuildContext context) {
                   // );
 
                   Navigator.pop(context);
-                  Future.delayed(const Duration(milliseconds: 1), () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => PaymentDialog(),
-                    );
-                  });
+                  // Future.delayed(const Duration(milliseconds: 1), () {
+                  //   showDialog(
+                  //     context: context,
+                  //     builder: (BuildContext context) => PaymentDialog(),
+                  //   );
+                  // });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PaymentScreen(),
+                    ),
+                  );
+
+
                 },
                 child: Container(
                   margin: EdgeInsets.all(16),
