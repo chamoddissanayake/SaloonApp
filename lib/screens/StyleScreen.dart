@@ -494,15 +494,30 @@ class _StyleScreenState extends State<StyleScreen> {
                                     booking2 =  await this.getCurrentUser(newBooking);
 
                                     print(booking2);
+                                    TrendingStyles ts1 = this.currentStyleObj;
 
-                                    // Future.delayed(
-                                    //     const Duration(milliseconds: 1), () {
-                                    //   showDialog(
-                                    //     context: context,
-                                    //     builder: (BuildContext context) =>
-                                    //         BookingConfirmationDialog(newBooking:newBooking),
-                                    //   );
-                                    // });
+                                    String branchName = "";
+                                    for(var i = 0; i < mLocationList.length; i++){
+                                      if(mLocationList[i].loc_id == booking2.location){
+                                        branchName =  mLocationList[i].name;
+                                      }
+                                    }
+
+                                    List<String> tempDT =[];
+                                    tempDT = UtilFunctions.splitDateAndTime(booking2.date_time);
+
+                                    print(tempDT);
+
+
+
+                                    Future.delayed(
+                                        const Duration(milliseconds: 1), () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            BookingConfirmationDialog(newBooking:booking2, currentStyleObject :ts1, tempDT:tempDT, branchName:branchName),
+                                      );
+                                    });
                                   },
                                 ),
                               ),

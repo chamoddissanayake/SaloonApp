@@ -1,13 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/screens/PaymentScreen.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/models/Booking.dart';
 
 class BookingConfirmationDialog extends StatefulWidget {
   final Booking newBooking;
+  final TrendingStyles currentStyleObject;
+  final List<String> tempDT;
+  final String branchName;
 
-  BookingConfirmationDialog({Key key, this.newBooking}) : super(key: key);
+  BookingConfirmationDialog({Key key, this.newBooking, this.currentStyleObject, this.tempDT, this.branchName}) : super(key: key);
 
   @override
   _BookingConfirmationDialogState createState() => _BookingConfirmationDialogState();
@@ -16,20 +20,33 @@ class BookingConfirmationDialog extends StatefulWidget {
 class _BookingConfirmationDialogState extends State<BookingConfirmationDialog> {
 
   Booking newBooking;
+  TrendingStyles currentStyleObject;
+  List<String> tempDT;
+  String branchName;
 
   Booking get b {
     return newBooking;
   }
 
+  TrendingStyles get cs {
+    return currentStyleObject;
+  }
 
+  List<String> get dt {
+    return tempDT;
+  }
+
+  String get bn {
+    return branchName;
+  }
 
   @override
   void initState() {
     super.initState();
-    newBooking = widget.newBooking;
-    print('--------------');
-    print(newBooking);
-
+    this.newBooking = widget.newBooking;
+    this.currentStyleObject = widget.currentStyleObject;
+    this.tempDT = widget.tempDT;
+    this.branchName = widget.branchName;
   }
 
 
@@ -42,12 +59,12 @@ class _BookingConfirmationDialogState extends State<BookingConfirmationDialog> {
       ),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
-      child: bookingConfirmationDialogContent(context),
+      child: bookingConfirmationDialogContent(context, this.newBooking, this.currentStyleObject, this.tempDT, this.branchName),
     );
   }
 }
 
-bookingConfirmationDialogContent(BuildContext context) {
+bookingConfirmationDialogContent(BuildContext context, Booking newBooking, TrendingStyles currentStyleObject, List<String> tempDT, String branchName) {
   return Container(
       decoration: new BoxDecoration(
         color: Colors.white,
@@ -81,8 +98,7 @@ bookingConfirmationDialogContent(BuildContext context) {
           SizedBox(height: 24),
           ClipRRect(
             child: CachedNetworkImage(
-              imageUrl:
-                  "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54",
+              imageUrl:  currentStyleObject.image,
               height: 120,
               width: 120,
             ),
@@ -90,11 +106,11 @@ bookingConfirmationDialogContent(BuildContext context) {
           ),
           SizedBox(height: 24),
           Text(
-            "Style Abc",
+            currentStyleObject.name,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
           ),
           SizedBox(height: 10),
-          Text("\$5.34",
+          Text("\$ "+currentStyleObject.price,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
           SizedBox(height: 10),
           Padding(
@@ -110,7 +126,7 @@ bookingConfirmationDialogContent(BuildContext context) {
                                 fontWeight: FontWeight.bold, fontSize: 18))),
                     SizedBox(
                         child:
-                            Text("02/20/2020", style: TextStyle(fontSize: 18))),
+                            Text(tempDT[0], style: TextStyle(fontSize: 18))),
                   ],
                 ),
                 SizedBox(height: 5),
@@ -124,7 +140,7 @@ bookingConfirmationDialogContent(BuildContext context) {
                     ),
                     SizedBox(
                         child:
-                            Text("10:00 AM", style: TextStyle(fontSize: 18))),
+                            Text(tempDT[1], style: TextStyle(fontSize: 18))),
                   ],
                 ),
                 SizedBox(height: 5),
@@ -136,7 +152,7 @@ bookingConfirmationDialogContent(BuildContext context) {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                     ),
-                    Text("Gampaha", style: TextStyle(fontSize: 18)),
+                    Text(branchName, style: TextStyle(fontSize: 18)),
                   ],
                 ),
               ],
@@ -165,18 +181,7 @@ bookingConfirmationDialogContent(BuildContext context) {
               ),
               GestureDetector(
                 onTap: (){
-                  // Navigator.pop(context);
-                  // Navigator.push(context, new MaterialPageRoute(
-                  //     builder: (context) => new PaymentScreen())
-                  // );
-
                   Navigator.pop(context);
-                  // Future.delayed(const Duration(milliseconds: 1), () {
-                  //   showDialog(
-                  //     context: context,
-                  //     builder: (BuildContext context) => PaymentDialog(),
-                  //   );
-                  // });
                   Navigator.push(
                     context,
                     MaterialPageRoute(

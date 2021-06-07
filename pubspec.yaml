@@ -57,6 +57,7 @@ dependencies:
   skeletor: ^0.0.3
   overlay_container: ^0.0.5+1
   flutter_restart: ^0.0.3
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

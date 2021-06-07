@@ -2,7 +2,7 @@ import 'package:saloon_app/models/CustomUser.dart';
 import 'package:saloon_app/models/GoogleUser.dart';
 import 'package:saloon_app/utils/globals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/intl.dart';
 
 class UtilFunctions {
 
@@ -63,6 +63,63 @@ class UtilFunctions {
     }else if (prefUser.getBool('is_google_logged_in') ==  false || prefUser.getBool('is_google_logged_in') ==  null){
       return false;
     }
+
+  }
+
+
+
+  static List<String> splitDateAndTime(String givenDateTime){
+    print(givenDateTime);
+
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime dateTime = dateFormat.parse(givenDateTime);
+
+    print(dateTime.year);
+
+    String finalDay="";
+
+    if((dateTime.day).toString().length == 1){
+      finalDay = finalDay + "0"+(dateTime.day).toString();
+    }else{
+      finalDay = finalDay +(dateTime.day).toString();
+    }
+    finalDay += "/";
+
+    if((dateTime.month).toString().length == 1){
+      finalDay = finalDay + "0"+(dateTime.month).toString();
+    }else{
+      finalDay = finalDay +(dateTime.month).toString();
+    }
+    finalDay += "/"+(dateTime.year).toString();
+    //############
+
+    String finalTime="";
+
+    if((dateTime.hour).toString().length == 1){
+      finalTime = finalTime + "0"+(dateTime.hour).toString();
+    }else{
+      finalTime = finalTime +(dateTime.hour).toString();
+    }
+    finalTime += ":";
+
+
+    if((dateTime.minute).toString().length == 1){
+      finalTime = finalTime + "0"+(dateTime.minute).toString();
+    }else{
+      finalTime = finalTime +(dateTime.minute).toString();
+    }
+
+
+
+    // String day = (dateTime.day).toString()+"/"+(dateTime.month).toString()+"/"+(dateTime.year).toString();
+    // String time = (dateTime.hour).toString()+":"+(dateTime.minute).toString();
+
+    List<String> tempList = [];
+    tempList.add(finalDay);
+    tempList.add(finalTime);
+
+    return tempList;
+
 
   }
 
