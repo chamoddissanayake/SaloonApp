@@ -2,8 +2,38 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:saloon_app/screens/PaymentScreen.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
+import 'package:saloon_app/models/Booking.dart';
 
-class BookingConfirmationDialog extends StatelessWidget {
+class BookingConfirmationDialog extends StatefulWidget {
+  final Booking newBooking;
+
+  BookingConfirmationDialog({Key key, this.newBooking}) : super(key: key);
+
+  @override
+  _BookingConfirmationDialogState createState() => _BookingConfirmationDialogState();
+}
+
+class _BookingConfirmationDialogState extends State<BookingConfirmationDialog> {
+
+  Booking newBooking;
+
+  Booking get b {
+    return newBooking;
+  }
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    newBooking = widget.newBooking;
+    print('--------------');
+    print(newBooking);
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -40,7 +70,7 @@ bookingConfirmationDialogContent(BuildContext context) {
               Navigator.pop(context);
             },
             child: Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(10),
                 alignment: Alignment.centerRight,
                 child: Icon(Icons.close, color: Colors.black)),
           ),

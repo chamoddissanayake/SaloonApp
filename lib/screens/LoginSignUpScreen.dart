@@ -38,12 +38,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
     CustomUser returnedUser = await validateUser(inputUserObj);
 
-    // addUserToSharedPreference(CustomUser user) async {
-    //   SharedPreferences prefs = await SharedPreferences.getInstance();
-    //   prefs.setString('loggedInUserEmail', user.email);
-    // //  Delete at the logout
-    // }
-
     if(returnedUser.email != inputUserObj.email){
       return 'Username not exists';
     }else{
@@ -212,7 +206,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   void addUserToSharedPreferenceCustom(CustomUser user) async{
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    prefs.setString('c_obj_id', user.objId);
     prefs.setString('c_email', user.email);
     prefs.setString('c_password', user.password);
     prefs.setString('c_first_name', user.first_name);

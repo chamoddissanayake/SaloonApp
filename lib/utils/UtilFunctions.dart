@@ -39,16 +39,17 @@ class UtilFunctions {
     Future<SharedPreferences> _prefUser = SharedPreferences.getInstance();
     final SharedPreferences prefUser = await _prefUser;
 
-    CustomUser gu = new CustomUser();
-    gu.email = prefUser.getString('c_email');
-    gu.password = prefUser.getString('c_password');
-    gu.first_name = prefUser.getString('c_first_name');
-    gu.last_name = prefUser.getString('c_last_name');
-    gu.gender = prefUser.getInt('c_gender');
-    gu.photo = prefUser.getString('c_photo');
-    gu.phone = prefUser.getString('c_phone');
+    CustomUser cu = new CustomUser();
+    cu.objId = prefUser.getString('c_obj_id');
+    cu.email = prefUser.getString('c_email');
+    cu.password = prefUser.getString('c_password');
+    cu.first_name = prefUser.getString('c_first_name');
+    cu.last_name = prefUser.getString('c_last_name');
+    cu.gender = prefUser.getInt('c_gender');
+    cu.photo = prefUser.getString('c_photo');
+    cu.phone = prefUser.getString('c_phone');
 
-    return gu;
+    return cu;
 
 
   }

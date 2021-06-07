@@ -7,9 +7,11 @@ import 'package:saloon_app/models/Location.dart';
 
 class locations extends StatelessWidget {
   Location model;
+  String selectedLoc;
 
-  locations(Location mLocations, int index){
+  locations(Location mLocations, int index, String selectedLoc){
     this.model = mLocations;
+    this.selectedLoc = selectedLoc;
   }
 
 
@@ -19,7 +21,10 @@ class locations extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          // color: Colors.red,
+          decoration: new BoxDecoration(
+              color: selectedLoc== null?Colors.transparent: selectedLoc ==model.loc_id? Colors.grey :Colors.transparent,
+              borderRadius: new BorderRadius.circular(10.0)
+          ),
           margin: EdgeInsets.only(left: 10),
           width: width * 0.2,
           height: width*0.26,

@@ -7,6 +7,7 @@ import 'package:nice_button/NiceButton.dart';
 import 'package:overlay_container/overlay_container.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/service/StylesCategoriesService.dart';
+import 'package:saloon_app/utils/UtilFunctions.dart';
 import 'package:saloon_app/widgets/AppBarWidget.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/CustomTitleSeeAllWidget.dart';
@@ -15,6 +16,9 @@ import 'package:saloon_app/widgets/CustomBookButton.dart';
 import 'package:saloon_app/widgets/CustomBackIcon.dart';
 import 'package:saloon_app/commons/Locations.dart';
 import 'package:saloon_app/models/Location.dart';
+import 'package:saloon_app/models/Booking.dart';
+import 'package:saloon_app/models/GoogleUser.dart';
+import 'package:saloon_app/models/CustomUser.dart';
 import 'package:saloon_app/service/LocationService.dart';
 import 'package:saloon_app/widgets/BookingConfirmationDialog.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -48,15 +52,27 @@ class _StyleScreenState extends State<StyleScreen> {
   TrendingStyles currentStyleObj;
   BuildContext prevCtx;
 
+  String selectedDate;
+  String loc_id;
+
   @override
   void initState() {
     super.initState();
+    selectedDate = DateTime.now().toString();
 
-    // mLocationList = getAllLocations();
+    getLocationsForFirstUser();
+
+
     currentStyleId = widget.styleId;
     prevCtx = widget.prevCtx;
     loadCurrentStyleData();
     print(currentStyleObj);
+  }
+
+  void getLocationsForFirstUser()async{
+    this.mLocationList = await getAllLocations();
+    this.loc_id = this.mLocationList[0].loc_id;
+    this.setState(() { });
   }
 
   void loadCurrentStyleData() async {
@@ -309,9 +325,18 @@ class _StyleScreenState extends State<StyleScreen> {
                                                 return Container(
                                                     // color: Colors.yellow,
                                                     // height: 50,
-                                                    child: locations(
-                                                        snapshot.data[index],
-                                                        index));
+                                                    child: GestureDetector(
+                                                      onTap: (){
+                                                            print(this.loc_id);
+                                                            this.setState(() {
+                                                              this.loc_id = snapshot.data[index].loc_id;
+                                                            });
+                                                            print(this.loc_id);
+                                                      },
+                                                      child: locations(
+                                                          snapshot.data[index],
+                                                          index, this.loc_id),
+                                                    ));
                                               }),
                                         ),
                                       ];
@@ -386,9 +411,13 @@ class _StyleScreenState extends State<StyleScreen> {
 
                                     return true;
                                   },
-                                  onChanged: (val) => print(val),
-                                  validator: (val) {
+                                  onChanged: (val) {
                                     print(val);
+                                    print("---");
+                                    print(val);
+                                    this.selectedDate = val;
+                                  } ,
+                                  validator: (val) {
                                     return null;
                                   },
                                   onSaved: (val) => print(val),
@@ -453,15 +482,27 @@ class _StyleScreenState extends State<StyleScreen> {
                                 child: CustomBookButton(
                                   bgColor: Colors.blue,
                                   textContent: "Book Now",
-                                  onPressed: () {
-                                    Future.delayed(
-                                        const Duration(milliseconds: 1), () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            BookingConfirmationDialog(),
-                                      );
-                                    });
+                                  onPressed: () async{
+                                    Booking newBooking = new Booking();
+                                    newBooking.booking_id="";
+                                    newBooking.date_time = this.selectedDate;
+                                    newBooking.location = this.loc_id;
+                                    newBooking.status = 0;
+                                    newBooking.style_id = this.currentStyleId;
+
+                                    Booking booking2 ;
+                                    booking2 =  await this.getCurrentUser(newBooking);
+
+                                    print(booking2);
+
+                                    // Future.delayed(
+                                    //     const Duration(milliseconds: 1), () {
+                                    //   showDialog(
+                                    //     context: context,
+                                    //     builder: (BuildContext context) =>
+                                    //         BookingConfirmationDialog(newBooking:newBooking),
+                                    //   );
+                                    // });
                                   },
                                 ),
                               ),
@@ -491,5 +532,26 @@ class _StyleScreenState extends State<StyleScreen> {
               ),
       ),
     );
+  }
+
+  Future<Booking> getCurrentUser(Booking newBooking) async{
+
+    GoogleUser gu;
+    CustomUser cu;
+
+      if (await UtilFunctions.isCurrentUserGoogle() == true) {
+        newBooking.user_type = 'G';
+        gu = await UtilFunctions.getSharedStorageGoogleUser();
+        newBooking.user_email = gu.email;
+        this.setState(() {});
+
+      } else if (await UtilFunctions.isCurrentUserGoogle() == false) {
+        newBooking.user_type = 'C';
+        cu = await UtilFunctions.getSharedStorageCustomUser();
+        print(cu);
+        newBooking.user_email = cu.objId;
+        this.setState(() {});
+      }
+      return newBooking;
   }
 }

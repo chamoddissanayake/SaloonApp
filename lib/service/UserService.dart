@@ -32,6 +32,7 @@ Future<CustomUser> validateUser(CustomUser inputUser) async {
     CustomUser  tempUsr = new CustomUser();
 
     if(allData[i].email == inputUser.email ){
+      tempUsr.objId = allData[i].objId;
       tempUsr.email = allData[i].email;
       if(allData[i].password == inputUser.password){
         tempUsr.password = allData[i].password;
