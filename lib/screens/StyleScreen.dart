@@ -564,7 +564,7 @@ class _StyleScreenState extends State<StyleScreen> {
         newBooking.user_type = 'C';
         cu = await UtilFunctions.getSharedStorageCustomUser();
         print(cu);
-        newBooking.user_email = cu.objId;
+        newBooking.user_id = cu.objId;
         this.setState(() {});
       }
       return newBooking;

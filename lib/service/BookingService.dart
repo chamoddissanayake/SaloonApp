@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:saloon_app/models/Booking.dart';
 import 'package:saloon_app/models/BookingStatusCard.dart';
 
 
@@ -106,4 +108,30 @@ List<BookingStatusCardModel> getCanceledBookings() {
 
 
   return allBookingCanceledCardData;
+}
+
+
+Future<String> addNewBooking(Booking newBooking) async {
+
+  CollectionReference nb = FirebaseFirestore.instance.collection('bookings');
+  return nb.add({
+    "date_time":newBooking.date_time,
+    "location_id": newBooking.location,
+    "status": newBooking.status,
+    "style_id":newBooking.style_id,
+    "user_email":newBooking.user_email,
+    "user_id":newBooking.user_id,
+    "user_type":newBooking.user_type
+  })
+      .then((value) {
+    print("Booking added");
+    return value.id;
+  } )
+      .catchError((error) {
+    print("Failed to add the booking: $error");
+    return "";
+  }
+  );
+
+
 }

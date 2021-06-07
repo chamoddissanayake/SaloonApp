@@ -1,8 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:saloon_app/models/Booking.dart';
+import 'package:saloon_app/models/TrendingStyles.dart';
+import 'package:saloon_app/screens/MainScreen.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 
 class BookingSuccessDialog extends StatefulWidget {
+  final Booking newBooking;
+  final TrendingStyles currentStyleObject;
+  final List<String> tempDT;
+  final String branchName;
+  final String bookingId;
+
+  BookingSuccessDialog({Key key, this.newBooking, this.currentStyleObject, this.tempDT, this.branchName, this.bookingId}) : super(key: key);
+
 
 
   @override
@@ -11,9 +22,51 @@ class BookingSuccessDialog extends StatefulWidget {
 
 class _BookingSuccessDialogState extends State<BookingSuccessDialog> {
   var isTickCompleting = true;
+
+
+  Booking newBooking;
+  TrendingStyles currentStyleObject;
+  List<String> tempDT;
+  String branchName;
+  String bookingId;
+
+  Booking get b {
+    return newBooking;
+  }
+
+  TrendingStyles get cs {
+    return currentStyleObject;
+  }
+
+  List<String> get dt {
+    return tempDT;
+  }
+
+  String get bn {
+    return branchName;
+  }
+
+  String get bi {
+    return bookingId;
+  }
+
+
+
   @override
   void initState() {
     super.initState();
+    this.newBooking = widget.newBooking;
+    this.currentStyleObject = widget.currentStyleObject;
+    this.tempDT = widget.tempDT;
+    this.branchName = widget.branchName;
+    this.bookingId = widget.bookingId;
+
+
+    print(this.newBooking);
+    print(this.currentStyleObject);
+    print(this.tempDT);
+    print(this.branchName);
+
     Future.delayed(const Duration(milliseconds: 1000), () {
       isTickCompleting= false;
     });
@@ -78,29 +131,29 @@ class _BookingSuccessDialogState extends State<BookingSuccessDialog> {
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
-                    "#356457457",
+                    "#"+bookingId,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
 
-              Divider(),
-              Text(
-                "Confirmation mail sent to:",
-                style: TextStyle(fontSize: 18),
-              ),
-              Text(
-                "aaabbb@gmail.com",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+              // Divider(),
+              // Text(
+              //   "Confirmation mail sent to:",
+              //   style: TextStyle(fontSize: 18),
+              // ),
+              // Text(
+              //   "aaabbb@gmail.com",
+              //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              // ),
               Divider(),
               SizedBox(height: 10),
               Text(
-                "Style Abc",
+                currentStyleObject.name,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
               ),
               SizedBox(height: 10),
-              Text("\$5.34",
+              Text("\$ "+currentStyleObject.price,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               SizedBox(height: 10),
               Padding(
@@ -116,7 +169,7 @@ class _BookingSuccessDialogState extends State<BookingSuccessDialog> {
                                     fontWeight: FontWeight.bold, fontSize: 18))),
                         SizedBox(
                             child:
-                            Text("02/20/2020", style: TextStyle(fontSize: 18))),
+                            Text(tempDT[0], style: TextStyle(fontSize: 18))),
                       ],
                     ),
                     SizedBox(height: 5),
@@ -130,7 +183,7 @@ class _BookingSuccessDialogState extends State<BookingSuccessDialog> {
                         ),
                         SizedBox(
                             child:
-                            Text("10:00 AM", style: TextStyle(fontSize: 18))),
+                            Text(tempDT[1], style: TextStyle(fontSize: 18))),
                       ],
                     ),
                     SizedBox(height: 5),
@@ -142,7 +195,7 @@ class _BookingSuccessDialogState extends State<BookingSuccessDialog> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18)),
                         ),
-                        Text("Gampaha", style: TextStyle(fontSize: 18)),
+                        Text(branchName, style: TextStyle(fontSize: 18)),
                       ],
                     ),
                   ],
@@ -151,7 +204,7 @@ class _BookingSuccessDialogState extends State<BookingSuccessDialog> {
               Divider(),
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
                 },
                 child: Container(
                   margin: EdgeInsets.all(16),

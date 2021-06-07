@@ -185,7 +185,7 @@ bookingConfirmationDialogContent(BuildContext context, Booking newBooking, Trend
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PaymentScreen(),
+                      builder: (context) => PaymentScreen(newBooking:newBooking, currentStyleObject :currentStyleObject, tempDT:tempDT, branchName:branchName),
                     ),
                   );
 
