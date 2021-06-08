@@ -47,7 +47,7 @@ class _BookingCompletedScreenState extends State<BookingCompletedScreen> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      BookingStatusCompletedDialog(),
+                                      BookingStatusCompletedDialog(mBookingCompleted: mBookingCompletedList[index]),
                                 );
                               });
                             },

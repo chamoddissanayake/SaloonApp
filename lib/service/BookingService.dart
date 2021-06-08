@@ -393,3 +393,29 @@ Future<bool> upcomingToCancelFunc(BookingStatusCardModel obj) async {
   });
 
 }
+
+
+
+Future<bool> upcomingToCompletedFunc(BookingStatusCardModel obj) async {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _bookingCollection = _firestore.collection('bookings');
+
+  _bookingCollection.doc(obj.booking_id).update({
+
+    "booking_status": "1",
+    "date_time": obj.date_time,
+    "location_id": obj.location_id,
+    "style_id": obj.style_id,
+    "user_email": obj.user_email,
+    "user_id": obj.user_id,
+    "user_type": obj.user_type
+
+  }).then((_) {
+    print("update for booking done success!");
+    return true;
+  });
+
+}
+
+

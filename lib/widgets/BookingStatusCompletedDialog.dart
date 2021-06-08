@@ -2,9 +2,36 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:saloon_app/models/BookingStatusCard.dart';
+import 'package:saloon_app/utils/UtilFunctions.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 
-class BookingStatusCompletedDialog extends StatelessWidget {
+class BookingStatusCompletedDialog extends StatefulWidget {
+
+  final BookingStatusCardModel mBookingCompleted;
+
+  BookingStatusCompletedDialog({Key key, this.mBookingCompleted}) : super(key: key);
+
+
+  @override
+  _BookingStatusCompletedDialogState createState() => _BookingStatusCompletedDialogState();
+}
+
+class _BookingStatusCompletedDialogState extends State<BookingStatusCompletedDialog> {
+
+
+  BookingStatusCardModel mBookingCompleted;
+
+  BookingStatusCardModel get bc {
+    return mBookingCompleted;
+  }
+  @override
+  void initState() {
+    super.initState();
+    this.mBookingCompleted = widget.mBookingCompleted;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -13,12 +40,12 @@ class BookingStatusCompletedDialog extends StatelessWidget {
       ),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
-      child: bookingStatusCompletedDialogContent(context),
+      child: bookingStatusCompletedDialogContent(context, this.mBookingCompleted),
     );
   }
 }
 
-bookingStatusCompletedDialogContent(BuildContext context) {
+bookingStatusCompletedDialogContent(BuildContext context, BookingStatusCardModel mBookingCompleted) {
   return SingleChildScrollView(
     child: Container(
         decoration: new BoxDecoration(
@@ -53,8 +80,7 @@ bookingStatusCompletedDialogContent(BuildContext context) {
             SizedBox(height: 10),
             ClipRRect(
               child: CachedNetworkImage(
-                imageUrl:
-                    "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54",
+                imageUrl: mBookingCompleted.tsObj.image,
                 height: 120,
                 width: 120,
               ),
@@ -62,11 +88,11 @@ bookingStatusCompletedDialogContent(BuildContext context) {
             ),
             SizedBox(height: 24),
             Text(
-              "Style Abc",
+              mBookingCompleted.tsObj.name,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
             ),
             SizedBox(height: 10),
-            Text("\$5.34",
+            Text("\$ "+mBookingCompleted.tsObj.price,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             SizedBox(height: 10),
             Padding(
@@ -82,7 +108,7 @@ bookingStatusCompletedDialogContent(BuildContext context) {
                                   fontWeight: FontWeight.bold, fontSize: 18))),
                       SizedBox(
                           child:
-                              Text("02/20/2020", style: TextStyle(fontSize: 18))),
+                              Text(UtilFunctions.splitDateAndTime(mBookingCompleted.date_time)[0], style: TextStyle(fontSize: 18))),
                     ],
                   ),
                   SizedBox(height: 5),
@@ -96,7 +122,7 @@ bookingStatusCompletedDialogContent(BuildContext context) {
                       ),
                       SizedBox(
                           child:
-                              Text("10:00 AM", style: TextStyle(fontSize: 18))),
+                              Text(UtilFunctions.splitDateAndTime(mBookingCompleted.date_time)[1], style: TextStyle(fontSize: 18))),
                     ],
                   ),
                   SizedBox(height: 5),
@@ -108,7 +134,7 @@ bookingStatusCompletedDialogContent(BuildContext context) {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                       ),
-                      Text("Gampaha", style: TextStyle(fontSize: 18)),
+                      Text(mBookingCompleted.currentLoc.name, style: TextStyle(fontSize: 18)),
                     ],
                   ),
                 ],

@@ -151,7 +151,7 @@ class _BookingStatusUpcomingDialogState extends State<BookingStatusUpcomingDialo
                   children: [
                     GestureDetector(
                       onTap: () {
-                        conformedTapped();
+                        conformedCancelBookingTapped();
                       },
                       child: Container(
                         margin: EdgeInsets.fromLTRB(16, 5, 16, 5),
@@ -170,12 +170,6 @@ class _BookingStatusUpcomingDialogState extends State<BookingStatusUpcomingDialo
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
-                        // CoolAlert.show(
-                        //   backgroundColor: Color(0xFFD7FFD4),
-                        //   context: context,
-                        //   type: CoolAlertType.success,
-                        //   text: "Your Booking was cancelled successfully.",
-                        // );
                         Future.delayed(const Duration(milliseconds: 1), () {
                           showDialog(
                             context: context,
@@ -200,14 +194,14 @@ class _BookingStatusUpcomingDialogState extends State<BookingStatusUpcomingDialo
 
                     GestureDetector(
                       onTap: () {
-
+                        conformedCompletedBookingTapped();
                         // Navigator.pop(context);
-                        CoolAlert.show(
-                          backgroundColor: Color(0xFFD7FFD4),
-                          context: context,
-                          type: CoolAlertType.success,
-                          text: "Your hair cutting  was done",
-                        );
+                        // CoolAlert.show(
+                        //   backgroundColor: Color(0xFFD7FFD4),
+                        //   context: context,
+                        //   type: CoolAlertType.success,
+                        //   text: "Your hair cutting  was done",
+                        // );
 
                       },
                       child: Container(
@@ -231,13 +225,27 @@ class _BookingStatusUpcomingDialogState extends State<BookingStatusUpcomingDialo
     );
   }
 
-  conformedTapped() async{
+  conformedCancelBookingTapped() async{
     bool  deleteStatus = await upcomingToCancelFunc(mBookingUpcoming);
     await CoolAlert.show(
       backgroundColor: Color(0xFFFFDEC1),
       context: context,
       type: CoolAlertType.success,
       text: "Your booking canceled successfully.",
+    ).then((value) {
+    });
+    Navigator.pushNamed(context, '/booking').then((_) => setState(() {}));
+    print("updated");
+
+  }
+
+  conformedCompletedBookingTapped()async{
+    bool  doneStatus = await upcomingToCompletedFunc(mBookingUpcoming);
+    await CoolAlert.show(
+      backgroundColor: Color(0xFFFFDEC1),
+      context: context,
+      type: CoolAlertType.success,
+      text: "Your booking was mark as done",
     ).then((value) {
     });
     Navigator.pushNamed(context, '/booking').then((_) => setState(() {}));
