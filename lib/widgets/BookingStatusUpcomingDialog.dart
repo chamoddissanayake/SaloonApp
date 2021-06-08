@@ -2,10 +2,35 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:saloon_app/models/BookingStatusCard.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/BookingStatusUpdateDialog.dart';
+import 'package:saloon_app/utils/UtilFunctions.dart';
 
-class BookingStatusUpcomingDialog extends StatelessWidget {
+class BookingStatusUpcomingDialog extends StatefulWidget {
+  final BookingStatusCardModel mBookingUpcoming;
+
+  BookingStatusUpcomingDialog({Key key, this.mBookingUpcoming}) : super(key: key);
+
+  @override
+  _BookingStatusUpcomingDialogState createState() => _BookingStatusUpcomingDialogState();
+}
+
+class _BookingStatusUpcomingDialogState extends State<BookingStatusUpcomingDialog> {
+
+
+  BookingStatusCardModel mBookingUpcoming;
+
+  BookingStatusCardModel get u {
+    return mBookingUpcoming;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.mBookingUpcoming = widget.mBookingUpcoming;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -14,12 +39,12 @@ class BookingStatusUpcomingDialog extends StatelessWidget {
       ),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
-      child: bookingStatusUpcomingDialogContent(context),
+      child: bookingStatusUpcomingDialogContent(context, this.mBookingUpcoming),
     );
   }
 }
 
-bookingStatusUpcomingDialogContent(BuildContext context) {
+bookingStatusUpcomingDialogContent(BuildContext context, BookingStatusCardModel mBookingUpcoming) {
   return SingleChildScrollView(
     child: Container(
         decoration: new BoxDecoration(
@@ -54,8 +79,7 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
             SizedBox(height: 10),
             ClipRRect(
               child: CachedNetworkImage(
-                imageUrl:
-                "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54",
+                imageUrl:mBookingUpcoming.tsObj.image,
                 height: 120,
                 width: 120,
               ),
@@ -63,11 +87,11 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
             ),
             SizedBox(height: 24),
             Text(
-              "Style Abc",
+              mBookingUpcoming.tsObj.name,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
             ),
             SizedBox(height: 10),
-            Text("\$5.34",
+            Text("\$ "+mBookingUpcoming.tsObj.price,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             SizedBox(height: 10),
             Padding(
@@ -83,7 +107,7 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
                                   fontWeight: FontWeight.bold, fontSize: 18))),
                       SizedBox(
                           child:
-                          Text("02/20/2020", style: TextStyle(fontSize: 18))),
+                          Text(UtilFunctions.splitDateAndTime(mBookingUpcoming.date_time)[0], style: TextStyle(fontSize: 18))),
                     ],
                   ),
                   SizedBox(height: 5),
@@ -97,7 +121,7 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
                       ),
                       SizedBox(
                           child:
-                          Text("10:00 AM", style: TextStyle(fontSize: 18))),
+                          Text(UtilFunctions.splitDateAndTime(mBookingUpcoming.date_time)[1], style: TextStyle(fontSize: 18))),
                     ],
                   ),
                   SizedBox(height: 5),
@@ -109,7 +133,7 @@ bookingStatusUpcomingDialogContent(BuildContext context) {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                       ),
-                      Text("Gampaha", style: TextStyle(fontSize: 18)),
+                      Text(mBookingUpcoming.currentLoc.name , style: TextStyle(fontSize: 18)),
                     ],
                   ),
                 ],
