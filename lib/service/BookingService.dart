@@ -94,6 +94,7 @@ Future<List<BookingStatusCardModel>> getCompletedBookings() async{
 
     BookingStatusCardModel model1 =
     BookingStatusCardModel(
+        currentItem.booking_id,
         allData[i].status.toString(),
         currentItem.date_time,
         currentItem.location,
@@ -204,6 +205,7 @@ Future<List<BookingStatusCardModel>> getUpcomingBookings() async {
 
     BookingStatusCardModel model1 =
     BookingStatusCardModel(
+        currentItem.booking_id,
         allData[i].status.toString(),
         currentItem.date_time,
         currentItem.location,
@@ -313,6 +315,7 @@ Future<List<BookingStatusCardModel>> getCanceledBookings() async{
 
     BookingStatusCardModel model1 =
     BookingStatusCardModel(
+        currentItem.booking_id,
         allData[i].status.toString(),
         currentItem.date_time,
         currentItem.location,
@@ -362,5 +365,31 @@ Future<String> addNewBooking(Booking newBooking) async {
   }
   );
 
+
+}
+
+
+
+
+
+Future<bool> upcomingToCancelFunc(BookingStatusCardModel obj) async {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _bookingCollection = _firestore.collection('bookings');
+
+  _bookingCollection.doc(obj.booking_id).update({
+
+    "booking_status": "2",
+    "date_time": obj.date_time,
+    "location_id": obj.location_id,
+    "style_id": obj.style_id,
+    "user_email": obj.user_email,
+    "user_id": obj.user_id,
+    "user_type": obj.user_type
+
+  }).then((_) {
+    print("update for booking cancel success!");
+    return true;
+  });
 
 }

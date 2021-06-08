@@ -7,7 +7,7 @@ class BookingStatusCardModel {
   // String image;
   // String date;
   // String time;
-
+  String booking_id = "";
   String booking_status  = "";
   String date_time = "";
   String location_id = "";
@@ -19,6 +19,6 @@ class BookingStatusCardModel {
   Location currentLoc;
 
   // BookingStatusCardModel(this.style_name, this.image, this.date, this.time);
-  BookingStatusCardModel(this.booking_status, this.date_time, this.location_id,
+  BookingStatusCardModel(this.booking_id,this.booking_status, this.date_time, this.location_id,
       this.style_id, this.user_email, this.user_id, this.user_type, this.tsObj, this.currentLoc);
 }

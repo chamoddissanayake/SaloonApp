@@ -45,7 +45,7 @@ class _BookingUpcomingScreenState extends State<BookingUpcomingScreen> {
                     Future.delayed(const Duration(milliseconds: 1), () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) => BookingStatusUpcomingDialog(mBookingUpcoming: mBookingUpcomingList[index]),
+                        builder: (BuildContext context) => BookingStatusUpcomingDialog(mBookingUpcoming: mBookingUpcomingList[index], upComingScreenContext: context),
                       );
                     });
                   }, child: StatusCardItem(mBookingUpcomingList[index], index, completeStatusIndex)),
