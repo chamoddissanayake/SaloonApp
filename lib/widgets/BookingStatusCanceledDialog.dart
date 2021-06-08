@@ -2,9 +2,42 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:saloon_app/models/BookingStatusCard.dart';
+import 'package:saloon_app/models/Location.dart';
+import 'package:saloon_app/service/LocationService.dart';
+import 'package:saloon_app/utils/UtilFunctions.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 
-class BookingStatusCanceledDialog extends StatelessWidget {
+class BookingStatusCanceledDialog extends StatefulWidget {
+
+  final BookingStatusCardModel mBookingCanceled;
+
+  BookingStatusCanceledDialog({Key key, this.mBookingCanceled}) : super(key: key);
+
+  @override
+  _BookingStatusCanceledDialogState createState() => _BookingStatusCanceledDialogState();
+}
+
+class _BookingStatusCanceledDialogState extends State<BookingStatusCanceledDialog> {
+
+  BookingStatusCardModel mBookingCanceled;
+
+  BookingStatusCardModel get c {
+    return mBookingCanceled;
+  }
+
+  Location currentLoc;
+
+  @override
+  void initState() {
+    super.initState();
+    this.mBookingCanceled = widget.mBookingCanceled;
+    // getLocationByIdFunc();
+    // this.setState(() {
+    // });
+    // print(this.currentLoc);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -13,12 +46,18 @@ class BookingStatusCanceledDialog extends StatelessWidget {
       ),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
-      child: bookingStatusCanceledDialogContent(context),
+      child: bookingStatusCanceledDialogContent(context, this.mBookingCanceled, this.currentLoc),
     );
   }
+
+  // void getLocationByIdFunc() async{
+  //   this.currentLoc =  await getLocationById(mBookingCanceled.location_id);
+  //   this.setState(() { });
+  //   print(this.currentLoc);
+  // }
 }
 
-bookingStatusCanceledDialogContent(BuildContext context) {
+bookingStatusCanceledDialogContent(BuildContext context, BookingStatusCardModel mBookingCanceled, Location currentLocation) {
   return SingleChildScrollView(
     child: Container(
         decoration: new BoxDecoration(
@@ -53,8 +92,7 @@ bookingStatusCanceledDialogContent(BuildContext context) {
             SizedBox(height: 10),
             ClipRRect(
               child: CachedNetworkImage(
-                imageUrl:
-                "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fstyles%2Fec909c634ee207713925dc785fe3e86a.jpg?alt=media&token=c2631b0c-f650-42ef-8ab7-22e88a242d54",
+                imageUrl:mBookingCanceled.tsObj.image,
                 height: 120,
                 width: 120,
               ),
@@ -62,11 +100,11 @@ bookingStatusCanceledDialogContent(BuildContext context) {
             ),
             SizedBox(height: 24),
             Text(
-              "Style Abc",
+              mBookingCanceled.tsObj.name,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
             ),
             SizedBox(height: 10),
-            Text("\$5.34",
+            Text("\$ "+mBookingCanceled.tsObj.price,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             SizedBox(height: 10),
             Padding(
@@ -82,7 +120,7 @@ bookingStatusCanceledDialogContent(BuildContext context) {
                                   fontWeight: FontWeight.bold, fontSize: 18))),
                       SizedBox(
                           child:
-                          Text("02/20/2020", style: TextStyle(fontSize: 18))),
+                          Text(UtilFunctions.splitDateAndTime(mBookingCanceled.date_time)[0], style: TextStyle(fontSize: 18))),
                     ],
                   ),
                   SizedBox(height: 5),
@@ -96,7 +134,7 @@ bookingStatusCanceledDialogContent(BuildContext context) {
                       ),
                       SizedBox(
                           child:
-                          Text("10:00 AM", style: TextStyle(fontSize: 18))),
+                          Text(UtilFunctions.splitDateAndTime(mBookingCanceled.date_time)[1], style: TextStyle(fontSize: 18))),
                     ],
                   ),
                   SizedBox(height: 5),
@@ -108,7 +146,7 @@ bookingStatusCanceledDialogContent(BuildContext context) {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                       ),
-                      Text("Gampaha", style: TextStyle(fontSize: 18)),
+                      Text(mBookingCanceled.currentLoc.name , style: TextStyle(fontSize: 18)),
                     ],
                   ),
                 ],

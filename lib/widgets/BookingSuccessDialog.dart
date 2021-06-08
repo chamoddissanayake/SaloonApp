@@ -132,7 +132,7 @@ class _BookingSuccessDialogState extends State<BookingSuccessDialog> {
                   ),
                   Text(
                     "#"+bookingId,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

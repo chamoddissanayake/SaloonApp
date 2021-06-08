@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saloon_app/models/BookingStatusCard.dart';
 import 'package:saloon_app/service/BookingService.dart';
+import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/StatusCardItem.dart';
 import 'package:saloon_app/widgets/BookingStatusUpcomingDialog.dart';
 
@@ -16,15 +17,23 @@ class _BookingUpcomingScreenState extends State<BookingUpcomingScreen> {
   @override
   void initState() {
     super.initState();
-    mBookingUpcomingList = getUpcomingBookings();
+    // mBookingUpcomingList = getUpcomingBookings();
+    loadUpcomingBookings();
   }
+
+  void loadUpcomingBookings() async{
+    this.mBookingUpcomingList = await getUpcomingBookings();
+    this.setState(() { });
+    print(this.mBookingUpcomingList);
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return  new Row(
       children: <Widget>[
-        Expanded(
-          child: SizedBox(
+        mBookingUpcomingList != null  ?Expanded(
+          child:  mBookingUpcomingList.length >0? SizedBox(
             height: MediaQuery.of(context).size.height*0.7,
             child: new ListView.builder(
               scrollDirection: Axis.vertical,
@@ -43,6 +52,27 @@ class _BookingUpcomingScreenState extends State<BookingUpcomingScreen> {
                 );
               },
             ),
+          ):SizedBox(
+            height: MediaQuery.of(context).size.height*0.7,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                customTextWidget("No Upcoming Bookings."),
+              ],
+            ),
+          ),
+        ):Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height*0.7,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              Text(""),
+              customTextWidget("Loading"),
+            ],
           ),
         ),
       ],

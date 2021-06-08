@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:saloon_app/models/BookingStatusCard.dart';
+import 'package:saloon_app/utils/UtilFunctions.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/SimpleWidgets.dart';
 
@@ -32,7 +33,7 @@ class StatusCardItem extends StatelessWidget {
                       children: <Widget>[
                         ClipRRect(
                           child: CachedNetworkImage(
-                            imageUrl: model.image,
+                            imageUrl: model.tsObj.image,
                             width: 120,
                             height: 120,
                           ),
@@ -48,17 +49,17 @@ class StatusCardItem extends StatelessWidget {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    customTextWidget(model.name,
+                                    customTextWidget(model.tsObj.name,
                                         textColor: Colors.black,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20.0,
                                         maxLine: 2),
                                   ],
                                 ),
-                                customTextWidget(model.date,
+                                customTextWidget(UtilFunctions.splitDateAndTime(model.date_time)[0] ,
                                     fontSize: 18.0,
                                     textColor: Colors.black ),
-                                customTextWidget(model.time,
+                                customTextWidget(UtilFunctions.splitDateAndTime(model.date_time)[1],
                                     fontSize: 18.0,
                                     textColor: Colors.black ),
                               ],

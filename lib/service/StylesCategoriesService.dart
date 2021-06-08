@@ -114,35 +114,49 @@ return newList[0];
 
 
 
-// List<TrendingStyles> allData;
-//
-// allData = querySnapshot.docs.map((doc)  {
-// TrendingStyles s1 = TrendingStyles();
-//
-// if (styleId==doc.id){
-// Map<String, Object> tmp = doc.data() as Map<String, Object>;
-// s1.name = tmp.remove("name");
-// s1.price = tmp.remove("price");
-// s1.image = tmp.remove("image");
-// s1.description = tmp.remove("description");
-// s1.category_id = tmp.remove("category_id");
-//
-// s1.styling_time = tmp.remove("styling_time");
-// s1.short_description = tmp.remove("short_description");
-//
-// return s1;
-// };
-//
-// }).toList();
-// List<TrendingStyles> newList = [];
-// for(var i = 0; i < allData.length; i++){
-// if(allData[i]!= null){
-// newList.add(allData[i]);
-// }
-// print("aa");
-// }
-//
-// return newList[0];
+Future<TrendingStyles> getTrendingStyleById(String styleId) async {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _tsCollection = _firestore.collection('styles');
+
+  // Get docs from collection reference
+  QuerySnapshot querySnapshot = await _tsCollection.get();
+
+  List<TrendingStyles> allData;
+
+  allData = querySnapshot.docs.map((doc)  {
+    TrendingStyles ts1 = new TrendingStyles();
+
+    if (styleId == doc.id){
+      Map<String, Object> tmp = doc.data() as Map<String, Object>;
+
+      ts1.sty_id = doc.id;
+      ts1.name = tmp.remove("name");
+      ts1.short_description = tmp.remove("short_description");
+      ts1.price = tmp.remove("price");
+      ts1.image = tmp.remove("image");
+      ts1.description = tmp.remove("description");
+      ts1.category_id = tmp.remove("category_id");
+      ts1.styling_time = tmp.remove("styling_time");
+
+      return ts1;
+    }
+
+  }).toList();
+
+  List<TrendingStyles> newList = [];
+
+  for(var i = 0; i < allData.length; i++){
+    if(allData[i]!= null){
+      newList.add(allData[i]);
+    }
+  }
+
+  return newList[0];
+}
+
+
+
 
 
 
