@@ -173,7 +173,7 @@ class _BookingStatusUpcomingDialogState extends State<BookingStatusUpcomingDialo
                         Future.delayed(const Duration(milliseconds: 1), () {
                           showDialog(
                             context: context,
-                            builder: (BuildContext context) => BookingStatusUpdateDialog(),
+                            builder: (BuildContext context) => BookingStatusUpdateDialog(mBookingUpcoming: mBookingUpcoming),
                           );
                         });
 
@@ -195,14 +195,6 @@ class _BookingStatusUpcomingDialogState extends State<BookingStatusUpcomingDialo
                     GestureDetector(
                       onTap: () {
                         conformedCompletedBookingTapped();
-                        // Navigator.pop(context);
-                        // CoolAlert.show(
-                        //   backgroundColor: Color(0xFFD7FFD4),
-                        //   context: context,
-                        //   type: CoolAlertType.success,
-                        //   text: "Your hair cutting  was done",
-                        // );
-
                       },
                       child: Container(
                         margin: EdgeInsets.fromLTRB(16, 5, 16, 16),

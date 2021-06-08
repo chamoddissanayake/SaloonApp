@@ -33,7 +33,7 @@ class _BookingUpcomingScreenState extends State<BookingUpcomingScreen> {
     return  new Row(
       children: <Widget>[
         mBookingUpcomingList != null  ?Expanded(
-          child:  mBookingUpcomingList.length >0? SizedBox(
+          child: mBookingUpcomingList.length >0? SizedBox(
             height: MediaQuery.of(context).size.height*0.7,
             child: new ListView.builder(
               scrollDirection: Axis.vertical,
@@ -42,23 +42,24 @@ class _BookingUpcomingScreenState extends State<BookingUpcomingScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: GestureDetector(onTap: (){
-                    Future.delayed(const Duration(milliseconds: 1), () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => BookingStatusUpcomingDialog(mBookingUpcoming: mBookingUpcomingList[index], upComingScreenContext: context),
-                      );
-                    });
+                    // Future.delayed(const Duration(milliseconds: 1), () {
+                    //   showDialog(
+                    //     context: context,
+                    //     builder: (BuildContext context) => BookingStatusCanceledDialog(mBookingCanceled: mBookingCanceledList[index]),
+                    //   );
+                    // });
+
                   }, child: StatusCardItem(mBookingUpcomingList[index], index, completeStatusIndex)),
                 );
               },
             ),
-          ):SizedBox(
+          ): SizedBox(
             height: MediaQuery.of(context).size.height*0.7,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                customTextWidget("No Upcoming Bookings."),
+                customTextWidget("No Upcoming bookings."),
               ],
             ),
           ),

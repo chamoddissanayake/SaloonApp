@@ -419,3 +419,25 @@ Future<bool> upcomingToCompletedFunc(BookingStatusCardModel obj) async {
 }
 
 
+
+Future<bool> updateBooking(BookingStatusCardModel mBookingUpcoming) async {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _bookingCollection = _firestore.collection('bookings');
+
+  _bookingCollection.doc(mBookingUpcoming.booking_id).update({
+
+    "booking_status": "0",
+    "date_time": mBookingUpcoming.date_time,
+    "location_id": mBookingUpcoming.location_id,
+    "style_id": mBookingUpcoming.style_id,
+    "user_email": mBookingUpcoming.user_email,
+    "user_id": mBookingUpcoming.user_id,
+    "user_type": mBookingUpcoming.user_type
+
+  }).then((_) {
+    print("Booking update success!");
+    return true;
+  });
+
+}
