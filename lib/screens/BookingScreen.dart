@@ -14,21 +14,32 @@ import 'package:saloon_app/screens/BookingCanceledScreen.dart';
 class BookingScreen extends StatefulWidget {
   static const routeName = '/booking';
 
+  final int bookingTypeFromConstructor;
+
+  BookingScreen({Key key, this.bookingTypeFromConstructor}) : super(key: key);
+
+
   @override
   _BookingScreenState createState() => _BookingScreenState();
 }
 
 class _BookingScreenState extends State<BookingScreen> {
 
+  int bookingTypeFromConstructor=0;
+
+  int get bt {
+    return bookingTypeFromConstructor;
+  }
+
+
   var statusBtnList =[];
-  var currentSelectedStatus = 0;
+  // var currentSelectedStatus = 0;
 
   @override
   void initState() {
     super.initState();
-
     addStatusButtonsToStatusBtnList();
-
+    this.bookingTypeFromConstructor = widget.bookingTypeFromConstructor;
   }
 
   @override
@@ -63,10 +74,10 @@ class _BookingScreenState extends State<BookingScreen> {
                     return GestureDetector(
                         onTap: (){
                           setState(() {
-                            this.currentSelectedStatus = index;
+                            this.bookingTypeFromConstructor = index;
                           });
                         },
-                        child: bookingStatusButtonWidget(statusBtnList[index].name, btnFontWeight: FontWeight.bold, btnColor:statusBtnList[index].color, currentSelectedStatus:currentSelectedStatus, index:index));
+                        child: bookingStatusButtonWidget(statusBtnList[index].name, btnFontWeight: FontWeight.bold, btnColor:statusBtnList[index].color, currentSelectedStatus:bookingTypeFromConstructor, index:index));
                   }),
             ),
             SizedBox(
@@ -74,9 +85,9 @@ class _BookingScreenState extends State<BookingScreen> {
             ),
             Column(
               children: [
-                if (currentSelectedStatus == 0) BookingUpcomingScreen(),
-                if (currentSelectedStatus == 1) BookingCompletedScreen(),
-                if (currentSelectedStatus == 2) BookingCanceledScreen(),
+                if (bookingTypeFromConstructor == 0) BookingUpcomingScreen(),
+                if (bookingTypeFromConstructor == 1) BookingCompletedScreen(),
+                if (bookingTypeFromConstructor == 2) BookingCanceledScreen(),
               ],
             ),
 

@@ -71,7 +71,13 @@ class UtilFunctions {
   static List<String> splitDateAndTime(String givenDateTime){
     print(givenDateTime);
 
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm");
+    DateFormat dateFormat;
+    if(givenDateTime.length>20){
+      dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    }else{
+      dateFormat = DateFormat("yyyy-MM-dd HH:mm");
+    }
+
     DateTime dateTime = dateFormat.parse(givenDateTime);
 
     print(dateTime.year);

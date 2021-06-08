@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
         '/pin_verification': (context) => VerificationInputScreen(),
         '/main': (context) => MainScreen(),
         '/home': (context) => HomeScreen(),
-        '/booking': (context) => BookingScreen(),
+        '/booking': (context) => BookingScreen(bookingTypeFromConstructor:1),
         '/favourites': (context) => FavouritesScreen(),
         '/offers': (context) => OffersScreen(),
         '/trending_styles': (context) => TrendingStylesScreen(),

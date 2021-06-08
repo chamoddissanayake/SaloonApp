@@ -23,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
       // MainScreen(),
       // SettingsScreen()
       HomeScreen(),
-      BookingScreen(),
+      BookingScreen(bookingTypeFromConstructor:1),
       FavouritesScreen(),
       OffersScreen(),
     ];

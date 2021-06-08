@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_awesome_alert_box/flutter_awesome_alert_box.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:saloon_app/models/BookingStatusCard.dart';
+import 'package:saloon_app/screens/BookingScreen.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/widgets/BookingStatusUpdateDialog.dart';
 import 'package:saloon_app/utils/UtilFunctions.dart';
@@ -240,9 +241,16 @@ class _BookingStatusUpcomingDialogState extends State<BookingStatusUpcomingDialo
       text: "Your booking was mark as done",
     ).then((value) {
     });
-    Navigator.pushNamed(context, '/booking').then((_) => setState(() {}));
-    print("updated");
+    // Navigator.pushNamed(context, '/booking').then((_) => setState(() {
+    //   currentSelectedStatus = 1;
+    // }));
 
+    return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return BookingScreen(bookingTypeFromConstructor: 1);
+    }));
+
+
+    print("updated");
   }
 
 }

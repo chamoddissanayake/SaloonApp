@@ -42,12 +42,12 @@ class _BookingUpcomingScreenState extends State<BookingUpcomingScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: GestureDetector(onTap: (){
-                    // Future.delayed(const Duration(milliseconds: 1), () {
-                    //   showDialog(
-                    //     context: context,
-                    //     builder: (BuildContext context) => BookingStatusCanceledDialog(mBookingCanceled: mBookingCanceledList[index]),
-                    //   );
-                    // });
+                    Future.delayed(const Duration(milliseconds: 1), () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => BookingStatusUpcomingDialog(mBookingUpcoming: mBookingUpcomingList[index]),
+                      );
+                    });
 
                   }, child: StatusCardItem(mBookingUpcomingList[index], index, completeStatusIndex)),
                 );
