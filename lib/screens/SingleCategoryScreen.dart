@@ -100,7 +100,7 @@ class _SingleCategoryScreenState extends State<SingleCategoryScreen> {
                               ),
                             ),
                           ),
-                          Text(UtilFunctions.getReadableSortByValue()),
+                          Text(UtilFunctions.getReadableSortByValue_sortCategory()),
                         ],
                       ),
                       onTap: () {
@@ -109,7 +109,7 @@ class _SingleCategoryScreenState extends State<SingleCategoryScreen> {
                             context: context,
                             // builder: (BuildContext context) => BookingConfirmationDialog(),
                             builder: (BuildContext context) =>
-                                ShowSortingDialog(),
+                                ShowSortingDialog(interfaceType: "sortCategory",selectedCategory:this.currentCatId),
                           );
                         });
 
@@ -125,8 +125,8 @@ class _SingleCategoryScreenState extends State<SingleCategoryScreen> {
               Container(
                 margin: EdgeInsets.only(left: 16.0, right: 16.0),
                 child: FutureBuilder<List<TrendingStyles>>(
-                    future: gblSortedData != null
-                        ? gblSortedData
+                    future: gblSortedData_sortCategory != null
+                        ? gblSortedData_sortCategory
                         : getAllTrendingStylesForAGivenCategory(this.currentCatId),
                     builder: (BuildContext context,
                         AsyncSnapshot<List<TrendingStyles>> snapshot) {

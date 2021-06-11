@@ -78,7 +78,7 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                             ),
                           ),
                         ),
-                        Text(UtilFunctions.getReadableSortByValue()),
+                        Text(UtilFunctions.getReadableSortByValue_sortStyle()),
                       ],
                     ),
                     onTap: () {
@@ -87,7 +87,7 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
                           context: context,
                           // builder: (BuildContext context) => BookingConfirmationDialog(),
                           builder: (BuildContext context) =>
-                              ShowSortingDialog(),
+                              ShowSortingDialog(interfaceType: "sortStyle", selectedCategory:""),
                         );
                       });
 
@@ -103,8 +103,8 @@ class _AllTrendingStylesState extends State<AllTrendingStyles> {
             Container(
               margin: EdgeInsets.only(left: 16.0, right: 16.0),
               child: FutureBuilder<List<TrendingStyles>>(
-                  future: gblSortedData != null
-                      ? gblSortedData
+                  future: gblSortedData_sortStyle != null
+                      ? gblSortedData_sortStyle
                       : getAllTrendingStyles(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<TrendingStyles>> snapshot) {

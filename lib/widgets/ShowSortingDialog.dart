@@ -10,17 +10,62 @@ import 'package:saloon_app/utils/globals.dart';
 
 
 class ShowSortingDialog extends StatefulWidget {
+
+  final String interfaceType;
+  final String selectedCategory;
+
+  ShowSortingDialog({Key key, this.interfaceType, this.selectedCategory}) : super(key: key);
+
+
   @override
   _ShowSortingDialogState createState() => _ShowSortingDialogState();
 }
 
 class _ShowSortingDialogState extends State<ShowSortingDialog> {
-  // SortByItem radioItem = SortByItem.best_match;
-  SortByItem radioItem = (gblSelectedType=="best_match")? SortByItem.best_match :
-                          (gblSelectedType=="name")? SortByItem.name:
-                          (gblSelectedType=="price_ascending")? SortByItem.price_ascending:
-                          (gblSelectedType=="price_descending")? SortByItem.price_descending:
-                          SortByItem.best_match;
+
+  String interfaceType;
+  String selectedCategory;
+
+  String get t {
+    return interfaceType;
+  }
+
+  String get sc {
+    return selectedCategory;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.interfaceType = widget.interfaceType;
+    this.selectedCategory = widget.selectedCategory;
+    this.sortingTypeFunc();
+  }
+
+  SortByItem radioItem;
+
+  void sortingTypeFunc() {
+    if(this.interfaceType == "sortCategory"){
+
+      this.radioItem = (gblSelectedType_sortCategory=="best_match")? SortByItem.best_match :
+      (gblSelectedType_sortCategory=="name")? SortByItem.name:
+      (gblSelectedType_sortCategory=="price_ascending")? SortByItem.price_ascending:
+      (gblSelectedType_sortCategory=="price_descending")? SortByItem.price_descending:
+      SortByItem.best_match;
+
+    }else{
+      //sortStyle
+
+      this.radioItem = (gblSelectedType_sortStyle=="best_match")? SortByItem.best_match :
+      (gblSelectedType_sortStyle=="name")? SortByItem.name:
+      (gblSelectedType_sortStyle=="price_ascending")? SortByItem.price_ascending:
+      (gblSelectedType_sortStyle=="price_descending")? SortByItem.price_descending:
+      SortByItem.best_match;
+
+    }
+  }
+
+
 
 
   @override
@@ -151,10 +196,15 @@ class _ShowSortingDialogState extends State<ShowSortingDialog> {
                           selectedType="best_match";
                       }
 
+                      if(interfaceType  == "sortStyle"){
+                        gblSortedData_sortStyle = getSortedTrendingResults_sortStyle(selectedType);
+                        gblSelectedType_sortStyle = selectedType;
+                      }else if(interfaceType  == "sortCategory"){
+                        gblSortedData_sortCategory = getSortedTrendingResults_sortCategory(selectedType, selectedCategory);
+                        gblSelectedType_sortCategory = selectedType;
+                      }
 
-                      // TODO: refresh data of all trending styles screen from here
-                      gblSortedData = getSortedTrendingResults(selectedType);
-                      gblSelectedType = selectedType;
+
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -176,6 +226,8 @@ class _ShowSortingDialogState extends State<ShowSortingDialog> {
           ))
     );
   }
+
+
 }
 
 showSortingDialogContent(BuildContext context, _character) {

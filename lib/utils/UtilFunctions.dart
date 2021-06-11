@@ -6,18 +6,32 @@ import 'package:intl/intl.dart';
 
 class UtilFunctions {
 
-  static String getReadableSortByValue() {
-      if (gblSelectedType == "best_match"){
+  static String getReadableSortByValue_sortStyle() {
+      if (gblSelectedType_sortStyle == "best_match"){
         return "Best Match";
-      }else if (gblSelectedType == "name"){
+      }else if (gblSelectedType_sortStyle == "name"){
         return "Name";
-      }else if (gblSelectedType == "price_ascending"){
+      }else if (gblSelectedType_sortStyle == "price_ascending"){
         return "Price Asc.";
-      }else if (gblSelectedType == "price_descending"){
+      }else if (gblSelectedType_sortStyle == "price_descending"){
         return "Price Desc.";
       }else{
         return "Best Match";
       }
+  }
+
+  static String getReadableSortByValue_sortCategory() {
+    if (gblSelectedType_sortCategory == "best_match"){
+      return "Best Match";
+    }else if (gblSelectedType_sortCategory == "name"){
+      return "Name";
+    }else if (gblSelectedType_sortCategory == "price_ascending"){
+      return "Price Asc.";
+    }else if (gblSelectedType_sortCategory == "price_descending"){
+      return "Price Desc.";
+    }else{
+      return "Best Match";
+    }
   }
 
 

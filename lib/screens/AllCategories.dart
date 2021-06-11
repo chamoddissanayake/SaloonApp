@@ -7,6 +7,8 @@ import 'package:saloon_app/widgets/AppBarWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 
+import 'SingleCategoryScreen.dart';
+
 class AllCategories extends StatefulWidget {
   static const routeName = '/all_categories';
   @override
@@ -106,14 +108,29 @@ class _AllCategoriesState extends State<AllCategories> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(10.0)),
-                              child: CachedNetworkImage(
-                                imageUrl: snapshot.data[index].image,
-                                fit: BoxFit.cover,
-                                height: width * 0.5,
-                                width: width,
+                            GestureDetector(
+                              onTap:(){
+
+                                Categories ts =snapshot.data[index];
+                                // Goto Style screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SingleCategoryScreen(catId: ts.cat_id),
+                                  ),
+                                );
+
+
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0)),
+                                child: CachedNetworkImage(
+                                  imageUrl: snapshot.data[index].image,
+                                  fit: BoxFit.cover,
+                                  height: width * 0.5,
+                                  width: width,
+                                ),
                               ),
                             ),
                             Center(child: customTextWidget(snapshot.data[index].name, fontSize: 18.0, fontWeight: FontWeight.bold)),

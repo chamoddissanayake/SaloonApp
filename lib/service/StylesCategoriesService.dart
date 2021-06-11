@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
+import 'package:saloon_app/models/TrendingStylesNum.dart';
 import 'package:saloon_app/models/Categories.dart';
 
 Future<List<TrendingStyles>> getTrendingStyles() async {
@@ -163,7 +164,7 @@ Future<TrendingStyles> getTrendingStyleById(String styleId) async {
 
 
 
-Future<List<TrendingStyles>> getSortedTrendingResults(String selectedType) async {
+Future<List<TrendingStyles>> getSortedTrendingResults_sortStyle(String selectedType) async {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference _styleCollection = _firestore.collection('styles');
@@ -173,12 +174,12 @@ Future<List<TrendingStyles>> getSortedTrendingResults(String selectedType) async
 
 
   final allData = querySnapshot.docs.map((doc)  {
-    TrendingStyles s1 = TrendingStyles();
+    TrendingStylesNum s1 = TrendingStylesNum();
 
     s1.sty_id=doc.id;
     Map<String, Object> tmp = doc.data() as Map<String, Object>;
     s1.name = tmp.remove("name");
-    s1.price = tmp.remove("price");
+    s1.price = double.parse(tmp.remove("price"));
     s1.image = tmp.remove("image");
     s1.description = tmp.remove("description");
     s1.category_id = tmp.remove("category_id");
@@ -188,24 +189,105 @@ Future<List<TrendingStyles>> getSortedTrendingResults(String selectedType) async
 
     return s1;
   }).toList();
+  print(allData);
 
   if (selectedType == "best_match"){
-    return allData;
+    return trendingStylesNumToTrendingStyles(allData);
   }else if(selectedType == "name"){
     allData.sort((a, b) => a.name.compareTo(b.name));
-    return allData;
+    return trendingStylesNumToTrendingStyles(allData);
   }else if(selectedType == "price_ascending"){
     allData.sort((a, b) => a.price.compareTo(b.price));
-    return allData;
+    return trendingStylesNumToTrendingStyles(allData);
   }else if(selectedType == "price_descending"){
     allData.sort((a, b) => a.price.compareTo(b.price));
-    List<TrendingStyles> reversedList = new List.from(allData.reversed);
-    return reversedList;
+    List<TrendingStylesNum> reversedList = new List.from(allData.reversed);
+    return trendingStylesNumToTrendingStyles(reversedList);
   }else{
-    return allData;
+    return trendingStylesNumToTrendingStyles(allData);
+  }
+
+
+
+}
+
+List<TrendingStyles> trendingStylesNumToTrendingStyles(List<TrendingStylesNum> allData){
+
+  List<TrendingStyles> tempListOfTrendingStyles= new List<TrendingStyles>();
+  for(var i = 0; i < allData.length; i++){
+    TrendingStyles ts = new TrendingStyles();
+
+    ts.sty_id = allData[i].sty_id;
+    ts.name = allData[i].name;
+    ts.price = allData[i].price.toStringAsFixed(2);
+    ts.image = allData[i].image;
+    ts.description = allData[i].description;
+    ts.category_id = allData[i].category_id;
+    ts.styling_time = allData[i].styling_time;
+    ts.short_description = allData[i].short_description;
+
+    tempListOfTrendingStyles.add(ts);
+  }
+  return tempListOfTrendingStyles;
+}
+
+
+
+//
+
+Future<List<TrendingStyles>> getSortedTrendingResults_sortCategory(String selectedType, String selectedCategory) async {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _styleCollection = _firestore.collection('styles');
+
+  // Get docs from collection reference
+  QuerySnapshot querySnapshot = await _styleCollection.get();
+
+
+  final allData = querySnapshot.docs.map((doc)  {
+    TrendingStylesNum s1 = TrendingStylesNum();
+
+    s1.sty_id=doc.id;
+    Map<String, Object> tmp = doc.data() as Map<String, Object>;
+    s1.name = tmp.remove("name");
+    s1.price = double.parse(tmp.remove("price"));
+    s1.image = tmp.remove("image");
+    s1.description = tmp.remove("description");
+    s1.category_id = tmp.remove("category_id");
+    s1.styling_time = tmp.remove("styling_time");
+    s1.short_description = tmp.remove("short_description");
+
+
+    if(s1.category_id == selectedCategory){
+      return s1;
+    }else{
+      return null;
+    }
+
+  }).toList();
+  print(allData);
+
+  allData.removeWhere((value) => value == null);
+  print(allData);
+
+  if (selectedType == "best_match"){
+    return trendingStylesNumToTrendingStyles(allData);
+  }else if(selectedType == "name"){
+    allData.sort((a, b) => a.name.compareTo(b.name));
+    return trendingStylesNumToTrendingStyles(allData);
+  }else if(selectedType == "price_ascending"){
+    allData.sort((a, b) => a.price.compareTo(b.price));
+    return trendingStylesNumToTrendingStyles(allData);
+  }else if(selectedType == "price_descending"){
+    allData.sort((a, b) => a.price.compareTo(b.price));
+    List<TrendingStylesNum> reversedList = new List.from(allData.reversed);
+    return trendingStylesNumToTrendingStyles(reversedList);
+  }else{
+    return trendingStylesNumToTrendingStyles(allData);
   }
 
 }
+
 
 
 Future<List<TrendingStyles>> getAllTrendingStyles() async {

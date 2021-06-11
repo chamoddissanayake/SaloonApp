@@ -1,6 +1,13 @@
+import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
+
+
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_restart/flutter_restart.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:saloon_app/models/CustomUser.dart';
 import 'package:saloon_app/models/GoogleUser.dart';
 import 'package:saloon_app/screens/LoadingScreen.dart';
@@ -9,7 +16,7 @@ import 'package:saloon_app/service/UserService.dart';
 import 'package:saloon_app/utils/UtilFunctions.dart';
 import 'package:saloon_app/widgets/CustomTextWidget.dart';
 import 'package:saloon_app/utils/google/authentication.dart';
-import 'package:saloon_app/screens/LoginSignUpScreen.dart';
+import 'package:saloon_app/service/firebase/Firebasehandler.dart';
 import 'package:saloon_app/widgets/CustomBackIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -92,10 +99,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     radius: 80.0,
                                   ),
                                   cu != null? Container(
-                                    child: Icon(
-                                      Icons.edit,
-                                      color: Colors.white,
-                                      size: 30.0,
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        editPressed();
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                        size: 30.0,
+                                      ),
                                     ),
                                   ):Container(),
                                 ],
@@ -487,11 +499,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
 
+  File _imageFile;
+  void editPressed() async {
+    await Firebasehandler.takePhotoOrChooseAndUpload();
+
+    // print("edit pressed");
+    // final picker = ImagePicker();
+    //
+    //
+    //   final pickedFile = await picker.getImage(source: ImageSource.camera);
+    //
+    //   setState(() {
+    //     _imageFile = File(pickedFile.path);
+    //   });
+    //
+    //   await uploadImageToFirebase();
+    //   print("upload done");
+  }
+
+
+  // Future uploadImageToFirebase() async {
+    // String fileName = basename(_imageFile.path);
+    // StorageReference firebaseStorageRef =
+    // FirebaseStorage.instance.ref().child('uploads/$fileName');
+    // StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
+    // StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    // taskSnapshot.ref.getDownloadURL().then(
+    //       (value) => print("Done: $value"),
+    // );
+
+
+    // FirebaseStorage storage = FirebaseStorage.instance;
+    // Reference ref = storage.ref().child("image1" + DateTime.now().toString());
+    // UploadTask uploadTask = ref.putFile(_imageFile);
+    // uploadTask.then((res) {
+    //   print("^^^");
+    //   print(res);
+    //   print("***");
+    //   res.ref.getDownloadURL();
+    // });
+
+  // }
+
+
+
 
 
 
 
 }
-
-
-
