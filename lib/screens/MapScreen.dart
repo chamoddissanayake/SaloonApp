@@ -102,6 +102,7 @@ class _MapScreenState extends State<MapScreen> {
     getData();
     setFirstValue();
     getMarkers();
+    // initialLoading();
     super.initState();
   }
 
@@ -322,6 +323,34 @@ class _MapScreenState extends State<MapScreen> {
     description = Tools.markersList[0].description;
     latitude = Tools.markersList[0].latitude;
     longitude = Tools.markersList[0].longitude;
+  }
+
+  void initialLoading() {
+
+    setState(() => _index = 0);
+    indexMarker = Tools.markersList[0].id;
+    name = Tools.markersList[0].name;
+    description  = Tools.markersList[0].description;
+    latitude =  Tools.markersList[0].latitude;
+    longitude =  Tools.markersList[0].longitude;
+
+    if (Tools.markersList[0].latitude != null &&
+        Tools.markersList[0].longitude != null) {
+      newPosition = LatLng(
+          double.tryParse(
+              Tools.markersList[0].latitude),
+          double.tryParse(
+              Tools.markersList[0].longitude));
+      newCameraPosition =
+          CameraPosition(target: newPosition, zoom: 15);
+    }
+    getMarkers();
+    mapController
+        .animateCamera(CameraUpdate.newCameraPosition(
+        newCameraPosition))
+        .then((val) {
+      setState(() {});
+    });
   }
 
 
