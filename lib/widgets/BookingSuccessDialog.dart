@@ -69,6 +69,7 @@ class _BookingSuccessDialogState extends State<BookingSuccessDialog> {
 
     Future.delayed(const Duration(milliseconds: 1000), () {
       isTickCompleting= false;
+      this.setState(() { });
     });
   }
   @override
