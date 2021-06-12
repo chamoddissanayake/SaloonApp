@@ -8,6 +8,7 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_restart/flutter_restart.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:saloon_app/models/CustomUser.dart';
 import 'package:saloon_app/models/GoogleUser.dart';
 import 'package:saloon_app/screens/LoadingScreen.dart';
@@ -47,6 +48,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
 
     getcurrentUserData();
+    // firebase.auth().signInAnonymously();
+    FirebaseAuth.instance.signInAnonymously();
     print(this.gu);
   }
 
@@ -157,7 +160,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         this.cu.last_name  = value;
                       },
                       decoration: InputDecoration(
-                        errorText:  _validate_first_name ? 'Last name Can\'t Be Empty' : null,
+                        errorText:  _validate_last_name ? 'Last name Can\'t Be Empty' : null,
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         border: OutlineInputBorder(),
                         labelText: cu.last_name,
@@ -173,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         this.cu.email  = value;
                       },
                       decoration: InputDecoration(
-                        errorText:  _validate_first_name ? 'Email Can\'t Be Empty' : null,
+                        errorText:  _validate_email ? 'Email Can\'t Be Empty' : null,
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         border: OutlineInputBorder(),
                         labelText: cu.email,
@@ -189,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         this.cu.phone  = value;
                       },
                       decoration: InputDecoration(
-                        errorText:  _validate_first_name ? 'Phone Can\'t Be Empty' : null,
+                        errorText:  _validate_phone ? 'Phone Can\'t Be Empty' : null,
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         border: OutlineInputBorder(),
                         labelText: cu.phone,
@@ -501,45 +504,105 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   File _imageFile;
   void editPressed() async {
-    await Firebasehandler.takePhotoOrChooseAndUpload();
+    // await Firebasehandler.takePhotoOrChooseAndUpload();
 
-    // print("edit pressed");
-    // final picker = ImagePicker();
-    //
-    //
-    //   final pickedFile = await picker.getImage(source: ImageSource.camera);
-    //
-    //   setState(() {
-    //     _imageFile = File(pickedFile.path);
-    //   });
-    //
-    //   await uploadImageToFirebase();
-    //   print("upload done");
+    Future_showChoiceDialog(context);
+
+  }
+
+  PickedFile imageFile;
+  void _openCamera(BuildContext context)  async{
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera ,
+    );
+    setState(() {
+      imageFile = pickedFile;
+    });
+    uploadImageToFirebase(context);
+
   }
 
 
-  // Future uploadImageToFirebase() async {
-    // String fileName = basename(_imageFile.path);
-    // StorageReference firebaseStorageRef =
-    // FirebaseStorage.instance.ref().child('uploads/$fileName');
-    // StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
-    // StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-    // taskSnapshot.ref.getDownloadURL().then(
-    //       (value) => print("Done: $value"),
-    // );
+  void _openGallery(BuildContext context) async{
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery ,
+    );
+    setState(() {
+      imageFile = pickedFile;
+    });
+    uploadImageToFirebase(context);
 
 
-    // FirebaseStorage storage = FirebaseStorage.instance;
-    // Reference ref = storage.ref().child("image1" + DateTime.now().toString());
-    // UploadTask uploadTask = ref.putFile(_imageFile);
-    // uploadTask.then((res) {
-    //   print("^^^");
-    //   print(res);
-    //   print("***");
-    //   res.ref.getDownloadURL();
-    // });
 
-  // }
+  }
+
+
+  Future_showChoiceDialog(BuildContext context)
+  {
+    return showDialog(context: context,builder: (BuildContext context){
+
+      return AlertDialog(
+        title: Text("Choose option",style: TextStyle(color: Colors.blue),),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: [
+              Divider(height: 1,color: Colors.blue,),
+              ListTile(
+                onTap: (){
+                  _openGallery(context);
+                },
+                title: Text("Gallery"),
+                leading: Icon(Icons.account_box,color: Colors.blue,),
+              ),
+
+              Divider(height: 1,color: Colors.blue,),
+              ListTile(
+                onTap: (){
+                  _openCamera(context);
+                },
+                title: Text("Camera"),
+                leading: Icon(Icons.camera,color: Colors.blue,),
+              ),
+            ],
+          ),
+        ),);
+    });
+  }
+
+  Future uploadImageToFirebase(BuildContext context) async {
+
+    final _firebaseStorage = FirebaseStorage.instance;
+    final _imagePicker = ImagePicker();
+    PickedFile image;
+    //Check Permissions
+    await Permission.photos.request();
+
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted){
+      //Select Image
+      image = await _imagePicker.getImage(source: ImageSource.gallery);
+      var file = File(image.path);
+
+      if (image != null){
+        //Upload to Firebase
+        var snapshot = await _firebaseStorage.ref()
+            .child('images/'+(DateTime.now().millisecondsSinceEpoch).toString()+".jpg")
+            .putFile(file);
+        var downloadUrl = await snapshot.ref.getDownloadURL();
+        setState(() {
+          print(downloadUrl);
+          print("-----");
+          Navigator.pop(context);
+        });
+      } else {
+        print('No Image Path Received');
+      }
+    } else {
+      print('Permission not granted. Try Again with permission access');
+    }
+
+  }
 
 
 
