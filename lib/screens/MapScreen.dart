@@ -89,6 +89,7 @@ class _MapScreenState extends State<MapScreen> {
     });
 
     valueNotifier.value = indexMarker;
+    setState(() {});
   }
 
   //******** OnMapCreated */
@@ -99,11 +100,13 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void initState() {
+    super.initState();
     getData();
     setFirstValue();
     getMarkers();
     // initialLoading();
-    super.initState();
+
+
   }
 
   @override
