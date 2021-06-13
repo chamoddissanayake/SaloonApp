@@ -624,7 +624,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Color(0xFFFF9F9F),
       context: context,
       type: CoolAlertType.success,
-      text: "Photo Your Photo successfully.",
+      text: "Your photo uploaded successfully.",
       onConfirmBtnTap: confirmInPhotoUpdateSuccessPressed,
     ).then((value) => this.setState(() {  }));
   }
