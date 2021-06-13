@@ -166,4 +166,28 @@ Future<bool> deleteUser(CustomUser user) async {
     return true;
   });
 
+
+}
+
+
+
+
+Future<bool> updateUserPhoto(CustomUser user, String photoUrl) async {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _styleCollection = _firestore.collection('users');
+
+  _styleCollection.doc(user.objId).update({
+    "email": user.email,
+    "first_name": user.first_name,
+    "gender": user.gender,
+    "last_name": user.last_name,
+    "password": user.password,
+    "phone": user.phone,
+    "photo": photoUrl
+  }).then((_) {
+    print("update success!");
+    return true;
+  });
+
 }

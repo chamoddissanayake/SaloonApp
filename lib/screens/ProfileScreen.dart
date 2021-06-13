@@ -592,6 +592,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         var downloadUrl = await snapshot.ref.getDownloadURL();
         setState(() {
           print(downloadUrl);
+          print(this.cu);
+          this.updatePhotoPath(downloadUrl);
           print("-----");
           Navigator.pop(context);
         });
@@ -601,9 +603,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else {
       print('Permission not granted. Try Again with permission access');
     }
-
   }
 
+
+  void updatePhotoPath(String downloadUrl)async {
+
+    // print(this.cu);
+    bool photo_update_status = await updateUserPhoto(this.cu, downloadUrl);
+
+    this.setState(() { });
+    CoolAlert.show(
+      backgroundColor: Color(0xFFFF9F9F),
+      context: context,
+      type: CoolAlertType.success,
+      text: "Photo Your Photo successfully.",
+      onConfirmBtnTap: confirmInPhotoUpdateSuccessPressed,
+    ).then((value) => this.setState(() {  }));
+  }
+
+  void confirmInPhotoUpdateSuccessPressed(){
+    this.setState(() { });
+  }
 
 
 
