@@ -476,7 +476,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Color(0xFFFF9F9F),
       context: context,
       type: CoolAlertType.success,
-      text: "Your account deleted successfully.",
+      text: "Your account updated successfully.",
     );
   }
 

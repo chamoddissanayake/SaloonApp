@@ -241,19 +241,19 @@ class _BookingStatusUpdateDialogState extends State<BookingStatusUpdateDialog> {
                       type: DateTimePickerType.dateTimeSeparate,
                       dateMask: 'd MMM, yyyy',
                       initialValue: DateTime.now().toString(),
-                      firstDate: DateTime(2000),
+                      firstDate:  DateTime.now(),
                       lastDate: DateTime(2100),
                       icon: Icon(Icons.event),
                       dateLabelText: 'Date',
                       timeLabelText: "Hour",
-                      selectableDayPredicate: (date) {
-                        // Disable weekend days to select from the calendar
-                        if (date.weekday == 6 || date.weekday == 7) {
-                          return false;
-                        }
-
-                        return true;
-                      },
+                      // selectableDayPredicate: (date) {
+                      //   // Disable weekend days to select from the calendar
+                      //   if (date.weekday == 6 || date.weekday == 7) {
+                      //     return false;
+                      //   }
+                      //
+                      //   return true;
+                      // },
                       onChanged: (val) {
                         this.newDateTime = val.toString();
                       } ,
