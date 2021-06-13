@@ -61,7 +61,8 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               Text(
                 this.userType == null? "":
-                  (this.userType == 'G')? ""+gu.displayName!=""?gu.displayName:"":(this.userType == 'C')? ""+cu.first_name!=""?cu.first_name:""+" "+cu.last_name!=""?cu.last_name:"":"",
+                  (this.userType == 'G')? ""+gu.displayName!=""?gu.displayName:"":
+                  (this.userType == 'C')? ""+cu.first_name!="" && cu.last_name!=""?cu.first_name+" "+cu.last_name:""+" ":"",
                 style: TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.w800,

@@ -93,14 +93,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
+                                //   CircleAvatar(
+                                //     backgroundImage: this.userType == null ? NetworkImage(defaultImage) : (this.userType == 'G')
+                                // ? NetworkImage(gu.photoURL)
+                                // : (this.userType == 'C')
+                                // ? NetworkImage(cu.photo)
+                                // : NetworkImage(defaultImage),
+                                //     radius: 80.0,
+                                //   ),
                                   CircleAvatar(
-                                    backgroundImage: this.userType == null ? NetworkImage(defaultImage) : (this.userType == 'G')
-                                ? NetworkImage(gu.photoURL)
-                                : (this.userType == 'C')
-                                ? NetworkImage(cu.photo)
-                                : NetworkImage(defaultImage),
-                                    radius: 80.0,
-                                  ),
+                                      radius: 50.0,
+                                      backgroundImage: this.userType == null ? AssetImage("assets/images/user/user.png")
+                                          : (this.userType == 'G')
+                                          ? gu.photoURL!=""?NetworkImage(gu.photoURL):AssetImage("assets/images/user/user.png")
+                                          : (this.userType == 'C')
+                                          ? cu.photo!=""?NetworkImage(cu.photo):AssetImage("assets/images/user/user.png")
+                                          : Container()),
                                   cu != null? Container(
                                     child: GestureDetector(
                                       onTap: (){
@@ -495,7 +503,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Color(0xFFFFDEC1),
       context: context,
       type: CoolAlertType.success,
-      text: "Your details deleted successfully.",
+      text: "Your account deleted successfully.",
     ).then((value) {
       FlutterRestart.restartApp();
     } );
