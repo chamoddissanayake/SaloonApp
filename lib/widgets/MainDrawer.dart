@@ -49,19 +49,19 @@ class _MainDrawerState extends State<MainDrawer> {
                 },
                 child: CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: this.userType == null
-                        ? AssetImage("assets/images/user/user.png")
+                    backgroundImage: this.userType == null ? AssetImage("assets/images/user/user.png")
                         : (this.userType == 'G')
-                            ? NetworkImage(gu.photoURL)
+                            ? gu.photoURL!=""?NetworkImage(gu.photoURL):AssetImage("assets/images/user/user.png")
                             : (this.userType == 'C')
-                                ? NetworkImage(cu.photo)
+                                ? cu.photo!=""?NetworkImage(cu.photo):AssetImage("assets/images/user/user.png")
                                 : Container()),
               ),
               SizedBox(
                 height: 15.0,
               ),
               Text(
-                this.userType == null? "":(this.userType == 'G')? ""+gu.displayName:(this.userType == 'C')? ""+cu.first_name+" "+cu.last_name:"",
+                this.userType == null? "":
+                  (this.userType == 'G')? ""+gu.displayName!=""?gu.displayName:"":(this.userType == 'C')? ""+cu.first_name!=""?cu.first_name:""+" "+cu.last_name!=""?cu.last_name:"":"",
                 style: TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.w800,

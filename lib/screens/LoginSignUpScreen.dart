@@ -51,17 +51,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       }
     }
 
-
-
-    // return Future.delayed(loginTime).then((_) {
-    //   if (!users.containsKey(data.name)) {
-    //     return 'Username not exists';
-    //   }
-    //   if (users[data.name] != data.password) {
-    //     return 'Password does not match';
-    //   }
-    //   return null;
-    // });
   }
 
   Future<String> _signUpUser(LoginData data) async {
@@ -71,19 +60,29 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     inputSignUpUserObj.password = data.password;
     Future.delayed(Duration(milliseconds: 2000)).then((_) {
       // Navigator.of(context).pushReplacementNamed(PhoneNumberInputScreen.routeName);
-      Navigator.pushNamed(
-        context,
-        PhoneNumberInputScreen.routeName,
-        arguments: inputSignUpUserObj,
-      );
-
-
+      // Navigator.pushNamed(
+      //   context,
+      //   PhoneNumberInputScreen.routeName,
+      //   arguments: inputSignUpUserObj,
+      // );
+      this.registerUser(inputSignUpUserObj);
 
     });
 
   }
 
 
+  void registerUser(CustomUser inputSignUpUserObj)async {
+
+    inputSignUpUserObj.phone="";
+    print("---");
+    addNewUserToDB(inputSignUpUserObj);
+  }
+
+  void addNewUserToDB(CustomUser inputSignUpUserObj) async {
+    addUser(inputSignUpUserObj);
+    Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+  }
 
 
   Future<String> _recoverPassword(String name) {

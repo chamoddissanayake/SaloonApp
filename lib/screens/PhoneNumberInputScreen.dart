@@ -68,12 +68,7 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                   text: "Send OTP Code",
                   background: Theme.of(context).primaryColor,
                   onPressed: () {
-                    // NavigationHandlerScreen.routeName
-                    // Navigator.pushReplacementNamed(
-                    //     context,
-                    //     NavigationHandlerScreen.routeName,
-                    //     arguments: ScreenArguments(2)
-                    // );
+
                     signUpUserObj.phone = this.inputPhone;
 
                     Navigator.pushNamed(
