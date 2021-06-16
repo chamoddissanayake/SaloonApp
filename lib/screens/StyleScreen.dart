@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nice_button/NiceButton.dart';
 import 'package:overlay_container/overlay_container.dart';
+import 'package:saloon_app/models/Favourite.dart';
 import 'package:saloon_app/models/TrendingStyles.dart';
 import 'package:saloon_app/service/StylesCategoriesService.dart';
 import 'package:saloon_app/utils/UtilFunctions.dart';
@@ -20,6 +21,7 @@ import 'package:saloon_app/models/Booking.dart';
 import 'package:saloon_app/models/GoogleUser.dart';
 import 'package:saloon_app/models/CustomUser.dart';
 import 'package:saloon_app/service/LocationService.dart';
+import 'package:saloon_app/service/FavouriteService.dart';
 import 'package:saloon_app/widgets/BookingConfirmationDialog.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:saloon_app/utils/PriceUtils.dart';
@@ -29,7 +31,7 @@ class StyleScreen extends StatefulWidget {
   static const routeName = '/style';
 
   final String styleId;
-  final BuildContext prevCtx ;
+  final BuildContext prevCtx;
 
   // In the constructor, require a Todo.
   StyleScreen({Key key, this.styleId, this.prevCtx}) : super(key: key);
@@ -37,6 +39,7 @@ class StyleScreen extends StatefulWidget {
   String get t {
     return styleId;
   }
+
   BuildContext get p {
     return prevCtx;
   }
@@ -47,6 +50,7 @@ class StyleScreen extends StatefulWidget {
 
 class _StyleScreenState extends State<StyleScreen> {
   String currentStyleId;
+  var _myFavorite = false;
 
   List<Location> mLocationList;
   TrendingStyles currentStyleObj;
@@ -62,17 +66,16 @@ class _StyleScreenState extends State<StyleScreen> {
 
     getLocationsForFirstUser();
 
-
     currentStyleId = widget.styleId;
     prevCtx = widget.prevCtx;
     loadCurrentStyleData();
     print(currentStyleObj);
   }
 
-  void getLocationsForFirstUser()async{
+  void getLocationsForFirstUser() async {
     this.mLocationList = await getAllLocations();
     this.loc_id = this.mLocationList[0].loc_id;
-    this.setState(() { });
+    this.setState(() {});
   }
 
   void loadCurrentStyleData() async {
@@ -85,7 +88,7 @@ class _StyleScreenState extends State<StyleScreen> {
     return Scaffold(
       // appBar: PreferredSize(
       //   preferredSize: Size.fromHeight(50.0),
-      //   child:AppBarWidget() ,
+      //   child: AppBarWidget(),
       // ),
       drawer: Drawer(
         child: SingleChildScrollView(child: MainDrawer()),
@@ -97,44 +100,43 @@ class _StyleScreenState extends State<StyleScreen> {
                   Container(
                     height: MediaQuery.of(context).size.width / 1,
                     child: CachedNetworkImage(
-                      imageUrl:
-                      currentStyleObj.image,
+                      imageUrl: currentStyleObj.image,
                       fit: BoxFit.fill,
                     ),
                   ),
                   Column(
                     children: <Widget>[
-
                       OverlayContainer(
-                        materialColor: Colors.red,
-                        show: true,
-                        // Let's position this overlay to the right of the button.
-                        position: OverlayContainerPosition(
-                          // Left position.
-                          20,
-                          // Bottom position.
-                          -30,
-                        ),
-                        // The content inside the overlay.
-                        child: Container(
-                          height: 45,
-                          padding: const EdgeInsets.all(1),
-                          margin: const EdgeInsets.only(top: 5),
-                          decoration: BoxDecoration(
-                            // color: Colors.grey,
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.grey[300],
-                                blurRadius: 3,
-                                spreadRadius: 6,
-                              )
-                            ],
+                          materialColor: Colors.red,
+                          show: true,
+                          // Let's position this overlay to the right of the button.
+                          position: OverlayContainerPosition(
+                            // Left position.
+                            20,
+                            // Bottom position.
+                            -30,
                           ),
-                          child: customBackIcon(Colors.white,
-                              Icons.keyboard_arrow_left, Colors.grey,  prevCtx),
-                        )),
-
-
+                          // The content inside the overlay.
+                          child: Container(
+                            height: 45,
+                            padding: const EdgeInsets.all(1),
+                            margin: const EdgeInsets.only(top: 5),
+                            decoration: BoxDecoration(
+                              // color: Colors.grey,
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                  color: Colors.grey[300],
+                                  blurRadius: 3,
+                                  spreadRadius: 6,
+                                )
+                              ],
+                            ),
+                            child: customBackIcon(
+                                Colors.white,
+                                Icons.keyboard_arrow_left,
+                                Colors.grey,
+                                prevCtx),
+                          )),
                       Container(
                           height: MediaQuery.of(context).size.height * 0.2,
                           alignment: Alignment.topLeft,
@@ -224,14 +226,25 @@ class _StyleScreenState extends State<StyleScreen> {
                               Container(
                                 alignment: Alignment.centerRight,
                                 width: MediaQuery.of(context).size.width,
+                                // heart button
                                 child: GestureDetector(
-                                  child: new Image.asset(
-                                    "assets/images/bottom_bar/favourites.png",
-                                    width: 45,
-                                    height: 45,
-                                  ),
-                                  onTap: () {
-                                    print('Heart pressed');
+                                  child: Icon(
+                                      _myFavorite
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: _myFavorite ? Colors.red : null),
+                                  onTap: () async {
+                                    setState(() {
+                                      _myFavorite = !_myFavorite;
+                                    });
+
+                                    if (_myFavorite) {
+                                      FavouriteService.createFavourite(
+                                          Favourite(
+                                              title: this.currentStyleObj.name,
+                                              user_id: await getCurrentUserId(),
+                                              style_id: this.currentStyleId));
+                                    }
                                   },
                                 ),
                               ),
@@ -259,14 +272,17 @@ class _StyleScreenState extends State<StyleScreen> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
                                       ),
-                                      Text("\$ "+currentStyleObj.price,
+                                      Text("\$ " + currentStyleObj.price,
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20)),
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             15, 5, 0, 0),
-                                        child: Text("\$ "+PriceUtils.getFullPrice(currentStyleObj.price),
+                                        child: Text(
+                                            "\$ " +
+                                                PriceUtils.getFullPrice(
+                                                    currentStyleObj.price),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 15,
@@ -282,7 +298,9 @@ class _StyleScreenState extends State<StyleScreen> {
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20)),
-                                      Text(currentStyleObj.styling_time+ " mins",
+                                      Text(
+                                          currentStyleObj.styling_time +
+                                              " mins",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20)),
@@ -326,17 +344,19 @@ class _StyleScreenState extends State<StyleScreen> {
                                                     // color: Colors.yellow,
                                                     // height: 50,
                                                     child: GestureDetector(
-                                                      onTap: (){
-                                                            print(this.loc_id);
-                                                            this.setState(() {
-                                                              this.loc_id = snapshot.data[index].loc_id;
-                                                            });
-                                                            print(this.loc_id);
-                                                      },
-                                                      child: locations(
-                                                          snapshot.data[index],
-                                                          index, this.loc_id),
-                                                    ));
+                                                  onTap: () {
+                                                    print(this.loc_id);
+                                                    this.setState(() {
+                                                      this.loc_id = snapshot
+                                                          .data[index].loc_id;
+                                                    });
+                                                    print(this.loc_id);
+                                                  },
+                                                  child: locations(
+                                                      snapshot.data[index],
+                                                      index,
+                                                      this.loc_id),
+                                                ));
                                               }),
                                         ),
                                       ];
@@ -450,8 +470,6 @@ class _StyleScreenState extends State<StyleScreen> {
                                   },
                                   onSaved: (val) => print(val),
                                 ),
-
-
                               ),
                               Divider(),
                               Container(
@@ -512,40 +530,47 @@ class _StyleScreenState extends State<StyleScreen> {
                                 child: CustomBookButton(
                                   bgColor: Colors.blue,
                                   textContent: "Book Now",
-                                  onPressed: () async{
+                                  onPressed: () async {
                                     Booking newBooking = new Booking();
-                                    newBooking.booking_id="";
+                                    newBooking.booking_id = "";
                                     newBooking.date_time = this.selectedDate;
                                     newBooking.location = this.loc_id;
                                     newBooking.status = 0;
                                     newBooking.style_id = this.currentStyleId;
 
-                                    Booking booking2 ;
-                                    booking2 =  await this.getCurrentUser(newBooking);
+                                    Booking booking2;
+                                    booking2 =
+                                        await this.getCurrentUser(newBooking);
 
                                     print(booking2);
                                     TrendingStyles ts1 = this.currentStyleObj;
 
                                     String branchName = "";
-                                    for(var i = 0; i < mLocationList.length; i++){
-                                      if(mLocationList[i].loc_id == booking2.location){
-                                        branchName =  mLocationList[i].name;
+                                    for (var i = 0;
+                                        i < mLocationList.length;
+                                        i++) {
+                                      if (mLocationList[i].loc_id ==
+                                          booking2.location) {
+                                        branchName = mLocationList[i].name;
                                       }
                                     }
 
-                                    List<String> tempDT =[];
-                                    tempDT = UtilFunctions.splitDateAndTime(booking2.date_time);
+                                    List<String> tempDT = [];
+                                    tempDT = UtilFunctions.splitDateAndTime(
+                                        booking2.date_time);
 
                                     print(tempDT);
-
-
 
                                     Future.delayed(
                                         const Duration(milliseconds: 1), () {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) =>
-                                            BookingConfirmationDialog(newBooking:booking2, currentStyleObject :ts1, tempDT:tempDT, branchName:branchName),
+                                            BookingConfirmationDialog(
+                                                newBooking: booking2,
+                                                currentStyleObject: ts1,
+                                                tempDT: tempDT,
+                                                branchName: branchName),
                                       );
                                     });
                                   },
@@ -579,24 +604,37 @@ class _StyleScreenState extends State<StyleScreen> {
     );
   }
 
-  Future<Booking> getCurrentUser(Booking newBooking) async{
-
+  Future<Booking> getCurrentUser(Booking newBooking) async {
     GoogleUser gu;
     CustomUser cu;
 
-      if (await UtilFunctions.isCurrentUserGoogle() == true) {
-        newBooking.user_type = 'G';
-        gu = await UtilFunctions.getSharedStorageGoogleUser();
-        newBooking.user_email = gu.email;
-        this.setState(() {});
+    if (await UtilFunctions.isCurrentUserGoogle() == true) {
+      newBooking.user_type = 'G';
+      gu = await UtilFunctions.getSharedStorageGoogleUser();
+      newBooking.user_email = gu.email;
+      this.setState(() {});
+    } else if (await UtilFunctions.isCurrentUserGoogle() == false) {
+      newBooking.user_type = 'C';
+      cu = await UtilFunctions.getSharedStorageCustomUser();
+      print(cu);
+      newBooking.user_id = cu.objId;
+      this.setState(() {});
+    }
+    return newBooking;
+  }
 
-      } else if (await UtilFunctions.isCurrentUserGoogle() == false) {
-        newBooking.user_type = 'C';
-        cu = await UtilFunctions.getSharedStorageCustomUser();
-        print(cu);
-        newBooking.user_id = cu.objId;
-        this.setState(() {});
-      }
-      return newBooking;
+  Future<String> getCurrentUserId() async {
+    GoogleUser gu;
+    CustomUser cu;
+
+    if (await UtilFunctions.isCurrentUserGoogle() == true) {
+      gu = await UtilFunctions.getSharedStorageGoogleUser();
+      return gu.uid;
+    } else if (await UtilFunctions.isCurrentUserGoogle() == false) {
+      cu = await UtilFunctions.getSharedStorageCustomUser();
+      return cu.objId;
+    } else {
+      return '';
+    }
   }
 }

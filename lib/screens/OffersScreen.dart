@@ -15,7 +15,7 @@ class _OffersScreenState extends State<OffersScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.0),
-        child:AppBarWidget() ,
+        child: AppBarWidget(),
       ),
       drawer: Drawer(
         child: SingleChildScrollView(child: MainDrawer()),
