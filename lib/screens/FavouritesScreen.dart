@@ -1,48 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:saloon_app/service/FavouriteService.dart';
 import 'package:saloon_app/widgets/AppBarWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
 import 'package:saloon_app/widgets/LocationsFloatingActionWidget.dart';
-import 'package:saloon_app/models/Favourite.dart';
-
-import 'package:flutter/material.dart';
-
-/*
-* Bandara A.B.C.N
-* IT18117356
-* Favourite Screen
-*/
-
-class Favourite {
-  // attributes
-  String id;
-  String title;
-  String user_id;
-  String style_id;
-
-  // constructor
-  Favourite(
-      {this.id,
-      @required this.title,
-      @required this.user_id,
-      @required this.style_id});
-
-  // convert class attribute values into json format
-  Map<String, dynamic> toJson() => {
-        'id': this.id,
-        'user_id': this.user_id,
-        'style_id': this.style_id,
-        'title': this.title
-      };
-
-  // convert json to Favourite object
-  static Favourite fromJson(Map<String, dynamic> json) => Favourite(
-      id: json['id'],
-      user_id: json['user_id'],
-      style_id: json['style_id'],
-      title: json['title']);
-}
 
 class FavouritesScreen extends StatefulWidget {
   static const routeName = '/favourites';
@@ -51,77 +10,30 @@ class FavouritesScreen extends StatefulWidget {
 }
 
 class _FavouritesScreenState extends State<FavouritesScreen> {
-  var _favouriteItems = <Favourite>[];
-  var isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    refreshFavourites();
-    // WidgetsBinding.instance.addPostFrameCallback((_) => refreshFavourites());
-  }
-
-  Future refreshFavourites() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    this._favouriteItems = await FavouriteService.readFavourites();
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  Widget _buildList() {
-    return ListView.builder(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(16.0),
-        itemCount: _favouriteItems.length,
-        itemBuilder: (BuildContext context, int item) {
-          final index = item ~/ 2;
-          return _BuildRow(_favouriteItems[index]);
-        });
-  }
-
-  Widget _BuildRow(Favourite item) {
-    return ListTile(
-      title: Text(item.title, style: TextStyle(fontSize: 18.0)),
-      trailing: Icon(Icons.delete),
-      onTap: () {
-        FavouriteService.deleteTodo(item);
-        _favouriteItems.remove(item);
-        refreshFavourites();
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    // getFavourites();
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.0),
-        child: AppBarWidget(),
+        child:AppBarWidget() ,
       ),
       drawer: Drawer(
         child: SingleChildScrollView(child: MainDrawer()),
       ),
-      body: isLoading
-          ? Text('Loading.....')
-          : FutureBuilder<List<Favourite>>(
-              future: FavouriteService.readFavourites(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<Favourite>> snapshot) {
-                return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _favouriteItems.length,
-                    itemBuilder: (context, index) {
-                      return _BuildRow(_favouriteItems[index]);
-                    });
-              },
-            ),
+      body: Column(
+        children: [
+          Text("Favourites"),
+          Text("Favourites"),
+          Text("Favourites"),
+          Text("Favourites"),
+          Text("Favourites"),
+          Text("Favourites"),
+          Text("Favourites"),
+          Text("Favourites"),
+          Text("Favourites"),
+          Text("Favourites"),
+        ],
+      ),
       floatingActionButton: LocationsFloatingActionWidget(),
     );
   }
