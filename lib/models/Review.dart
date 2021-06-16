@@ -1,6 +1,7 @@
 class Review {
+  var reviewId = "";
   var userId = "";
-  var hairStyle = "";
+  var hairStyleId = "";
   var description = "";
   var rating = 0;
 }

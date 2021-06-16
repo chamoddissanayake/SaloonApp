@@ -4,6 +4,7 @@ import 'package:saloon_app/models/CustomUser.dart';
 import 'package:saloon_app/models/GoogleUser.dart';
 import 'package:saloon_app/screens/MapScreen.dart';
 import 'package:saloon_app/screens/ProfileScreen.dart';
+import 'package:saloon_app/screens/ReviewsScreen.dart';
 import 'package:saloon_app/service/UserService.dart';
 import 'package:saloon_app/utils/UtilFunctions.dart';
 
@@ -49,20 +50,33 @@ class _MainDrawerState extends State<MainDrawer> {
                 },
                 child: CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: this.userType == null ? AssetImage("assets/images/user/user.png")
+                    backgroundImage: this.userType == null
+                        ? AssetImage("assets/images/user/user.png")
                         : (this.userType == 'G')
-                            ? gu.photoURL!=""?NetworkImage(gu.photoURL):AssetImage("assets/images/user/user.png")
+                            ? gu.photoURL != ""
+                                ? NetworkImage(gu.photoURL)
+                                : AssetImage("assets/images/user/user.png")
                             : (this.userType == 'C')
-                                ? cu.photo!=""?NetworkImage(cu.photo):AssetImage("assets/images/user/user.png")
+                                ? cu.photo != ""
+                                    ? NetworkImage(cu.photo)
+                                    : AssetImage("assets/images/user/user.png")
                                 : Container()),
               ),
               SizedBox(
                 height: 15.0,
               ),
               Text(
-                this.userType == null? "":
-                  (this.userType == 'G')? ""+gu.displayName!=""?gu.displayName:"":
-                  (this.userType == 'C')? ""+cu.first_name!="" && cu.last_name!=""?cu.first_name+" "+cu.last_name:""+" ":"",
+                this.userType == null
+                    ? ""
+                    : (this.userType == 'G')
+                        ? "" + gu.displayName != ""
+                            ? gu.displayName
+                            : ""
+                        : (this.userType == 'C')
+                            ? "" + cu.first_name != "" && cu.last_name != ""
+                                ? cu.first_name + " " + cu.last_name
+                                : "" + " "
+                            : "",
                 style: TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.w800,
@@ -91,10 +105,8 @@ class _MainDrawerState extends State<MainDrawer> {
       Divider(),
       ListTile(
         onTap: () {
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (context) => new ProfileScreen()));
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => new ProfileScreen()));
         },
         leading: Icon(
           Icons.person,
@@ -111,6 +123,18 @@ class _MainDrawerState extends State<MainDrawer> {
           color: Colors.black,
         ),
         title: Text("Inbox"),
+      ),
+
+      ListTile(
+        onTap: () {
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => new ReviewsScreen()));
+        },
+        leading: Icon(
+          Icons.star,
+          color: Colors.black,
+        ),
+        title: Text("Reviews"),
       ),
 
       ListTile(
@@ -160,7 +184,7 @@ class _MainDrawerState extends State<MainDrawer> {
       this.userType = 'C';
       this.cu = await UtilFunctions.getSharedStorageCustomUser();
       print(this.cu);
-      CustomUser tempCusUser ;
+      CustomUser tempCusUser;
       tempCusUser = await getCurrentUser(this.cu.email);
       this.cu = tempCusUser;
       print(this.cu);

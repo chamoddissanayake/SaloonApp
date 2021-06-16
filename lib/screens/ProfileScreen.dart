@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_restart/flutter_restart.dart';
@@ -29,14 +27,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
-
   GoogleUser gu;
   CustomUser cu;
   String userType;
   String defaultImage =
       "https://firebasestorage.googleapis.com/v0/b/flutter-ctse.appspot.com/o/images%2Fusers%2Fuser.png?alt=media&token=50751901-d400-4da1-bddf-3d9009a6248f";
-
 
   bool _validate_first_name = false;
   bool _validate_last_name = false;
@@ -84,7 +79,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 customBackIcon(
-                                    Colors.white, Icons.keyboard_arrow_left, Colors.grey, context)
+                                    Colors.white,
+                                    Icons.keyboard_arrow_left,
+                                    Colors.grey,
+                                    context)
                               ],
                             ),
                             Padding(
@@ -93,34 +91,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                //   CircleAvatar(
-                                //     backgroundImage: this.userType == null ? NetworkImage(defaultImage) : (this.userType == 'G')
-                                // ? NetworkImage(gu.photoURL)
-                                // : (this.userType == 'C')
-                                // ? NetworkImage(cu.photo)
-                                // : NetworkImage(defaultImage),
-                                //     radius: 80.0,
-                                //   ),
+                                  //   CircleAvatar(
+                                  //     backgroundImage: this.userType == null ? NetworkImage(defaultImage) : (this.userType == 'G')
+                                  // ? NetworkImage(gu.photoURL)
+                                  // : (this.userType == 'C')
+                                  // ? NetworkImage(cu.photo)
+                                  // : NetworkImage(defaultImage),
+                                  //     radius: 80.0,
+                                  //   ),
                                   CircleAvatar(
                                       radius: 50.0,
-                                      backgroundImage: this.userType == null ? AssetImage("assets/images/user/user.png")
+                                      backgroundImage: this.userType == null
+                                          ? AssetImage(
+                                              "assets/images/user/user.png")
                                           : (this.userType == 'G')
-                                          ? gu.photoURL!=""?NetworkImage(gu.photoURL):AssetImage("assets/images/user/user.png")
-                                          : (this.userType == 'C')
-                                          ? cu.photo!=""?NetworkImage(cu.photo):AssetImage("assets/images/user/user.png")
-                                          : Container()),
-                                  cu != null? Container(
-                                    child: GestureDetector(
-                                      onTap: (){
-                                        editPressed();
-                                      },
-                                      child: Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                        size: 30.0,
-                                      ),
-                                    ),
-                                  ):Container(),
+                                              ? gu.photoURL != ""
+                                                  ? NetworkImage(gu.photoURL)
+                                                  : AssetImage(
+                                                      "assets/images/user/user.png")
+                                              : (this.userType == 'C')
+                                                  ? cu.photo != ""
+                                                      ? NetworkImage(cu.photo)
+                                                      : AssetImage(
+                                                          "assets/images/user/user.png")
+                                                  : Container()),
+                                  cu != null
+                                      ? Container(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              editPressed();
+                                            },
+                                            child: Icon(
+                                              Icons.edit,
+                                              color: Colors.white,
+                                              size: 30.0,
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
                                 ],
                               ),
                             ),
@@ -128,8 +136,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 20.0,
                             ),
                             Text(
-                              this.userType == null ? "": (this.userType == 'G') ? gu.displayName: (this.userType == 'C')? cu.first_name+ " " +cu.last_name
-                                  : Container(),
+                              this.userType == null
+                                  ? ""
+                                  : (this.userType == 'G')
+                                      ? gu.displayName
+                                      : (this.userType == 'C')
+                                          ? cu.first_name + " " + cu.last_name
+                                          : Container(),
                               style: TextStyle(
                                   fontSize: 22.0,
                                   color: Colors.white,
@@ -141,238 +154,265 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 )),
-            this.cu !=null ? Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: ListView(
-                  children: [
-                    TextField(
-                      onChanged: (value) {
-                          value.isEmpty ? _validate_first_name = true : _validate_first_name = false;
-                          this.cu.first_name  = value;
-                      },
-                      decoration: InputDecoration(
-                        errorText:  _validate_first_name ? 'First name Can\'t Be Empty' : null,
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        border: OutlineInputBorder(),
-                        labelText: cu.first_name,
-                        contentPadding: EdgeInsets.all(10.0),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    TextField(
-                      onChanged: (value) {
-                        value.isEmpty ? _validate_last_name = true : _validate_last_name = false;
-                        this.cu.last_name  = value;
-                      },
-                      decoration: InputDecoration(
-                        errorText:  _validate_last_name ? 'Last name Can\'t Be Empty' : null,
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        border: OutlineInputBorder(),
-                        labelText: cu.last_name,
-                        contentPadding: EdgeInsets.all(10.0),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    TextField(
-                      onChanged: (value) {
-                        value.isEmpty ? _validate_email = true : _validate_email = false;
-                        this.cu.email  = value;
-                      },
-                      decoration: InputDecoration(
-                        errorText:  _validate_email ? 'Email Can\'t Be Empty' : null,
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        border: OutlineInputBorder(),
-                        labelText: cu.email,
-                        contentPadding: EdgeInsets.all(10.0),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    TextField(
-                      onChanged: (value) {
-                        value.isEmpty ? _validate_phone = true : _validate_phone = false;
-                        this.cu.phone  = value;
-                      },
-                      decoration: InputDecoration(
-                        errorText:  _validate_phone ? 'Phone Can\'t Be Empty' : null,
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        border: OutlineInputBorder(),
-                        labelText: cu.phone,
-                        contentPadding: EdgeInsets.all(10.0),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        customTextWidget("Gender", fontSize: 17.0),
-                        GestureDetector(
-                          onTap: (){
-                            this.setState(() {
-                              cu.gender = 0;
-                            });
-                          },
-                          child: Container(
-                              decoration: BoxDecoration(
-                                color:  cu != null? cu.gender==0 ? Colors.black12: Colors.transparent: Colors.transparent,
-                                borderRadius: BorderRadius.circular(8),
+            this.cu != null
+                ? Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: ListView(
+                        children: [
+                          TextField(
+                            onChanged: (value) {
+                              value.isEmpty
+                                  ? _validate_first_name = true
+                                  : _validate_first_name = false;
+                              this.cu.first_name = value;
+                            },
+                            decoration: InputDecoration(
+                              errorText: _validate_first_name
+                                  ? 'First name Can\'t Be Empty'
+                                  : null,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              border: OutlineInputBorder(),
+                              labelText: cu.first_name,
+                              contentPadding: EdgeInsets.all(10.0),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          TextField(
+                            onChanged: (value) {
+                              value.isEmpty
+                                  ? _validate_last_name = true
+                                  : _validate_last_name = false;
+                              this.cu.last_name = value;
+                            },
+                            decoration: InputDecoration(
+                              errorText: _validate_last_name
+                                  ? 'Last name Can\'t Be Empty'
+                                  : null,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              border: OutlineInputBorder(),
+                              labelText: cu.last_name,
+                              contentPadding: EdgeInsets.all(10.0),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          TextField(
+                            onChanged: (value) {
+                              value.isEmpty
+                                  ? _validate_email = true
+                                  : _validate_email = false;
+                              this.cu.email = value;
+                            },
+                            decoration: InputDecoration(
+                              errorText: _validate_email
+                                  ? 'Email Can\'t Be Empty'
+                                  : null,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              border: OutlineInputBorder(),
+                              labelText: cu.email,
+                              contentPadding: EdgeInsets.all(10.0),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          TextField(
+                            onChanged: (value) {
+                              value.isEmpty
+                                  ? _validate_phone = true
+                                  : _validate_phone = false;
+                              this.cu.phone = value;
+                            },
+                            decoration: InputDecoration(
+                              errorText: _validate_phone
+                                  ? 'Phone Can\'t Be Empty'
+                                  : null,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              border: OutlineInputBorder(),
+                              labelText: cu.phone,
+                              contentPadding: EdgeInsets.all(10.0),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              customTextWidget("Gender", fontSize: 17.0),
+                              GestureDetector(
+                                onTap: () {
+                                  this.setState(() {
+                                    cu.gender = 0;
+                                  });
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      color: cu != null
+                                          ? cu.gender == 0
+                                              ? Colors.black12
+                                              : Colors.transparent
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+
+                                    // color: cu != null? cu.gender==0 ? Colors.black12: Colors.transparent: Colors.transparent,
+                                    child: Image.asset(
+                                      "assets/images/bottom_bar/girl_haircut.png",
+                                      height: 45,
+                                      width: 45,
+                                    )),
                               ),
-
-                              // color: cu != null? cu.gender==0 ? Colors.black12: Colors.transparent: Colors.transparent,
-                              child: Image.asset(
-                                "assets/images/bottom_bar/girl_haircut.png",
-                                height: 45,
-                                width: 45,
+                              GestureDetector(
+                                onTap: () {
+                                  this.setState(() {
+                                    cu.gender = 1;
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: cu != null
+                                        ? cu.gender == 1
+                                            ? Colors.black12
+                                            : Colors.transparent
+                                        : Colors.red,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Image.asset(
+                                    "assets/images/bottom_bar/boy_haircut.png",
+                                    height: 45,
+                                    width: 45,
+                                  ),
+                                ),
                               )
-
+                            ],
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            this.setState(() {
-                              cu.gender = 1;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: cu != null? cu.gender==1 ? Colors.black12: Colors.transparent: Colors.red,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Image.asset(
-                              "assets/images/bottom_bar/boy_haircut.png",
-                              height: 45,
-                              width: 45,
-                            ),
+                          SizedBox(
+                            height: 10.0,
                           ),
-                        )
-                      ],
+                          Center(
+                              child: customTextWidget("Reset Password",
+                                  fontSize: 17.0)),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              updatePressed();
+                            },
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                                child: customTextWidget("Update",
+                                    textColor: Colors.white,
+                                    isCentered: true,
+                                    fontWeight: FontWeight.bold,
+                                    textAllCaps: true),
+                                decoration: BoxDecoration(
+                                  color: Colors.orangeAccent,
+                                  borderRadius: BorderRadius.circular(25),
+                                  // bgColor: widget.bgColor,
+                                  // radius: 6
+                                )),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              deleteBtnPressed();
+                            },
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                                child: customTextWidget("Delete My Account",
+                                    textColor: Colors.white,
+                                    isCentered: true,
+                                    fontWeight: FontWeight.bold,
+                                    textAllCaps: true),
+                                decoration: BoxDecoration(
+                                  color: Colors.red.shade300,
+                                  borderRadius: BorderRadius.circular(25),
+                                  // bgColor: widget.bgColor,
+                                  // radius: 6
+                                )),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              logoutPressed();
+                            },
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                                child: customTextWidget("Logout",
+                                    textColor: Colors.white,
+                                    isCentered: true,
+                                    fontWeight: FontWeight.bold,
+                                    textAllCaps: true),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.shade300,
+                                  borderRadius: BorderRadius.circular(25),
+                                  // bgColor: widget.bgColor,
+                                  // radius: 6
+                                )),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 10.0,
+                  )
+                : Container(),
+
+            this.gu != null
+                ? Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: ListView(
+                        children: [
+                          SizedBox(
+                            height: 30.0,
+                          ),
+
+                          Center(
+                              child: customTextWidget(gu.email,
+                                  fontSize: 17.0, fontWeight: FontWeight.bold)),
+                          // customTextWidget(gu.displayName),
+
+                          SizedBox(
+                            height: 30.0,
+                          ),
+
+                          GestureDetector(
+                            onTap: () {
+                              logoutPressed();
+                            },
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                                child: customTextWidget("Logout",
+                                    textColor: Colors.white,
+                                    isCentered: true,
+                                    fontWeight: FontWeight.bold,
+                                    textAllCaps: true),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.shade300,
+                                  borderRadius: BorderRadius.circular(25),
+                                  // bgColor: widget.bgColor,
+                                  // radius: 6
+                                )),
+                          ),
+                        ],
+                      ),
                     ),
-                    Center(
-                        child:
-                        customTextWidget("Reset Password", fontSize: 17.0)),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-
-                    GestureDetector(onTap: (){
-                      updatePressed();
-                    },
-                      child: Container(
-                          padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                          child: customTextWidget("Update",
-                              textColor: Colors.white,
-                              isCentered: true,
-                              fontWeight: FontWeight.bold,
-                              textAllCaps: true),
-                          decoration: BoxDecoration(
-                            color: Colors.orangeAccent,
-                            borderRadius: BorderRadius.circular(25),
-                            // bgColor: widget.bgColor,
-                            // radius: 6
-                          )),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    GestureDetector(
-                      onTap: (){
-                        deleteBtnPressed();
-                      },
-                      child: Container(
-                          padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                          child: customTextWidget("Delete My Account",
-                              textColor: Colors.white,
-                              isCentered: true,
-                              fontWeight: FontWeight.bold,
-                              textAllCaps: true),
-                          decoration: BoxDecoration(
-                            color: Colors.red.shade300,
-                            borderRadius: BorderRadius.circular(25),
-                            // bgColor: widget.bgColor,
-                            // radius: 6
-                          )),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-
-                    GestureDetector(onTap: (){
-                      logoutPressed();
-                    },
-                      child: Container(
-                          padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                          child: customTextWidget("Logout",
-                              textColor: Colors.white,
-                              isCentered: true,
-                              fontWeight: FontWeight.bold,
-                              textAllCaps: true),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade300,
-                            borderRadius: BorderRadius.circular(25),
-                            // bgColor: widget.bgColor,
-                            // radius: 6
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-            ):Container(),
-
-
-
-
-            this.gu !=null ? Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: ListView(
-                  children: [
-                    SizedBox(
-                      height: 30.0,
-                    ),
-
-
-                    Center(child: customTextWidget(gu.email, fontSize: 17.0, fontWeight: FontWeight.bold)),
-                    // customTextWidget(gu.displayName),
-
-                    SizedBox(
-                      height: 30.0,
-                    ),
-
-                    GestureDetector(onTap: (){
-                      logoutPressed();
-                    },
-                      child: Container(
-                          padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                          child: customTextWidget("Logout",
-                              textColor: Colors.white,
-                              isCentered: true,
-                              fontWeight: FontWeight.bold,
-                              textAllCaps: true),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade300,
-                            borderRadius: BorderRadius.circular(25),
-                            // bgColor: widget.bgColor,
-                            // radius: 6
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-            ):Container(),
-
-
+                  )
+                : Container(),
 
             // Container(
             //   child: Text('This element must stay at the bottom'),
@@ -387,12 +427,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void logoutPressed() async{
-
+  void logoutPressed() async {
     Future<SharedPreferences> _prefUser = SharedPreferences.getInstance();
     final SharedPreferences prefUser = await _prefUser;
 
-    if(prefUser.getBool('is_google_logged_in')){
+    if (prefUser.getBool('is_google_logged_in')) {
       //Google user
 
       print("-----------------");
@@ -411,8 +450,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       prefUser.setBool('is_custom_logged_in', false);
 
       await Authentication.signOut(context: context);
-
-    }else if(prefUser.getBool('is_custom_logged_in')){
+    } else if (prefUser.getBool('is_custom_logged_in')) {
       // Custom user
       prefUser.setString('c_email', "");
       prefUser.setString('c_password', "");
@@ -424,23 +462,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       prefUser.setBool('is_google_logged_in', false);
       prefUser.setBool('is_custom_logged_in', false);
-
     }
 
     FlutterRestart.restartApp();
-
   }
 
   Route _routeToSignInScreen() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => LoginSignupScreen(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          LoginSignupScreen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(-1.0, 0.0);
         var end = Offset.zero;
         var curve = Curves.ease;
 
         var tween =
-        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),
@@ -450,7 +487,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void getcurrentUserData() async{
+  void getcurrentUserData() async {
     if (await UtilFunctions.isCurrentUserGoogle() == true) {
       this.userType = 'G';
       this.gu = await UtilFunctions.getSharedStorageGoogleUser();
@@ -460,7 +497,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       this.userType = 'C';
       this.cu = await UtilFunctions.getSharedStorageCustomUser();
       print(this.cu);
-      CustomUser tempCusUser ;
+      CustomUser tempCusUser;
       tempCusUser = await getCurrentUser(this.cu.email);
       this.cu = tempCusUser;
       print(this.cu);
@@ -468,7 +505,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void updatePressed()async {
+  void updatePressed() async {
     // print(this.cu);
     bool update_status = await updateUser(this.cu);
 
@@ -481,23 +518,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void deleteBtnPressed() {
-
-
     CoolAlert.show(
-      context: context,
-      type: CoolAlertType.confirm,
-      text: 'Do you want to delete your account?',
-      confirmBtnText: 'Yes',
-      cancelBtnText: 'No',
-      confirmBtnColor: Colors.red,
-      onConfirmBtnTap: conformedTapped
-    );
-
+        context: context,
+        type: CoolAlertType.confirm,
+        text: 'Do you want to delete your account?',
+        confirmBtnText: 'Yes',
+        cancelBtnText: 'No',
+        confirmBtnColor: Colors.red,
+        onConfirmBtnTap: conformedTapped);
   }
 
   // cancelTapped() {}
 
-  conformedTapped() async{
+  conformedTapped() async {
     await deleteUser(this.cu);
     CoolAlert.show(
       backgroundColor: Color(0xFFFFDEC1),
@@ -506,79 +539,85 @@ class _ProfileScreenState extends State<ProfileScreen> {
       text: "Your account deleted successfully.",
     ).then((value) {
       FlutterRestart.restartApp();
-    } );
+    });
   }
-
 
   File _imageFile;
   void editPressed() async {
     // await Firebasehandler.takePhotoOrChooseAndUpload();
 
     Future_showChoiceDialog(context);
-
   }
 
   PickedFile imageFile;
-  void _openCamera(BuildContext context)  async{
+  void _openCamera(BuildContext context) async {
     final pickedFile = await ImagePicker().getImage(
-      source: ImageSource.camera ,
+      source: ImageSource.camera,
     );
     setState(() {
       imageFile = pickedFile;
     });
     uploadImageToFirebase(context);
-
   }
 
-
-  void _openGallery(BuildContext context) async{
+  void _openGallery(BuildContext context) async {
     final pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery ,
+      source: ImageSource.gallery,
     );
     setState(() {
       imageFile = pickedFile;
     });
     uploadImageToFirebase(context);
-
-
-
   }
 
-
-  Future_showChoiceDialog(BuildContext context)
-  {
-    return showDialog(context: context,builder: (BuildContext context){
-
-      return AlertDialog(
-        title: Text("Choose option",style: TextStyle(color: Colors.blue),),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: [
-              Divider(height: 1,color: Colors.blue,),
-              ListTile(
-                onTap: (){
-                  _openGallery(context);
-                },
-                title: Text("Gallery"),
-                leading: Icon(Icons.account_box,color: Colors.blue,),
+  Future_showChoiceDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Choose option",
+              style: TextStyle(color: Colors.blue),
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  Divider(
+                    height: 1,
+                    color: Colors.blue,
+                  ),
+                  ListTile(
+                    onTap: () {
+                      _openGallery(context);
+                    },
+                    title: Text("Gallery"),
+                    leading: Icon(
+                      Icons.account_box,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: Colors.blue,
+                  ),
+                  ListTile(
+                    onTap: () {
+                      _openCamera(context);
+                    },
+                    title: Text("Camera"),
+                    leading: Icon(
+                      Icons.camera,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
               ),
-
-              Divider(height: 1,color: Colors.blue,),
-              ListTile(
-                onTap: (){
-                  _openCamera(context);
-                },
-                title: Text("Camera"),
-                leading: Icon(Icons.camera,color: Colors.blue,),
-              ),
-            ],
-          ),
-        ),);
-    });
+            ),
+          );
+        });
   }
 
   Future uploadImageToFirebase(BuildContext context) async {
-
     final _firebaseStorage = FirebaseStorage.instance;
     final _imagePicker = ImagePicker();
     PickedFile image;
@@ -587,15 +626,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     var permissionStatus = await Permission.photos.status;
 
-    if (permissionStatus.isGranted){
+    if (permissionStatus.isGranted) {
       //Select Image
       image = await _imagePicker.getImage(source: ImageSource.gallery);
       var file = File(image.path);
 
-      if (image != null){
+      if (image != null) {
         //Upload to Firebase
-        var snapshot = await _firebaseStorage.ref()
-            .child('images/'+(DateTime.now().millisecondsSinceEpoch).toString()+".jpg")
+        var snapshot = await _firebaseStorage
+            .ref()
+            .child('images/' +
+                (DateTime.now().millisecondsSinceEpoch).toString() +
+                ".jpg")
             .putFile(file);
         var downloadUrl = await snapshot.ref.getDownloadURL();
         setState(() {
@@ -613,29 +655,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-
-  void updatePhotoPath(String downloadUrl)async {
-
+  void updatePhotoPath(String downloadUrl) async {
     // print(this.cu);
     bool photo_update_status = await updateUserPhoto(this.cu, downloadUrl);
 
-    this.setState(() { });
+    this.setState(() {});
     CoolAlert.show(
       backgroundColor: Color(0xFFFF9F9F),
       context: context,
       type: CoolAlertType.success,
       text: "Your photo uploaded successfully.",
       onConfirmBtnTap: confirmInPhotoUpdateSuccessPressed,
-    ).then((value) => this.setState(() {  }));
+    ).then((value) => this.setState(() {}));
   }
 
-  void confirmInPhotoUpdateSuccessPressed(){
-    this.setState(() { });
+  void confirmInPhotoUpdateSuccessPressed() {
+    this.setState(() {});
   }
-
-
-
-
-
-
 }

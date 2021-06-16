@@ -32,40 +32,47 @@ class _BookingCompletedScreenState extends State<BookingCompletedScreen> {
       children: <Widget>[
         mBookingCompletedList != null
             ? Expanded(
-                child: mBookingCompletedList.length >0?SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  child: new ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: mBookingCompletedList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: GestureDetector(
-                            onTap: () {
-                              Future.delayed(const Duration(milliseconds: 1),
-                                  () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      BookingStatusCompletedDialog(mBookingCompleted: mBookingCompletedList[index]),
-                                );
-                              });
-                            },
-                            child: StatusCardItem(mBookingCompletedList[index],
-                                index, completeStatusIndex)),
-                      );
-                    },
-                  ),
-                ): SizedBox(
-                  height: MediaQuery.of(context).size.height*0.7,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      customTextWidget("No Completed bookings."),
-                    ],
-                  ),
-                ),
+                child: mBookingCompletedList.length > 0
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        child: new ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: mBookingCompletedList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: GestureDetector(
+                                  onTap: () {
+                                    Future.delayed(
+                                        const Duration(milliseconds: 1), () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            BookingStatusCompletedDialog(
+                                                mBookingCompleted:
+                                                    mBookingCompletedList[
+                                                        index]),
+                                      );
+                                    });
+                                  },
+                                  child: StatusCardItem(
+                                      mBookingCompletedList[index],
+                                      index,
+                                      completeStatusIndex)),
+                            );
+                          },
+                        ),
+                      )
+                    : SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            customTextWidget("No Completed bookings."),
+                          ],
+                        ),
+                      ),
               )
             : Container(
                 width: MediaQuery.of(context).size.width,
