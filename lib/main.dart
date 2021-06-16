@@ -11,7 +11,6 @@ import 'package:saloon_app/screens/VerificationInputScreen.dart';
 import 'package:saloon_app/screens/MapScreen.dart';
 import 'package:saloon_app/screens/MainScreen.dart';
 
-
 import 'package:saloon_app/screens/HomeScreen.dart';
 import 'package:saloon_app/screens/FavouritesScreen.dart';
 import 'package:saloon_app/screens/OffersScreen.dart';
@@ -30,11 +29,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() {
-
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) async {
-
     await Firebase.initializeApp();
     runApp(new MyApp());
   });
@@ -53,7 +50,6 @@ class MyApp extends StatelessWidget {
 
         // primaryColor:Color.fromRGBO(250, 250, 250, 1),
         // primarySwatch: Colors.yellow,
-
       ),
       initialRoute: '/',
       routes: {
@@ -66,7 +62,7 @@ class MyApp extends StatelessWidget {
         '/pin_verification': (context) => VerificationInputScreen(),
         '/main': (context) => MainScreen(),
         '/home': (context) => HomeScreen(),
-        '/booking': (context) => BookingScreen(bookingTypeFromConstructor:1),
+        '/booking': (context) => BookingScreen(bookingTypeFromConstructor: 1),
         '/favourites': (context) => FavouritesScreen(),
         '/offers': (context) => OffersScreen(),
         '/trending_styles': (context) => TrendingStylesScreen(),
@@ -77,10 +73,6 @@ class MyApp extends StatelessWidget {
         '/payment': (context) => PaymentScreen(),
         '/profile': (context) => ProfileScreen(),
         '/single_category': (context) => SingleCategoryScreen(),
-
-
-
-
       },
     );
   }
