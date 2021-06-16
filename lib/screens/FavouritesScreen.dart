@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:saloon_app/widgets/AppBarWidget.dart';
 import 'package:saloon_app/widgets/MainDrawer.dart';
 import 'package:saloon_app/widgets/LocationsFloatingActionWidget.dart';
+import 'package:saloon_app/models/Favourite.dart';
+
+import 'package:flutter/material.dart';
+
+/*
+* Bandara A.B.C.N
+* IT18117356
+* Favourite Screen
+*/
 
 class FavouritesScreen extends StatefulWidget {
   static const routeName = '/favourites';
@@ -15,7 +24,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.0),
-        child:AppBarWidget() ,
+        child: AppBarWidget(),
       ),
       drawer: Drawer(
         child: SingleChildScrollView(child: MainDrawer()),
